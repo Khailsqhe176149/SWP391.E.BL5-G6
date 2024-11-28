@@ -11,7 +11,7 @@ import java.util.Date;
  * @author Khải
  */
 public class Account {
-     private int acc_id, role_id;
+    private int acc_id, role_id;
     private String email, password; 
     private Date Createdtime; 
     private int status;

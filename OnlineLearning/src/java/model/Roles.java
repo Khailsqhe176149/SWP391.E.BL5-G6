@@ -9,8 +9,9 @@ package model;
  * @author Khải
  */
 public class Roles {
-     private int  role_id;
-    private String Rolename,Description;
+
+    private int role_id;
+    private String Rolename, Description;
 
     public Roles() {
     }
@@ -44,5 +45,5 @@ public class Roles {
     public void setDescription(String Description) {
         this.Description = Description;
     }
-    
+
 }

@@ -11,39 +11,35 @@ import java.util.Date;
  * @author Khải
  */
 public class Users {
-    private int acc_id, user_id;
-    private String Name,Phone,Img,Address; 
-    private Date  Dob; 
+    private int userID;
+    private String Name;
     private int Gender;
+    private Date Dob;
+    private String Phone;
+    private String Img;
+    private String Address;
+    private int accId;
 
     public Users() {
     }
 
-    public Users(int acc_id, int user_id, String Name, String Phone, String Img, String Address, Date Dob, int Gender) {
-        this.acc_id = acc_id;
-        this.user_id = user_id;
+    public Users(int userID, String Name, int Gender, Date Dob, String Phone, String Img, String Address, int accId) {
+        this.userID = userID;
         this.Name = Name;
+        this.Gender = Gender;
+        this.Dob = Dob;
         this.Phone = Phone;
         this.Img = Img;
         this.Address = Address;
-        this.Dob = Dob;
-        this.Gender = Gender;
+        this.accId = accId;
     }
 
-    public int getAcc_id() {
-        return acc_id;
+    public int getUserID() {
+        return userID;
     }
 
-    public void setAcc_id(int acc_id) {
-        this.acc_id = acc_id;
-    }
-
-    public int getUser_id() {
-        return user_id;
-    }
-
-    public void setUser_id(int user_id) {
-        this.user_id = user_id;
+    public void setUserID(int userID) {
+        this.userID = userID;
     }
 
     public String getName() {
@@ -52,6 +48,22 @@ public class Users {
 
     public void setName(String Name) {
         this.Name = Name;
+    }
+
+    public int getGender() {
+        return Gender;
+    }
+
+    public void setGender(int Gender) {
+        this.Gender = Gender;
+    }
+
+    public Date getDob() {
+        return Dob;
+    }
+
+    public void setDob(Date Dob) {
+        this.Dob = Dob;
     }
 
     public String getPhone() {
@@ -78,20 +90,12 @@ public class Users {
         this.Address = Address;
     }
 
-    public Date getDob() {
-        return Dob;
+    public int getAccId() {
+        return accId;
     }
 
-    public void setDob(Date Dob) {
-        this.Dob = Dob;
-    }
-
-    public int getGender() {
-        return Gender;
-    }
-
-    public void setGender(int Gender) {
-        this.Gender = Gender;
+    public void setAccId(int accId) {
+        this.accId = accId;
     }
     
 }

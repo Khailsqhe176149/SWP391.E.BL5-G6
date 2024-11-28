@@ -8,6 +8,6 @@ package model;
  *
  * @author Khải
  */
-public class Blog {
+public class CourseRegistrater {
     
 }
