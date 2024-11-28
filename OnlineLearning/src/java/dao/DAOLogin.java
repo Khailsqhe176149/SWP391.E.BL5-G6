@@ -8,17 +8,18 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import model.Account;
 
 /**
  *
  * @author Khải
  */
-public class daocommon extends DBContext {
+public class DAOLogin extends DBContext {
    
 
     
     public Account checkLogin(String email, String password) {
-        String sql = "SELECT accId, Email, Pass, Status, Createdtime,Roleid FROM Account WHERE Email = ? AND Pass = ?";
+        String sql = "SELECT accId, Email, Pass, Status, Createdtime,Roleid,userID FROM Account WHERE Email = ? AND Pass = ?";
         try {
             PreparedStatement ps = connection.prepareStatement(sql);
             ps.setString(1, email);
@@ -30,8 +31,9 @@ public class daocommon extends DBContext {
                     rs.getString("Email"),
                     rs.getString("Pass"),
                     rs.getInt("Status"),
-                    rs.getString("Createdtime"),
-                    rs.getInt("Roleid")
+                    rs.getDate("Createdtime"),
+                    rs.getInt("Roleid"),
+                    rs.getInt("userID")
                 );
             }
         } catch (SQLException e) {

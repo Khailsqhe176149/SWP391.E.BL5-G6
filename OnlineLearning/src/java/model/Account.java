@@ -15,11 +15,11 @@ public class Account {
     private String email, password; 
     private Date Createdtime; 
     private int status;
-
+    private int userID;
     public Account() {
     }
 
-    public Account(int acc_id, String email, String password,int status, Date Createdtime,  int role_id) {
+    public Account(int acc_id, String email, String password,int status, Date Createdtime,  int role_id, int userID) {
         this.acc_id = acc_id;
         
         this.email = email;
@@ -27,8 +27,17 @@ public class Account {
         this.Createdtime = Createdtime;
         this.status = status;
         this.role_id = role_id;
+        this.userID = userID;
     }
 
+    public int getUserID() {
+        return userID;
+    }
+
+    public void setUserID(int userID) {
+        this.userID = userID;
+    }
+    
     public int getAcc_id() {
         return acc_id;
     }

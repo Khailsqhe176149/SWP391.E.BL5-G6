@@ -18,12 +18,12 @@ public class Users {
     private String Phone;
     private String Img;
     private String Address;
-    private int accId;
+    
 
     public Users() {
     }
 
-    public Users(int userID, String Name, int Gender, Date Dob, String Phone, String Img, String Address, int accId) {
+    public Users(int userID, String Name, int Gender, Date Dob, String Phone, String Img, String Address) {
         this.userID = userID;
         this.Name = Name;
         this.Gender = Gender;
@@ -31,7 +31,7 @@ public class Users {
         this.Phone = Phone;
         this.Img = Img;
         this.Address = Address;
-        this.accId = accId;
+       
     }
 
     public int getUserID() {
@@ -90,12 +90,6 @@ public class Users {
         this.Address = Address;
     }
 
-    public int getAccId() {
-        return accId;
-    }
-
-    public void setAccId(int accId) {
-        this.accId = accId;
-    }
+    
     
 }
