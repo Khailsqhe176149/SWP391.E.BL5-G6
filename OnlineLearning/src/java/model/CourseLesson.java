@@ -15,6 +15,10 @@ public class CourseLesson {
     private int Lessonid;
     private Date Date;
 
+    public CourseLesson() {
+    }
+    
+
     public CourseLesson(int Courseid, int Lessonid, Date Date) {
         this.Courseid = Courseid;
         this.Lessonid = Lessonid;

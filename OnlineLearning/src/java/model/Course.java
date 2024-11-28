@@ -24,6 +24,9 @@ public class Course {
     private int status;
     private String tag;
 
+    public Course() {
+    }
+
     
     // Getters and Setters
 

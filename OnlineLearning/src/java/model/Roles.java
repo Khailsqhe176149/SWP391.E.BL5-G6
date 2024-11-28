@@ -10,24 +10,25 @@ package model;
  */
 public class Roles {
 
-    private int role_id;
-    private String Rolename, Description;
+    private int Roleid;
+    private String Rolename;
+    private String Description;
 
     public Roles() {
     }
 
-    public Roles(int role_id, String Rolename, String Description) {
-        this.role_id = role_id;
+    public Roles(int Roleid, String Rolename, String Description) {
+        this.Roleid = Roleid;
         this.Rolename = Rolename;
         this.Description = Description;
     }
 
-    public int getRole_id() {
-        return role_id;
+    public int getRoleid() {
+        return Roleid;
     }
 
-    public void setRole_id(int role_id) {
-        this.role_id = role_id;
+    public void setRoleid(int Roleid) {
+        this.Roleid = Roleid;
     }
 
     public String getRolename() {
@@ -45,5 +46,6 @@ public class Roles {
     public void setDescription(String Description) {
         this.Description = Description;
     }
+    
 
 }

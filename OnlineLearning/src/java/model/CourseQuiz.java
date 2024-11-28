@@ -12,6 +12,9 @@ public class CourseQuiz {
     private int Courseid;
     private int Quizid;
 
+    public CourseQuiz() {
+    }
+
     public CourseQuiz(int Courseid, int Quizid) {
         this.Courseid = Courseid;
         this.Quizid = Quizid;

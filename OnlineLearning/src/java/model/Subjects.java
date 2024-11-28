@@ -9,43 +9,43 @@ package model;
  * @author Khải
  */
 public class Subjects {
-    
-    private int subjectId;
 
-    private String name;
-    private int status;
+    private int subjectid;
+    private String Name;
+    private int Status;
 
-    
-    // Getters and Setters
-
-    public Subjects(int subjectId, String name, int status) {
-        this.subjectId = subjectId;
-        this.name = name;
-        this.status = status;
+    public Subjects() {
     }
 
-    public int getSubjectId() {
-        return subjectId;
+    public Subjects(int subjectid, String Name, int Status) {
+        this.subjectid = subjectid;
+        this.Name = Name;
+        this.Status = Status;
     }
 
-    public void setSubjectId(int subjectId) {
-        this.subjectId = subjectId;
+    public int getSubjectid() {
+        return subjectid;
+    }
+
+    public void setSubjectid(int subjectid) {
+        this.subjectid = subjectid;
     }
 
     public String getName() {
-        return name;
+        return Name;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setName(String Name) {
+        this.Name = Name;
     }
 
     public int getStatus() {
-        return status;
+        return Status;
     }
 
-    public void setStatus(int status) {
-        this.status = status;
+    public void setStatus(int Status) {
+        this.Status = Status;
     }
     
+
 }
