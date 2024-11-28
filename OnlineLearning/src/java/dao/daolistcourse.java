@@ -8,6 +8,6 @@ package dao;
  *
  * @author Khải
  */
-public class daolistcourse {
+public class daolistcourse extends DBContext  {
     
 }
