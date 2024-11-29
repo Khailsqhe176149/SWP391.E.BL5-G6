@@ -3,8 +3,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
 
-package controller;
-
+package controller.home;
 
 import dao.DAOHome;
 import java.io.IOException;
@@ -21,16 +20,9 @@ import model.CountCourse;
  *
  * @author Admin
  */
-@WebServlet(name="HomeServlet", urlPatterns={"/home"})
-public class HomeServlet extends HttpServlet {
+@WebServlet(name="CourseServlet", urlPatterns={"/CourseServlet"})
+public class CourseServlet extends HttpServlet {
    
-    /** 
-     * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
     /** 
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
      * @param request servlet request
@@ -57,7 +49,7 @@ public class HomeServlet extends HttpServlet {
         // Truyền danh sách khóa học và số trang sang JSP
         request.setAttribute("courses", courses);
         request.setAttribute("currentPage", pageNumber);  // Truyền trang hiện tại
-        request.getRequestDispatcher("/home.jsp").forward(request, response);
+        request.getRequestDispatcher("/courses.jsp").forward(request, response);
     }
 
 }
