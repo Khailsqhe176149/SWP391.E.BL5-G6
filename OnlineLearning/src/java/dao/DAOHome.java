@@ -10,6 +10,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import model.CountCourse;
+import model.Slider;
 
 /**
  *
@@ -64,4 +65,33 @@ public class DAOHome extends DBContext {
 
     return courses;
 }
+ 
+  public List<Slider> getActiveSliders() {
+        List<Slider> sliders = new ArrayList<>();
+        String query = "SELECT * FROM Slider WHERE Status = 1 ORDER BY Createdtime DESC";
+
+        try (PreparedStatement ps = connection.prepareStatement(query);
+             ResultSet rs = ps.executeQuery()) {
+            while (rs.next()) {
+                Slider slider = new Slider(
+                    rs.getInt("Sliderid"),
+                    rs.getInt("Status"),
+                    rs.getString("Img"),
+                    rs.getString("Title"),
+                    rs.getString("Description"),
+                    rs.getDate("Createdtime"),
+                    rs.getInt("slidercategoryid")
+                );
+                sliders.add(slider);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return sliders;
+    }
+ 
+ 
+ 
+ 
 }
+

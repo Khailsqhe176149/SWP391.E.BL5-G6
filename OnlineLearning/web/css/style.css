@@ -432,3 +432,10 @@
     padding-right: 0;
     border-right: none;
 }
+.slider img {
+    width: 60%;               /* Giảm chiều rộng ảnh xuống 60% */
+    height: auto;             /* Giữ tỷ lệ gốc của ảnh */
+    object-fit: contain;      /* Đảm bảo ảnh không bị cắt và vẫn giữ tỷ lệ */
+    border-radius: 10px;      /* Nếu bạn muốn bo tròn góc */
+}
+
