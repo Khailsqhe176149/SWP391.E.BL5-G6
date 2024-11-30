@@ -1,0 +1,151 @@
+/* Sidebar styling */
+.sidebar {
+    background-color: #f8f9fa;
+    padding: 20px;
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 250px;
+    box-shadow: 2px 0px 5px rgba(0, 0, 0, 0.1);
+}
+
+.sidebar-header {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.sidebar .logo {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+}
+
+.sidebar h3 {
+    color: #333;
+    margin-top: 15px;
+}
+
+.sidebar ul {
+    padding-left: 0;
+    list-style-type: none;
+}
+
+.sidebar ul li {
+    margin: 15px 0;
+}
+
+.sidebar ul li a {
+    text-decoration: none;
+    color: #333;
+    font-size: 16px;
+    display: flex;
+    align-items: center;
+}
+
+.sidebar ul li a i {
+    margin-right: 10px;
+}
+
+.sidebar ul li a:hover {
+    color: #007bff;
+}
+
+.sidebar ul li a:hover i {
+    color: #007bff;
+}
+
+/* Main content styling */
+.content {
+    margin-left: 250px; /* To make room for the sidebar */
+    padding: 20px;
+}
+
+/* Ensure the content takes up full width on smaller screens */
+@media (max-width: 768px) {
+    .sidebar {
+        width: 200px;
+    }
+
+    .content {
+        margin-left: 0;
+    }
+}
+/* Tùy chỉnh Sidebar */
+.sidebar {
+    background-color: #f8f9fa;
+    padding-top: 20px;
+    font-family: 'Arial', sans-serif;
+    border-right: 1px solid #ddd;
+}
+
+/* Accordion button style */
+.accordion-button {
+    font-size: 16px;
+    font-weight: 600;
+    padding: 15px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    transition: all 0.3s ease;
+}
+
+/* Chuyển màu khi hover trên accordion button */
+.accordion-button:hover {
+    background-color: #0056b3;
+}
+
+/* Accordion Body Style */
+.accordion-body {
+    padding: 10px 15px;
+}
+
+/* Các mục con trong Accordion */
+.subject-items {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.subject-item {
+    padding: 10px;
+    background-color: #fff;
+    border-radius: 5px;
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+.subject-item:hover {
+    background-color: #f1f1f1;
+    color: #007bff;
+}
+
+/* Tùy chỉnh biểu tượng */
+.accordion-button i {
+    font-size: 18px;
+    color: #007bff;
+}
+
+/* Màu sắc khi các mục con trong accordion được mở */
+.accordion-collapse.show {
+    background-color: #f0f8ff;
+}
+
+/* Tùy chỉnh liên kết trong mục */
+.subject-link {
+    text-decoration: none;
+    color: inherit;
+    font-size: 14px;
+}
+
+/* Tùy chỉnh icon và màu sắc khi hover */
+.subject-item i {
+    margin-right: 8px;
+    color: #007bff;
+    transition: all 0.3s ease;
+}
+
+.subject-item:hover i {
+    color: #0056b3;
+}

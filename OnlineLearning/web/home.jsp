@@ -47,8 +47,7 @@
 
     <body>
         <!-- Navbar Start  -->
-        <div id="spinner-container"></div>
-        <div id="navbar-container"></div>
+      <jsp:include page="templates/navbar.jsp" />
         <!-- Navbar End  -->
 
 
@@ -163,7 +162,7 @@
 
 
         <!-- Footer Start -->
-        <div id="footer-container"></div>
+            <jsp:include page="templates/footer.jsp" />
         <!-- Footer End -->
 
 
@@ -182,23 +181,6 @@
         <!-- Template Javascript -->
         <script src="js/main.js"></script>
 
-        <!-- Load navbar and footer -->
-        <script>
-            // Hàm để load file HTML vào container
-            function loadHTML(elementId, fileName) {
-                fetch(fileName)
-                        .then(response => response.text())
-                        .then(data => {
-                            document.getElementById(elementId).innerHTML = data;
-                        })
-                        .catch(error => console.error(`Error loading ${fileName}:`, error));
-            }
-
-            // Load các phần tử HTML vào trang
-
-            loadHTML('navbar-container', 'templates/navbar.html');
-            loadHTML('footer-container', 'templates/footer.html');
-        </script>
 
 
         <!-- Load Popular Courses -->
