@@ -30,7 +30,7 @@ public class LoginServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         // Chuyển tiếp tới trang đăng nhập (login.jsp)
-        request.getRequestDispatcher("/WEB-INF/Views/login.jsp").forward(request, response);
+        request.getRequestDispatcher("/login.jsp").forward(request, response);
     }
 
     @Override
@@ -44,11 +44,11 @@ public class LoginServlet extends HttpServlet {
             // Đăng nhập thành công, lưu userID vào session
             HttpSession session = request.getSession();
             session.setAttribute("userID", account.getUserID());
-            response.sendRedirect("Login"); // Chuyển hướng tới LessonServlet
+            response.sendRedirect("home"); // Chuyển hướng tới LessonServlet
         } else {
             // Đăng nhập thất bại, thông báo lỗi và quay lại trang đăng nhập
             request.setAttribute("error", "Đăng nhập thất bại. Vui lòng kiểm tra lại thông tin.");
-            request.getRequestDispatcher("/WEB-INF/Views/login.jsp").forward(request, response);
+            request.getRequestDispatcher("/login.jsp").forward(request, response);
         }
     }
 
