@@ -10,6 +10,8 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import model.CountCourse;
+import model.LatestPost;
+import model.Post;
 import model.Slider;
 
 /**
@@ -90,7 +92,57 @@ public class DAOHome extends DBContext {
         return sliders;
     }
  
- 
+     
+public List<LatestPost> getLatestPosts(int limit) {
+    List<LatestPost> latestPosts = new ArrayList<>();
+    String sql = "SELECT TOP (?) p.Postid, p.Title, p.Content, p.Createdtime, u.Name AS AuthorName, p.Img, p.Status, p.Sliderid " +
+                 "FROM Post p " +
+                 "JOIN Users u ON p.authorid = u.userID " +
+                 "ORDER BY p.Createdtime DESC";  // Lấy TOP 'limit' bài mới nhất và kết hợp với tên tác giả
+
+    try (PreparedStatement stmt = connection.prepareStatement(sql)) {
+        stmt.setInt(1, limit); // Set giá trị limit (số lượng bài viết cần lấy)
+
+        try (ResultSet rs = stmt.executeQuery()) {
+            // Lặp qua các bài viết trả về từ cơ sở dữ liệu
+            while (rs.next()) {
+                // Chuyển đổi ResultSet thành đối tượng Post và lấy tên tác giả
+                LatestPost post = new LatestPost(
+                    rs.getInt("Postid"),
+                    rs.getString("Title"),
+                    rs.getString("Content"),
+                    new java.util.Date(rs.getTimestamp("Createdtime").getTime()), // Chuyển Timestamp sang Date
+                    rs.getString("AuthorName"), // Lấy tên tác giả từ cột AuthorName
+                    rs.getString("Img"),
+                    rs.getInt("Status"),
+                    rs.getInt("Sliderid")
+                );
+                // Thêm bài viết vào danh sách
+                latestPosts.add(post);
+            }
+        }
+    } catch (SQLException e) {
+        e.printStackTrace();
+    }
+
+    return latestPosts;
+}
+
+
+
+    
+     public static void main(String[] args) {
+        DAOHome daoHome = new DAOHome();
+        List<LatestPost> latestPosts = daoHome.getLatestPosts(5);  // Lấy 5 bài viết mới nhất
+
+        for (LatestPost post : latestPosts) {
+            System.out.println("Title: " + post.getTitle());
+            System.out.println("Author: " + post.getAuthorName());
+            System.out.println("Content: " + post.getContent());
+            System.out.println("Created Time: " + post.getCreatedtime());
+            System.out.println("----------------------------------------");
+        }
+    }
  
  
 }
