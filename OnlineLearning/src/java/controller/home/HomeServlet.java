@@ -3,9 +3,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
-
 package controller.home;
-
 
 import dao.DAOHome;
 import java.io.IOException;
@@ -17,23 +15,28 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.util.List;
 import model.CountCourse;
+import model.Slider;
 
 /**
  *
  * @author Admin
  */
-@WebServlet(name="HomeServlet", urlPatterns={"/home"})
+@WebServlet(name = "HomeServlet", urlPatterns = {"/home"})
 public class HomeServlet extends HttpServlet {
-   
-    /** 
-     * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
+
+    /**
+     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
+     * methods.
+     *
      * @param request servlet request
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
-    /** 
-     * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
+    /**
+     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
+     * methods.
+     *
      * @param request servlet request
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
@@ -58,6 +61,12 @@ public class HomeServlet extends HttpServlet {
         // Truyền danh sách khóa học và số trang sang JSP
         request.setAttribute("courses", courses);
         request.setAttribute("currentPage", pageNumber);  // Truyền trang hiện tại
+        // Khởi tạo DAO
+        DAOHome daoHome = new DAOHome();
+        // Lấy danh sách slider
+        List<Slider> sliders = daoHome.getActiveSliders();
+        // Gửi dữ liệu đến JSP
+        request.setAttribute("sliders", sliders);
         request.getRequestDispatcher("/home.jsp").forward(request, response);
     }
 
