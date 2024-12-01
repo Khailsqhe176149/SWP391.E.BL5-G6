@@ -70,6 +70,6 @@ private DAOListCourses dao = new DAOListCourses();
         request.setAttribute("priceRange", priceRange); // Truyền priceRange để làm highlight trong UI
 
         // Chuyển hướng đến JSP để hiển thị kết quả
-        request.getRequestDispatcher("/test.jsp").forward(request, response);
+        request.getRequestDispatcher("/listCourses.jsp").forward(request, response);
     }
 }

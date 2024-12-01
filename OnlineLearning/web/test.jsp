@@ -159,7 +159,7 @@
                     </h2>
                     <div id="collapseSortBy" class="accordion-collapse collapse show" aria-labelledby="headingSortBy" data-bs-parent="#accordionFilters">
                         <div class="accordion-body">
-                            <form action="listCourses" method="get" id="sortByForm">
+                            <form action="listCoursesBySort" method="get" id="sortByForm">
                                 <!-- Sort Options -->
                                 <div class="form-check">
                                     <input class="form-check-input" type="radio" name="sort" id="az" value="az" onclick="this.form.submit();" />
@@ -171,28 +171,28 @@
                                 <div class="form-check">
                                     <input class="form-check-input" type="radio" name="sort" id="latest" value="latest" onclick="this.form.submit();" />
                                     <label class="form-check-label" for="latest">
-                                        Latest (Mới nhất)
+                                        sắp xếp theo thời gian tạo ra từ mới đến cũ
                                     </label>
                                 </div>
 
                                 <div class="form-check">
                                     <input class="form-check-input" type="radio" name="sort" id="oldest" value="oldest" onclick="this.form.submit();" />
                                     <label class="form-check-label" for="oldest">
-                                        Oldest (Cũ nhất)
+                                       sắp xếp theo thời gian tạo ra từ cũ đến mới
                                     </label>
                                 </div>
 
                                 <div class="form-check">
                                     <input class="form-check-input" type="radio" name="sort" id="mostRegistrations" value="mostRegistrations" onclick="this.form.submit();" />
                                     <label class="form-check-label" for="mostRegistrations">
-                                        Most Registrations (Đăng ký nhiều nhất)
+                                        sắp xếp số người đăng ký giảm dần
                                     </label>
                                 </div>
 
                                 <div class="form-check">
                                     <input class="form-check-input" type="radio" name="sort" id="mostLessons" value="mostLessons" onclick="this.form.submit();" />
                                     <label class="form-check-label" for="mostLessons">
-                                        Has the largest number of lessons (Có số bài học lớn nhất)
+                                        sắp xếp số lesson giảm dần
                                     </label>
                                 </div>
                             </form>

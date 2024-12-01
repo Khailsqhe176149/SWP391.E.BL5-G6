@@ -32,6 +32,7 @@
         <!-- jQuery and Bootstrap JS -->
         <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+
     </head>
 
     <body>
@@ -46,8 +47,8 @@
             <div class="collapse navbar-collapse" id="navbarCollapse">
                 <div class="navbar-nav ms-auto p-4 p-lg-0">
                     <a href="index.html" class="nav-item nav-link ">Home</a>
-                    <a href="about.html" class="nav-item nav-link active">About</a>
-                    <a href="courses.html" class="nav-item nav-link">Courses</a>
+                    <a href="about.html" class="nav-item nav-link ">About</a>
+                    <a href="listCourses" class="nav-item nav-link active">Courses</a>
                     <div class="nav-item dropdown">
                         <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Pages</a>
                         <div class="dropdown-menu fade-down m-0">
@@ -65,147 +66,140 @@
         <!-- Sidebar and Main Content Start -->
         <div class="container-fluid" style="display: flex; min-height: 100vh;">
 
-       <!-- Sidebar -->
-<div class="sidebar bg-light" style="width: 700px; padding-top: 20px;">
-<!-- Sidebar với danh sách môn học -->
-<div class="accordion" id="subjectAccordion">
-    <div class="accordion-item">
-        <h2 class="accordion-header" id="headingOne">
-            <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseMath" aria-expanded="true" aria-controls="collapseMath">
-                <i class="subject-link"></i> Subjects
-            </button>
-        </h2>
-        <div id="collapseMath" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#subjectAccordion">
-            <div class="accordion-body">
-                <form action="listCourses" method="get" id="subjectFilterForm">
-                    <div class="subject-items">
-                        <!-- Lặp qua các môn học -->
-                        <c:forEach var="subject" items="${subjects}">
-                            <div class="subject-item">
-                                <input class="form-check-input" 
-                                       type="checkbox" 
-                                       name="subject" 
-                                       value="${subject}" 
-                                       id="subject-${subject}"
-                                       <c:if test="${param.subject != null && param.subject == subject}">checked</c:if>
-                                       onchange="handleSubjectSelection(this);">
-                                <label class="form-check-label" for="subject-${subject}">
-                                    ${subject}
-                                </label>
+            <!-- Sidebar -->
+            <div class="sidebar bg-light" style="width: 700px; padding-top: 20px;">
+                <!-- Sidebar với danh sách môn học -->
+                <div class="accordion" id="subjectAccordion">
+                    <div class="accordion-item">
+                        <h2 class="accordion-header" id="headingOne">
+                            <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseMath" aria-expanded="true" aria-controls="collapseMath">
+                                <i class="subject-link"></i> Subjects
+                            </button>
+                        </h2>
+                        <div id="collapseMath" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#subjectAccordion">
+                            <div class="accordion-body">
+                                <form action="listCourses" method="get" id="subjectFilterForm">
+                                    <div class="subject-items">
+                                        <!-- Lặp qua các môn học -->
+                                        <c:forEach var="subject" items="${subjects}">
+                                            <div class="subject-item">
+                                                <input class="form-check-input" 
+                                                       type="checkbox" 
+                                                       name="subject" 
+                                                       value="${subject}" 
+                                                       id="subject-${subject}"
+                                                       <c:if test="${param.subject != null && param.subject == subject}">checked</c:if>
+                                                           onchange="handleSubjectSelection(this);">
+                                                       <label class="form-check-label" for="subject-${subject}">
+                                                    ${subject}
+                                                </label>
+                                            </div>
+                                        </c:forEach>
+                                    </div>
+                                </form>
                             </div>
-                        </c:forEach>
+                        </div>
                     </div>
-                </form>
-            </div>
-        </div>
-    </div>
-</div>
+                </div>
 
-                
-                
-<!-- Accordion Price Filter -->
-<div class="accordion" id="accordionPriceFilter">
-    <div class="accordion-item">
-        <h2 class="accordion-header" id="headingPrice">
-            <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapsePrice" aria-expanded="true" aria-controls="collapsePrice">
-                Price Filter
-            </button>
-        </h2>
-        <div id="collapsePrice" class="accordion-collapse collapse show" aria-labelledby="headingPrice" data-bs-parent="#accordionPriceFilter">
-            <div class="accordion-body">
-                <!-- Filter Form -->
-                <form id="priceFilterForm" method="GET" action="YourServletURL"> <!-- Đổi 'YourServletURL' thành URL Servlet của bạn -->
-                    <!-- Price Filter Options -->
-                    <div class="form-check">
-                        <input class="form-check-input" type="radio" name="price" id="free" value="free" onclick="applyFilter('free')" />
-                        <label class="form-check-label" for="free">
-                            Free (Miễn phí)
-                        </label>
-                    </div>
 
-                    <div class="form-check">
-                        <input class="form-check-input" type="radio" name="price" id="paid" value="paid" onclick="applyFilter('paid')" />
-                        <label class="form-check-label" for="paid">
-                            Paid (Có phí)
-                        </label>
-                    </div>
 
-                    <div class="form-check">
-                        <input class="form-check-input" type="radio" name="price" id="under100" value="under100" onclick="applyFilter('under100')" />
-                        <label class="form-check-label" for="under100">
-                            Under $100
-                        </label>
-                    </div>
+                <!-- Accordion Price Filter -->
+                <div class="accordion" id="accordionPriceFilter">
+                    <div class="accordion-item">
+                        <h2 class="accordion-header" id="headingPrice">
+                            <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapsePrice" aria-expanded="true" aria-controls="collapsePrice">
+                                Price Filter
+                            </button>
+                        </h2>
+                        <div id="collapsePrice" class="accordion-collapse collapse show" aria-labelledby="headingPrice" data-bs-parent="#accordionPriceFilter">
+                            <div class="accordion-body">
+                                <form action="listCourseByPrice" method="get" id="priceFilterForm">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" name="priceRange" id="free" value="free" onchange="handlePriceSelection(this);" />
+                                        <label class="form-check-label" for="free">Free (Miễn phí)</label>
+                                    </div>
 
-                    <div class="form-check">
-                        <input class="form-check-input" type="radio" name="price" id="100to500" value="100to500" onclick="applyFilter('100to500')" />
-                        <label class="form-check-label" for="100to500">
-                            $100 - $500
-                        </label>
-                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" name="priceRange" id="paid" value="paid" onchange="handlePriceSelection(this);" />
+                                        <label class="form-check-label" for="paid">Paid (Có phí)</label>
+                                    </div>
 
-                    <div class="form-check">
-                        <input class="form-check-input" type="radio" name="price" id="above500" value="above500" onclick="applyFilter('above500')" />
-                        <label class="form-check-label" for="above500">
-                            Above $500
-                        </label>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
-</div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" name="priceRange" id="under100" value="under100" onchange="handlePriceSelection(this);" />
+                                        <label class="form-check-label" for="under100">Under $100</label>
+                                    </div>
 
-    <!-- Sort By Section -->
-    <div class="accordion-item">
-        <h2 class="accordion-header" id="headingSortBy">
-            <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSortBy" aria-expanded="true" aria-controls="collapseSortBy">
-                Sort By
-            </button>
-        </h2>
-        <div id="collapseSortBy" class="accordion-collapse collapse show" aria-labelledby="headingSortBy" data-bs-parent="#accordionFilters">
-            <div class="accordion-body">
-                <form action="listCourses" method="get" id="sortByForm">
-                    <!-- Sort Options -->
-                    <div class="form-check">
-                        <input class="form-check-input" type="radio" name="sort" id="az" value="az" onclick="this.form.submit();" />
-                        <label class="form-check-label" for="az">
-                            A - Z
-                        </label>
-                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" name="priceRange" id="100to500" value="100to500" onchange="handlePriceSelection(this);" />
+                                        <label class="form-check-label" for="100to500">$100 - $500</label>
+                                    </div>
 
-                    <div class="form-check">
-                        <input class="form-check-input" type="radio" name="sort" id="latest" value="latest" onclick="this.form.submit();" />
-                        <label class="form-check-label" for="latest">
-                            Latest (Mới nhất)
-                        </label>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" name="priceRange" id="above500" value="above500" onchange="handlePriceSelection(this);" />
+                                        <label class="form-check-label" for="above500">Above $500</label>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
                     </div>
+                </div>
 
-                    <div class="form-check">
-                        <input class="form-check-input" type="radio" name="sort" id="oldest" value="oldest" onclick="this.form.submit();" />
-                        <label class="form-check-label" for="oldest">
-                            Oldest (Cũ nhất)
-                        </label>
-                    </div>
 
-                    <div class="form-check">
-                        <input class="form-check-input" type="radio" name="sort" id="mostRegistrations" value="mostRegistrations" onclick="this.form.submit();" />
-                        <label class="form-check-label" for="mostRegistrations">
-                            Most Registrations (Đăng ký nhiều nhất)
-                        </label>
-                    </div>
 
-                    <div class="form-check">
-                        <input class="form-check-input" type="radio" name="sort" id="mostLessons" value="mostLessons" onclick="this.form.submit();" />
-                        <label class="form-check-label" for="mostLessons">
-                            Has the largest number of lessons (Có số bài học lớn nhất)
-                        </label>
+
+
+
+                <!-- Sort By Section -->
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="headingSortBy">
+                        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSortBy" aria-expanded="true" aria-controls="collapseSortBy">
+                            Sort By
+                        </button>
+                    </h2>
+                    <div id="collapseSortBy" class="accordion-collapse collapse show" aria-labelledby="headingSortBy" data-bs-parent="#accordionFilters">
+                        <div class="accordion-body">
+                            <form action="listCourses" method="get" id="sortByForm">
+                                <!-- Sort Options -->
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="sort" id="az" value="az" onclick="this.form.submit();" />
+                                    <label class="form-check-label" for="az">
+                                        A - Z
+                                    </label>
+                                </div>
+
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="sort" id="latest" value="latest" onclick="this.form.submit();" />
+                                    <label class="form-check-label" for="latest">
+                                        Latest 
+                                    </label>
+                                </div>
+
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="sort" id="oldest" value="oldest" onclick="this.form.submit();" />
+                                    <label class="form-check-label" for="oldest">
+                                        Oldest 
+                                    </label>
+                                </div>
+
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="sort" id="mostRegistrations" value="mostRegistrations" onclick="this.form.submit();" />
+                                    <label class="form-check-label" for="mostRegistrations">
+                                        Most Registrations 
+                                    </label>
+                                </div>
+
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="sort" id="mostLessons" value="mostLessons" onclick="this.form.submit();" />
+                                    <label class="form-check-label" for="mostLessons">
+                                         Largest number of lessons 
+                                    </label>
+                                </div>
+                            </form>
+                        </div>
                     </div>
-                </form>
-            </div>
-        </div>
-    </div>
-         
+                </div>
+
             </div>
 
 
@@ -213,7 +207,7 @@
 
 
 
-           
+
             <!-- Main Content -->
             <div class="main-content flex-grow-1 p-5">
                 <h2>Welcome to eLearning</h2>
@@ -251,81 +245,88 @@
                         <!-- Previous page -->
                         <c:if test="${pageIndex > 1}">
                             <li class="page-item">
-                                <a class="page-link" href="?pageIndex=${pageIndex - 1}&subject=${param.subject}">Previous</a>
+                                <a class="page-link" href="?pageIndex=${pageIndex - 1}&subject=${param.subject}&priceRange=${param.priceRange}">Previous</a>
                             </li>
                         </c:if>
 
                         <!-- Hiển thị các trang -->
                         <c:forEach var="i" begin="1" end="${totalPages}" step="1">
                             <li class="page-item <c:if test='${i == pageIndex}'>active</c:if>">
-                                <a class="page-link" href="?pageIndex=${i}&subject=${param.subject}">${i}</a>
+                                <a class="page-link" href="?pageIndex=${i}&subject=${param.subject}&priceRange=${param.priceRange}">${i}</a>
                             </li>
                         </c:forEach>
 
                         <!-- Next page -->
                         <c:if test="${pageIndex < totalPages}">
                             <li class="page-item">
-                                <a class="page-link" href="?pageIndex=${pageIndex + 1}&subject=${param.subject}">Next</a>
+                                <a class="page-link" href="?pageIndex=${pageIndex + 1}&subject=${param.subject}&priceRange=${param.priceRange}">Next</a>
                             </li>
                         </c:if>
                     </ul>
                 </div>
-            </div>
 
 
 
 
 
 
-        </div>
-    </div>
-    <!-- Sidebar and Main Content End -->
 
-    <!-- Footer -->
-    <div class="container-fluid bg-dark text-light footer pt-5 mt-5 wow fadeIn" data-wow-delay="0.1s">
-        <div class="container py-5">
-            <div class="row g-5">
-                <div class="col-lg-3 col-md-6">
-                    <h4 class="text-white mb-3">Quick Link</h4>
-                    <a class="btn btn-link" href="">About Us</a>
-                    <a class="btn btn-link" href="">Contact Us</a>
-                    <a class="btn btn-link" href="">Privacy Policy</a>
-                    <a class="btn btn-link" href="">Terms & Condition</a>
-                    <a class="btn btn-link" href="">FAQs & Help</a>
-                </div>
-                <div class="col-lg-3 col-md-6">
-                    <h4 class="text-white mb-3">Contact</h4>
-                    <p class="mb-2"><i class="fa fa-map-marker-alt me-3"></i>123 Street, New York, USA</p>
-                    <p class="mb-2"><i class="fa fa-phone-alt me-3"></i>+012 345 67890</p>
-                    <p class="mb-2"><i class="fa fa-envelope me-3"></i>info@example.com</p>
-                </div>
             </div>
         </div>
-    </div>
+        <!-- Sidebar and Main Content End -->
 
-<script>
-    function handleSubjectSelection(checkbox) {
-        const checkboxes = document.querySelectorAll('input[name="subject"]');
         
-        // Nếu checkbox được chọn, bỏ chọn tất cả các checkbox khác
-        if (checkbox.checked) {
-            checkboxes.forEach(function (item) {
-                if (item !== checkbox) {
-                    item.disabled = true;  // Vô hiệu hóa các checkbox khác
+           <!-- Footer Start -->
+            <jsp:include page="templates/footer.jsp" />
+        <!-- Footer End -->
+
+
+        <script>
+            function handleSubjectSelection(checkbox) {
+                const checkboxes = document.querySelectorAll('input[name="subject"]');
+
+                // Nếu checkbox được chọn, bỏ chọn tất cả các checkbox khác
+                if (checkbox.checked) {
+                    checkboxes.forEach(function (item) {
+                        if (item !== checkbox) {
+                            item.disabled = true;  // Vô hiệu hóa các checkbox khác
+                        }
+                    });
+                } else {
+                    // Nếu checkbox được bỏ chọn, kích hoạt lại tất cả các checkbox
+                    checkboxes.forEach(function (item) {
+                        item.disabled = false;
+                    });
                 }
-            });
-        } else {
-            // Nếu checkbox được bỏ chọn, kích hoạt lại tất cả các checkbox
-            checkboxes.forEach(function (item) {
-                item.disabled = false;
-            });
-        }
 
-        // Gửi form khi thay đổi lựa chọn
-        document.getElementById("subjectFilterForm").submit();
-    }
-</script>
+                // Gửi form khi thay đổi lựa chọn
+                document.getElementById("subjectFilterForm").submit();
+            }
+        </script>
+        <script>
+            function handlePriceSelection(radio) {
+                const radios = document.querySelectorAll('input[name="priceRange"]');
 
+                // Bỏ chọn và kích hoạt lại tất cả các radio button trước khi xử lý lựa chọn
+                radios.forEach(function (item) {
+                    item.disabled = false;  // Kích hoạt lại tất cả các radio buttons
+                    item.parentNode.classList.remove("selected");  // Xóa trạng thái màu cho radio chưa chọn
+                });
 
-</body>
+                // Khi một radio được chọn, vô hiệu hóa các radio còn lại
+                radios.forEach(function (item) {
+                    if (item !== radio) {
+                        item.disabled = true;  // Vô hiệu hóa radio chưa chọn
+                    }
+                });
+
+                // Thêm lớp 'selected' vào radio đã chọn để thay đổi màu sắc
+                radio.parentNode.classList.add("selected");
+
+                // Gửi form khi thay đổi lựa chọn
+                document.getElementById("priceFilterForm").submit();
+            }
+
+        </script>
+    </body>
 </html>

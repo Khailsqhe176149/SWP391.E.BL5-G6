@@ -23,8 +23,144 @@ public class DAOListCourses extends DBContext {
         super(); // Gọi constructor của lớp DBContext để khởi tạo kết nối
     }
 
-    // Hàm lấy tất cả các course từ database
-    public List<Course> getCoursesWithPagination(int pageIndex, int pageSize) {
+    public List<Course> getCoursesByNameASC(int pageIndex) {
+        List<Course> courses = new ArrayList<>();
+
+        // Tính toán OFFSET (bỏ qua các bản ghi của các trang trước)
+        int offset = (pageIndex - 1) * 6;
+
+        // Câu lệnh SQL để lấy khóa học sắp xếp theo tên (ASC) với phân trang
+        String sql = "SELECT * FROM Course "
+                + "ORDER BY Name ASC "
+                + "OFFSET ? ROWS FETCH NEXT 6 ROWS ONLY";
+
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+            // Thiết lập giá trị cho OFFSET
+            ps.setInt(1, offset);
+
+            // Lặp qua kết quả và thêm vào danh sách
+              try (ResultSet rs = ps.executeQuery()) {
+            while (rs.next()) {
+                Course course = mapResultSetToCourse(rs);
+                courses.add(course);
+            }
+        }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return courses;
+
+    }
+    public List<Course> getCoursesByCreatedTimeAsc(int pageIndex) {
+        List<Course> courses = new ArrayList<>();
+
+        int offset = (pageIndex - 1) * 6;
+        String sql = "SELECT * FROM Course "
+                + "ORDER BY Createdtime ASC "
+                + "OFFSET ? ROWS FETCH NEXT 6 ROWS ONLY";
+
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+            ps.setInt(1, offset);
+
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    Course course = mapResultSetToCourse(rs);
+                    courses.add(course);
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return courses;
+    }
+    public List<Course> getCoursesByCreatedTimeDesc(int pageIndex) {
+        List<Course> courses = new ArrayList<>();
+
+        int offset = (pageIndex - 1) * 6;
+        String sql = "SELECT * FROM Course "
+                + "ORDER BY Createdtime DESC "
+                + "OFFSET ? ROWS FETCH NEXT 6 ROWS ONLY";
+
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+            ps.setInt(1, offset);
+
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    Course course = mapResultSetToCourse(rs);
+                    courses.add(course);
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return courses;
+    }
+    public List<Course> getCoursesByEnrollmentDesc(int pageIndex) {
+        List<Course> courses = new ArrayList<>();
+
+        int offset = (pageIndex - 1) * 6;
+        String sql = "SELECT c.* FROM Course c "
+                + "LEFT JOIN Registration r ON c.Courseid = r.Courseid "
+                + "GROUP BY c.Courseid "
+                + "ORDER BY COUNT(r.UserID) DESC "
+                + "OFFSET ? ROWS FETCH NEXT 6 ROWS ONLY";
+
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+            ps.setInt(1, offset);
+
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    Course course = mapResultSetToCourse(rs);
+                    courses.add(course);
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return courses;
+    }
+    public List<Course> getCoursesByLessonCountDesc(int pageIndex) {
+    List<Course> courses = new ArrayList<>();
+    
+    int offset = (pageIndex - 1) * 6;
+    String sql = "SELECT c.* FROM Course c "
+               + "LEFT JOIN Lesson l ON c.Courseid = l.Courseid "
+               + "GROUP BY c.Courseid "
+               + "ORDER BY COUNT(l.Lessonid) DESC "
+               + "OFFSET ? ROWS FETCH NEXT 6 ROWS ONLY";
+    
+    try (PreparedStatement ps = connection.prepareStatement(sql)) {
+        ps.setInt(1, offset);
+        
+        try (ResultSet rs = ps.executeQuery()) {
+            while (rs.next()) {
+                Course course = mapResultSetToCourse(rs);
+                courses.add(course);
+            }
+        }
+    } catch (SQLException e) {
+        e.printStackTrace();
+    }
+    return courses;
+}
+    private Course mapResultSetToCourse(ResultSet rs) throws SQLException {
+        int courseId = rs.getInt("Courseid");
+        String name = rs.getString("Name");
+        int subjectId = rs.getInt("Subjectid");
+        double price = rs.getDouble("Price");
+        int authorId = rs.getInt("Authorid");
+        String description = rs.getString("Description");
+        String img = rs.getString("Img");
+        Date createdTime = rs.getDate("Createdtime");
+        int status = rs.getInt("Status");
+        String tag = rs.getString("Tag");
+
+        return new Course(courseId, name, subjectId, price, authorId, description, img, createdTime, status, tag);
+    }
+    
+    
+      public List<Course> getCoursesWithPagination(int pageIndex, int pageSize) {
         List<Course> courses = new ArrayList<>();
 
         // Tính toán offset và limit cho phân trang
@@ -40,23 +176,12 @@ public class DAOListCourses extends DBContext {
             ps.setInt(1, offset);
             ps.setInt(2, pageSize);
 
-            try (ResultSet rs = ps.executeQuery()) {
-                while (rs.next()) {
-                    int courseId = rs.getInt("Courseid");
-                    String name = rs.getString("Name");
-                    int subjectId = rs.getInt("Subjectid");
-                    double price = rs.getDouble("Price");
-                    int authorId = rs.getInt("Authorid");
-                    String description = rs.getString("Description");
-                    String img = rs.getString("Img");
-                    Date createdTime = rs.getDate("Createdtime");
-                    int status = rs.getInt("Status");
-                    String tag = rs.getString("Tag");
-
-                    Course course = new Course(courseId, name, subjectId, price, authorId, description, img, createdTime, status, tag);
-                    courses.add(course);
-                }
+             try (ResultSet rs = ps.executeQuery()) {
+            while (rs.next()) {
+                Course course = mapResultSetToCourse(rs);
+                courses.add(course);
             }
+        }
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -79,10 +204,6 @@ public class DAOListCourses extends DBContext {
 
         return totalCourses;
     }
-    
-    
-    
-    
 
     public List<String> getAllSubjects() {
         List<String> subjects = new ArrayList<>();
@@ -113,23 +234,12 @@ public class DAOListCourses extends DBContext {
             ps.setInt(2, offset);
             ps.setInt(3, pageSize);
 
-            try (ResultSet rs = ps.executeQuery()) {
-                while (rs.next()) {
-                    int courseId = rs.getInt("Courseid");
-                    String name = rs.getString("Name");
-                    int subjectId = rs.getInt("Subjectid");
-                    double price = rs.getDouble("Price");
-                    int authorId = rs.getInt("Authorid");
-                    String description = rs.getString("Description");
-                    String img = rs.getString("Img");
-                    Date createdTime = rs.getDate("Createdtime");
-                    int status = rs.getInt("Status");
-                    String tag = rs.getString("Tag");
-
-                    Course course = new Course(courseId, name, subjectId, price, authorId, description, img, createdTime, status, tag);
-                    courses.add(course);
-                }
+             try (ResultSet rs = ps.executeQuery()) {
+            while (rs.next()) {
+                Course course = mapResultSetToCourse(rs);
+                courses.add(course);
             }
+        }
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -155,103 +265,55 @@ public class DAOListCourses extends DBContext {
         }
 
         return totalCourses;
-    } 
+    }
 
     public List<Course> getCoursesByPriceRange(double minPrice, double maxPrice, int pageIndex, int pageSize) {
-    List<Course> courses = new ArrayList<>();
-    int offset = (pageIndex - 1) * pageSize;
+        List<Course> courses = new ArrayList<>();
+        int offset = (pageIndex - 1) * pageSize;
 
-    // Câu lệnh SQL lọc theo phạm vi giá
-    String query = "SELECT Courseid, Name, Subjectid, Price, Authorid, Description, Img, Createdtime, Status, Tag "
-            + "FROM Course WHERE Price BETWEEN ? AND ? "
-            + "ORDER BY Createdtime DESC "
-            + "OFFSET ? ROWS FETCH NEXT ? ROWS ONLY";
+        // Câu lệnh SQL lọc theo phạm vi giá
+        String query = "SELECT Courseid, Name, Subjectid, Price, Authorid, Description, Img, Createdtime, Status, Tag "
+                + "FROM Course WHERE Price BETWEEN ? AND ? "
+                + "ORDER BY Createdtime DESC "
+                + "OFFSET ? ROWS FETCH NEXT ? ROWS ONLY";
 
-    try (PreparedStatement ps = connection.prepareStatement(query)) {
-        ps.setDouble(1, minPrice);
-        ps.setDouble(2, maxPrice);
-        ps.setInt(3, offset);
-        ps.setInt(4, pageSize);
+        try (PreparedStatement ps = connection.prepareStatement(query)) {
+            ps.setDouble(1, minPrice);
+            ps.setDouble(2, maxPrice);
+            ps.setInt(3, offset);
+            ps.setInt(4, pageSize);
 
-        try (ResultSet rs = ps.executeQuery()) {
+             try (ResultSet rs = ps.executeQuery()) {
             while (rs.next()) {
-                int courseId = rs.getInt("Courseid");
-                String name = rs.getString("Name");
-                int subjectId = rs.getInt("Subjectid");
-                double price = rs.getDouble("Price");
-                int authorId = rs.getInt("Authorid");
-                String description = rs.getString("Description");
-                String img = rs.getString("Img");
-                Date createdTime = rs.getDate("Createdtime");
-                int status = rs.getInt("Status");
-                String tag = rs.getString("Tag");
-
-                Course course = new Course(courseId, name, subjectId, price, authorId, description, img, createdTime, status, tag);
+                Course course = mapResultSetToCourse(rs);
                 courses.add(course);
             }
         }
-    } catch (SQLException e) {
-        e.printStackTrace();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return courses;
     }
 
-    return courses;
-}
+    public int getTotalCoursesByPriceRange(double minPrice, double maxPrice) {
+        int total = 0;
+        String query = "SELECT COUNT(*) FROM Course WHERE Price BETWEEN ? AND ?";
 
-public int getTotalCoursesByPriceRange(double minPrice, double maxPrice) {
-    int total = 0;
-    String query = "SELECT COUNT(*) FROM Course WHERE Price BETWEEN ? AND ?";
+        try (PreparedStatement ps = connection.prepareStatement(query)) {
+            ps.setDouble(1, minPrice);
+            ps.setDouble(2, maxPrice);
 
-    try (PreparedStatement ps = connection.prepareStatement(query)) {
-        ps.setDouble(1, minPrice);
-        ps.setDouble(2, maxPrice);
-
-        try (ResultSet rs = ps.executeQuery()) {
-            if (rs.next()) {
-                total = rs.getInt(1);
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    total = rs.getInt(1);
+                }
             }
-        }
-    } catch (SQLException e) {
-        e.printStackTrace();
-    }
-
-    return total;
-}
- public static void main(String[] args) {
-        // Tạo đối tượng DAOListCourses để gọi các phương thức
-        DAOListCourses dao = new DAOListCourses();
-
-        // Các tham số để kiểm tra
-        double minPrice = 0;
-        double maxPrice = 100;
-        int pageIndex = 1;
-        int pageSize = 5;
-
-        // Kiểm tra hàm getCoursesByPriceRange
-        List<Course> courses = dao.getCoursesByPriceRange(minPrice, maxPrice, pageIndex, pageSize);
-
-        // In ra các khóa học đã lấy được
-        System.out.println("Courses between $" + minPrice + " and $" + maxPrice + ":");
-        for (Course course : courses) {
-            System.out.println("Course ID: " + course.getCourseId() + ", Name: " + course.getName() + ", Price: $" + course.getPrice());
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
 
-        // Kiểm tra hàm getTotalCoursesByPriceRange
-        int totalCourses = dao.getTotalCoursesByPriceRange(minPrice, maxPrice);
-        System.out.println("Total number of courses in this price range: " + totalCourses);
+        return total;
     }
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
 
- 
 }
