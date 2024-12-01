@@ -29,7 +29,7 @@ public class LoginServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        // Chuyển tiếp tới trang đăng nhập (login.jsp)
+    
         request.getRequestDispatcher("/login.jsp").forward(request, response);
     }
 
@@ -38,15 +38,17 @@ public class LoginServlet extends HttpServlet {
         String email = request.getParameter("email");
         String password = request.getParameter("password");
 
-        // Kiểm tra thông tin đăng nhập
+
         Account account = dao.checkLogin(email, password);
+        String username = dao.getNameByEmail(email);
         if (account != null) {
-            // Đăng nhập thành công, lưu userID vào session
+ 
             HttpSession session = request.getSession();
             session.setAttribute("userID", account.getUserID());
+            session.setAttribute("username",username);
             response.sendRedirect("home"); // Chuyển hướng tới LessonServlet
         } else {
-            // Đăng nhập thất bại, thông báo lỗi và quay lại trang đăng nhập
+   
             request.setAttribute("error", "Đăng nhập thất bại. Vui lòng kiểm tra lại thông tin.");
             request.getRequestDispatcher("/login.jsp").forward(request, response);
         }

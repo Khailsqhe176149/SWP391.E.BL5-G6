@@ -53,4 +53,50 @@ public class EmailUntil {
             e.printStackTrace();
         }
     }
+    
+    
+    
+    
+    public static void sendResetEmail(String toEmail, String token) {
+        String resetLink = "http://localhost:9999/OnlineLearning/reset-confirm.jsp?token=" + token; // Đổi URL phù hợp
+        String subject = "Password Reset Request";
+        String messageText = "Click the link below to reset your password:\n" + resetLink;
+
+        sendEmailtoken(toEmail, subject, messageText);
+    }
+
+    public static void sendEmailtoken(String toEmail, String subject, String messageText) {
+        // Cấu hình các thuộc tính cho email
+        Properties props = new Properties();
+        props.put("mail.smtp.host", "smtp.gmail.com");
+        props.put("mail.smtp.port", "587");
+        props.put("mail.smtp.auth", "true");
+        props.put("mail.smtp.starttls.enable", "true");
+
+       final String fromEmail = "lsqkhai301023@gmail.com"; // Email của bạn
+        final String password = "pajsfwkvfsyrlnbh"; // Mật khẩu của bạn (có thể cần mật khẩu ứng dụng)
+
+        Session session = Session.getInstance(props, new javax.mail.Authenticator() {
+            @Override
+            protected PasswordAuthentication getPasswordAuthentication() {
+                return new PasswordAuthentication(fromEmail, password);
+            }
+        });
+
+        try {
+            Message message = new MimeMessage(session);
+            message.setFrom(new InternetAddress(fromEmail));
+            message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(toEmail));
+            message.setSubject(subject);
+            message.setText(messageText);
+
+            Transport.send(message);
+            System.out.println("Reset email sent to: " + toEmail);
+        } catch (MessagingException e) {
+            e.printStackTrace();
+        }
+    }
+    
+    
+    
 }

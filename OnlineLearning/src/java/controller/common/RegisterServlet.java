@@ -25,17 +25,16 @@ public class RegisterServlet extends HttpServlet {
 
     private static final long serialVersionUID = 1L;
 
-    private final DAORegister dao = new DAORegister(); // Khởi tạo DAORegister
-
+    private final DAORegister dao = new DAORegister(); 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        // Chuyển tiếp tới trang đăng ký
+      
         request.getRequestDispatcher("/register.jsp").forward(request, response);
     }
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        // Lấy dữ liệu từ form
+    
         String name = request.getParameter("name");
         int gender = Integer.parseInt(request.getParameter("gender"));
         String dob = request.getParameter("dob");
@@ -61,7 +60,7 @@ public class RegisterServlet extends HttpServlet {
             request.setAttribute("emailError","Email must contain '@'.");
         }
 
-        // Kiểm tra số điện thoại: phải có 10 số và bắt đầu bằng 0
+      
         if (phone != null && !phone.matches("^0\\d{9}$")) {
             
             request.setAttribute("phoneError","Phone number must have 10 digits and start with 0.");
@@ -71,7 +70,7 @@ public class RegisterServlet extends HttpServlet {
         
         if (emailExist || phoneExist) {
             request.getRequestDispatcher("/register.jsp").forward(request, response);
-            return; // Dừng lại, không tiếp tục đăng ký
+            return; 
         }
         
         

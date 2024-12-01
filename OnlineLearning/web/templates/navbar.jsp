@@ -21,6 +21,21 @@
             </div>
             <a href="contact.html" class="nav-item nav-link">Contact</a>
         </div>
-        <a href="" class="btn btn-primary py-4 px-lg-5 d-none d-lg-block">Join Now<i class="fa fa-arrow-right ms-3"></i></a>
+
+
+
+
+        <% if (session.getAttribute("username") != null) { %>
+        <a href="profile" class="btn btn-primary py-4 px-lg-5 d-none d-lg-block"><%= session.getAttribute("username") %></a>
+        <% } else { %>
+        <a href="login.jsp" class="btn btn-primary py-4 px-lg-5 d-none d-lg-block">Join Now<i class="fa fa-arrow-right ms-3"></i></a>
+            <% } %>
+
+
+
+
+
+
+
     </div>
 </nav>
