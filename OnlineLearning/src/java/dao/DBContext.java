@@ -1,7 +1,4 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
+
 package dao;
 
 import java.sql.Connection;
@@ -27,19 +24,6 @@ public class DBContext {
             System.out.println(ex);
         }
     }
-    public static void main(String[] args) {
-        DBContext dbContext = new DBContext();
-        Connection conn = dbContext.connection;
-        
-        try {
-            if (conn != null && !conn.isClosed()) {
-                System.out.println("Kết nối thành công!");
-            } else {
-                System.out.println("Kết nối thất bại.");
-            }
-        } catch (SQLException e) {
-            System.out.println("Lỗi kiểm tra kết nối: " + e.getMessage());
-        }
-    }
+   
 }
 
