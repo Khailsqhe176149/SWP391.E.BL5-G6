@@ -439,3 +439,24 @@
     border-radius: 10px;      /* Nếu bạn muốn bo tròn góc */
 }
 
+
+/* Thêm màu sắc cho các radio button khi đã được chọn */
+.form-check.selected .form-check-input:checked {
+    background-color: #007bff; /* Màu khi radio button được chọn */
+    border-color: #007bff;
+}
+
+/* Màu sắc của radio button khi được chọn */
+.form-check-label {
+    font-weight: bold;
+}
+
+/* Thêm màu cho label khi radio button bị vô hiệu hóa */
+.form-check-input:disabled + .form-check-label {
+    color: gray;  /* Hiển thị màu xám khi vô hiệu hóa */
+}
+
+/* Thêm màu sắc cho label khi radio button đã chọn */
+.form-check.selected .form-check-label {
+    color: #007bff;  /* Màu cho label khi chọn */
+}

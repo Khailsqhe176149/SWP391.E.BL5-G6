@@ -52,6 +52,6 @@ public class listCourses extends HttpServlet {
         List<String> subjects = dao.getAllSubjects();
         request.setAttribute("subjects", subjects);  
 
-        request.getRequestDispatcher("/listCourses.jsp").forward(request, response);
+        request.getRequestDispatcher("/test.jsp").forward(request, response);
     }
 }

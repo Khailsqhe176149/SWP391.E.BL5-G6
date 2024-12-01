@@ -65,36 +65,147 @@
         <!-- Sidebar and Main Content Start -->
         <div class="container-fluid" style="display: flex; min-height: 100vh;">
 
-            <!-- Sidebar -->
-            <div class="sidebar bg-light" style="width: 700px; padding-top: 20px;">
-                <!-- Accordion for Subjects -->
-                <!-- Sidebar với danh sách môn học -->
-                <div class="accordion" id="subjectAccordion">
-                    <div class="accordion-item">
-                        <h2 class="accordion-header" id="headingOne">
-                            <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseMath" aria-expanded="true" aria-controls="collapseMath">
-                                <i class="subject-link"></i> Subjects
-                            </button>
-                        </h2>
-                        <div id="collapseMath" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#subjectAccordion">
-                            <div class="accordion-body">
-                                <div class="subject-items">
-                              
-                                    <div class="subject-item">
-                                        <a href="listCourses" class="subject-link">All Courses</a>
-                                    </div>
-
-                                    <c:forEach var="subject" items="${subjects}">
-                                        <div class="subject-item">
-                                            <a href="listCourses?subject=${subject}" class="subject-link">${subject}</a>
-                                        </div>
-                                    </c:forEach>
-                                </div>
+       <!-- Sidebar -->
+<div class="sidebar bg-light" style="width: 700px; padding-top: 20px;">
+<!-- Sidebar với danh sách môn học -->
+<div class="accordion" id="subjectAccordion">
+    <div class="accordion-item">
+        <h2 class="accordion-header" id="headingOne">
+            <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseMath" aria-expanded="true" aria-controls="collapseMath">
+                <i class="subject-link"></i> Subjects
+            </button>
+        </h2>
+        <div id="collapseMath" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#subjectAccordion">
+            <div class="accordion-body">
+                <form action="listCourses" method="get" id="subjectFilterForm">
+                    <div class="subject-items">
+                        <!-- Lặp qua các môn học -->
+                        <c:forEach var="subject" items="${subjects}">
+                            <div class="subject-item">
+                                <input class="form-check-input" 
+                                       type="checkbox" 
+                                       name="subject" 
+                                       value="${subject}" 
+                                       id="subject-${subject}"
+                                       <c:if test="${param.subject != null && param.subject == subject}">checked</c:if>
+                                       onchange="handleSubjectSelection(this);">
+                                <label class="form-check-label" for="subject-${subject}">
+                                    ${subject}
+                                </label>
                             </div>
-
-                        </div>
+                        </c:forEach>
                     </div>
-                </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+                
+                
+<!-- Accordion Price Filter -->
+<div class="accordion" id="accordionPriceFilter">
+    <div class="accordion-item">
+        <h2 class="accordion-header" id="headingPrice">
+            <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapsePrice" aria-expanded="true" aria-controls="collapsePrice">
+                Price Filter
+            </button>
+        </h2>
+        <div id="collapsePrice" class="accordion-collapse collapse show" aria-labelledby="headingPrice" data-bs-parent="#accordionPriceFilter">
+            <div class="accordion-body">
+                <!-- Filter Form -->
+                <form id="priceFilterForm" method="GET" action="YourServletURL"> <!-- Đổi 'YourServletURL' thành URL Servlet của bạn -->
+                    <!-- Price Filter Options -->
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="price" id="free" value="free" onclick="applyFilter('free')" />
+                        <label class="form-check-label" for="free">
+                            Free (Miễn phí)
+                        </label>
+                    </div>
+
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="price" id="paid" value="paid" onclick="applyFilter('paid')" />
+                        <label class="form-check-label" for="paid">
+                            Paid (Có phí)
+                        </label>
+                    </div>
+
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="price" id="under100" value="under100" onclick="applyFilter('under100')" />
+                        <label class="form-check-label" for="under100">
+                            Under $100
+                        </label>
+                    </div>
+
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="price" id="100to500" value="100to500" onclick="applyFilter('100to500')" />
+                        <label class="form-check-label" for="100to500">
+                            $100 - $500
+                        </label>
+                    </div>
+
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="price" id="above500" value="above500" onclick="applyFilter('above500')" />
+                        <label class="form-check-label" for="above500">
+                            Above $500
+                        </label>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+    <!-- Sort By Section -->
+    <div class="accordion-item">
+        <h2 class="accordion-header" id="headingSortBy">
+            <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSortBy" aria-expanded="true" aria-controls="collapseSortBy">
+                Sort By
+            </button>
+        </h2>
+        <div id="collapseSortBy" class="accordion-collapse collapse show" aria-labelledby="headingSortBy" data-bs-parent="#accordionFilters">
+            <div class="accordion-body">
+                <form action="listCourses" method="get" id="sortByForm">
+                    <!-- Sort Options -->
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="sort" id="az" value="az" onclick="this.form.submit();" />
+                        <label class="form-check-label" for="az">
+                            A - Z
+                        </label>
+                    </div>
+
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="sort" id="latest" value="latest" onclick="this.form.submit();" />
+                        <label class="form-check-label" for="latest">
+                            Latest (Mới nhất)
+                        </label>
+                    </div>
+
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="sort" id="oldest" value="oldest" onclick="this.form.submit();" />
+                        <label class="form-check-label" for="oldest">
+                            Oldest (Cũ nhất)
+                        </label>
+                    </div>
+
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="sort" id="mostRegistrations" value="mostRegistrations" onclick="this.form.submit();" />
+                        <label class="form-check-label" for="mostRegistrations">
+                            Most Registrations (Đăng ký nhiều nhất)
+                        </label>
+                    </div>
+
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="sort" id="mostLessons" value="mostLessons" onclick="this.form.submit();" />
+                        <label class="form-check-label" for="mostLessons">
+                            Has the largest number of lessons (Có số bài học lớn nhất)
+                        </label>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+         
             </div>
 
 
@@ -102,7 +213,7 @@
 
 
 
-            <!-- Main Content -->
+           
             <!-- Main Content -->
             <div class="main-content flex-grow-1 p-5">
                 <h2>Welcome to eLearning</h2>
@@ -191,5 +302,30 @@
             </div>
         </div>
     </div>
+
+<script>
+    function handleSubjectSelection(checkbox) {
+        const checkboxes = document.querySelectorAll('input[name="subject"]');
+        
+        // Nếu checkbox được chọn, bỏ chọn tất cả các checkbox khác
+        if (checkbox.checked) {
+            checkboxes.forEach(function (item) {
+                if (item !== checkbox) {
+                    item.disabled = true;  // Vô hiệu hóa các checkbox khác
+                }
+            });
+        } else {
+            // Nếu checkbox được bỏ chọn, kích hoạt lại tất cả các checkbox
+            checkboxes.forEach(function (item) {
+                item.disabled = false;
+            });
+        }
+
+        // Gửi form khi thay đổi lựa chọn
+        document.getElementById("subjectFilterForm").submit();
+    }
+</script>
+
+
 </body>
 </html>
