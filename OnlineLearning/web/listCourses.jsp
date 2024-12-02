@@ -46,7 +46,7 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarCollapse">
                 <div class="navbar-nav ms-auto p-4 p-lg-0">
-                    <a href="index.html" class="nav-item nav-link ">Home</a>
+                    <a href="home" class="nav-item nav-link ">Home</a>
                     <a href="about.html" class="nav-item nav-link ">About</a>
                     <a href="listCourses" class="nav-item nav-link active">Courses</a>
                     <div class="nav-item dropdown">
@@ -59,7 +59,7 @@
                     </div>
                     <a href="contact.html" class="nav-item nav-link">Contact</a>
                 </div>
-                <a href="" class="btn btn-primary py-4 px-lg-5 d-none d-lg-block">Join Now<i class="fa fa-arrow-right ms-3"></i></a>
+                <a href="Login" class="btn btn-primary py-4 px-lg-5 d-none d-lg-block">Join Now<i class="fa fa-arrow-right ms-3"></i></a>
             </div>
         </nav>
 
@@ -114,15 +114,15 @@
                         </h2>
                         <div id="collapsePrice" class="accordion-collapse collapse show" aria-labelledby="headingPrice" data-bs-parent="#accordionPriceFilter">
                             <div class="accordion-body">
-                                <form action="listCourseByPrice" method="get" id="priceFilterForm">
+                                <form action="listCourses" method="get" id="priceFilterForm">
                                     <div class="form-check">
                                         <input class="form-check-input" type="radio" name="priceRange" id="free" value="free" onchange="handlePriceSelection(this);" />
-                                        <label class="form-check-label" for="free">Free (Miễn phí)</label>
+                                        <label class="form-check-label" for="free">Free </label>
                                     </div>
 
                                     <div class="form-check">
                                         <input class="form-check-input" type="radio" name="priceRange" id="paid" value="paid" onchange="handlePriceSelection(this);" />
-                                        <label class="form-check-label" for="paid">Paid (Có phí)</label>
+                                        <label class="form-check-label" for="paid">Paid </label>
                                     </div>
 
                                     <div class="form-check">
@@ -159,7 +159,7 @@
                     </h2>
                     <div id="collapseSortBy" class="accordion-collapse collapse show" aria-labelledby="headingSortBy" data-bs-parent="#accordionFilters">
                         <div class="accordion-body">
-                            <form action="listCourses" method="get" id="sortByForm">
+                            <form action="listCoursesBySort" method="get" id="sortByForm">
                                 <!-- Sort Options -->
                                 <div class="form-check">
                                     <input class="form-check-input" type="radio" name="sort" id="az" value="az" onclick="this.form.submit();" />
@@ -171,28 +171,28 @@
                                 <div class="form-check">
                                     <input class="form-check-input" type="radio" name="sort" id="latest" value="latest" onclick="this.form.submit();" />
                                     <label class="form-check-label" for="latest">
-                                        Latest 
+                                        sắp xếp theo thời gian tạo ra từ mới đến cũ
                                     </label>
                                 </div>
 
                                 <div class="form-check">
                                     <input class="form-check-input" type="radio" name="sort" id="oldest" value="oldest" onclick="this.form.submit();" />
                                     <label class="form-check-label" for="oldest">
-                                        Oldest 
+                                        sắp xếp theo thời gian tạo ra từ cũ đến mới
                                     </label>
                                 </div>
 
                                 <div class="form-check">
                                     <input class="form-check-input" type="radio" name="sort" id="mostRegistrations" value="mostRegistrations" onclick="this.form.submit();" />
                                     <label class="form-check-label" for="mostRegistrations">
-                                        Most Registrations 
+                                        sắp xếp số người đăng ký giảm dần
                                     </label>
                                 </div>
 
                                 <div class="form-check">
                                     <input class="form-check-input" type="radio" name="sort" id="mostLessons" value="mostLessons" onclick="this.form.submit();" />
                                     <label class="form-check-label" for="mostLessons">
-                                         Largest number of lessons 
+                                        sắp xếp số lesson giảm dần
                                     </label>
                                 </div>
                             </form>
@@ -211,9 +211,17 @@
             <!-- Main Content -->
             <div class="main-content flex-grow-1 p-5">
                 <h2>Welcome to eLearning</h2>
-                <p>This is the main content area.</p>
 
-                <!-- Example Course List -->
+                <!-- Thanh tìm kiếm -->
+                <div class="mb-4">
+                    <form action="listCoursesBySearch" method="get" class="d-flex">
+                        <!-- Input tìm kiếm -->
+                        <input type="text" class="form-control" name="searchQuery" placeholder="Search for courses..." value="${param.searchQuery}">
+                        <button class="btn btn-primary ms-2" type="submit">Search</button>
+                    </form>
+                </div>
+
+                <!-- Course List -->
                 <div class="row">
                     <!-- Lặp qua danh sách khóa học và hiển thị từng khóa học -->
                     <c:forEach var="course" items="${courses}">
@@ -238,48 +246,46 @@
                         </div>
                     </c:forEach>
                 </div>
-
                 <!-- Phân trang -->
                 <div class="d-flex justify-content-center mt-4">
                     <ul class="pagination">
-                        <!-- Previous page -->
+                        <!-- Hiển thị trang trước -->
                         <c:if test="${pageIndex > 1}">
                             <li class="page-item">
-                                <a class="page-link" href="?pageIndex=${pageIndex - 1}&subject=${param.subject}&priceRange=${param.priceRange}">Previous</a>
+                                <a class="page-link" href="?pageIndex=${pageIndex - 1}&subject=${param.subject}&priceRange=${param.priceRange}&sort=${param.sort}">
+                                    Previous
+                                </a>
                             </li>
                         </c:if>
 
-                        <!-- Hiển thị các trang -->
-                        <c:forEach var="i" begin="1" end="${totalPages}" step="1">
-                            <li class="page-item <c:if test='${i == pageIndex}'>active</c:if>">
-                                <a class="page-link" href="?pageIndex=${i}&subject=${param.subject}&priceRange=${param.priceRange}">${i}</a>
+                        <!-- Các trang -->
+                        <c:forEach var="i" begin="1" end="${totalPages}">
+                            <li class="page-item ${i == pageIndex ? 'active' : ''}">
+                                <a class="page-link" href="?pageIndex=${i}&subject=${param.subject}&priceRange=${param.priceRange}&sort=${param.sort}">
+                                    ${i}
+                                </a>
                             </li>
                         </c:forEach>
 
-                        <!-- Next page -->
+                        <!-- Hiển thị trang tiếp theo -->
                         <c:if test="${pageIndex < totalPages}">
                             <li class="page-item">
-                                <a class="page-link" href="?pageIndex=${pageIndex + 1}&subject=${param.subject}&priceRange=${param.priceRange}">Next</a>
+                                <a class="page-link" href="?pageIndex=${pageIndex + 1}&subject=${param.subject}&priceRange=${param.priceRange}&sort=${param.sort}">
+                                    Next
+                                </a>
                             </li>
                         </c:if>
                     </ul>
                 </div>
 
 
-
-
-
-
-
             </div>
         </div>
         <!-- Sidebar and Main Content End -->
 
-        
-           <!-- Footer Start -->
-            <jsp:include page="templates/footer.jsp" />
+        <!-- Footer Start -->
+        <jsp:include page="templates/footer.jsp" />
         <!-- Footer End -->
-
 
         <script>
             function handleSubjectSelection(checkbox) {

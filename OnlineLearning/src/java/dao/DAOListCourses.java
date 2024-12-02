@@ -96,30 +96,42 @@ public class DAOListCourses extends DBContext {
         }
         return courses;
     }
-    public List<Course> getCoursesByEnrollmentDesc(int pageIndex) {
-        List<Course> courses = new ArrayList<>();
+  public List<Course> getCoursesByEnrollmentDesc(int pageIndex) {
+    List<Course> courses = new ArrayList<>();
 
-        int offset = (pageIndex - 1) * 6;
-        String sql = "SELECT c.* FROM Course c "
-                + "LEFT JOIN Registration r ON c.Courseid = r.Courseid "
-                + "GROUP BY c.Courseid "
-                + "ORDER BY COUNT(r.UserID) DESC "
-                + "OFFSET ? ROWS FETCH NEXT 6 ROWS ONLY";
+    // Tính toán offset
+    int offset = (pageIndex - 1) * 6;
 
-        try (PreparedStatement ps = connection.prepareStatement(sql)) {
-            ps.setInt(1, offset);
+    // Câu lệnh SQL sử dụng LEFT JOIN để lấy tất cả khóa học và sắp xếp theo số lượng học viên đăng ký
+    String sql = "SELECT c.*, COALESCE(enrollment_counts.EnrollmentCount, 0) AS EnrollmentCount "
+               + "FROM Course c "
+               + "LEFT JOIN ( "
+               + "    SELECT r.CourseID, COUNT(r.UserID) AS EnrollmentCount "
+               + "    FROM CourseRegistrater r "
+               + "    GROUP BY r.CourseID "
+               + ") AS enrollment_counts ON c.Courseid = enrollment_counts.CourseID "
+               + "ORDER BY EnrollmentCount DESC "  // Sắp xếp theo số lượng học viên đăng ký
+               + "OFFSET ? ROWS FETCH NEXT 6 ROWS ONLY";  // OFFSET với số lượng bản ghi cần bỏ qua
 
-            try (ResultSet rs = ps.executeQuery()) {
-                while (rs.next()) {
-                    Course course = mapResultSetToCourse(rs);
-                    courses.add(course);
-                }
+    try (PreparedStatement ps = connection.prepareStatement(sql)) {
+        // Thiết lập giá trị cho OFFSET
+        ps.setInt(1, offset);
+
+        // Lặp qua kết quả và thêm vào danh sách
+        try (ResultSet rs = ps.executeQuery()) {
+            while (rs.next()) {
+                Course course = mapResultSetToCourse(rs);  // Hàm này map dữ liệu từ ResultSet vào đối tượng Course
+                courses.add(course);
             }
-        } catch (SQLException e) {
-            e.printStackTrace();
         }
-        return courses;
+    } catch (SQLException e) {
+        e.printStackTrace();
     }
+    return courses;
+}
+
+
+
     public List<Course> getCoursesByLessonCountDesc(int pageIndex) {
     List<Course> courses = new ArrayList<>();
     
@@ -158,7 +170,20 @@ public class DAOListCourses extends DBContext {
 
         return new Course(courseId, name, subjectId, price, authorId, description, img, createdTime, status, tag);
     }
-    
+public int getTotalCourseCount() {
+    int totalCourses = 0;
+    String sql = "SELECT COUNT(*) FROM Course";  // Không cần ORDER BY
+
+    try (PreparedStatement ps = connection.prepareStatement(sql); ResultSet rs = ps.executeQuery()) {
+        if (rs.next()) {
+            totalCourses = rs.getInt(1);
+        }
+    } catch (SQLException e) {
+        e.printStackTrace();
+    }
+    return totalCourses;
+}
+
     
       public List<Course> getCoursesWithPagination(int pageIndex, int pageSize) {
         List<Course> courses = new ArrayList<>();
@@ -315,5 +340,54 @@ public class DAOListCourses extends DBContext {
 
         return total;
     }
+    
+    public List<Course> searchCourses(String searchQuery, int pageIndex, int pageSize) {
+    List<Course> courses = new ArrayList<>();
+    int offset = (pageIndex - 1) * pageSize;
+
+    String query = "SELECT Courseid, Name, Subjectid, Price, Authorid, Description, Img, Createdtime, Status, Tag "
+            + "FROM Course "
+            + "WHERE Name LIKE ? "
+            + "ORDER BY Createdtime DESC "
+            + "OFFSET ? ROWS FETCH NEXT ? ROWS ONLY";  // Câu lệnh phân trang và tìm kiếm
+
+    try (PreparedStatement ps = connection.prepareStatement(query)) {
+        ps.setString(1, "%" + searchQuery + "%"); // Tìm kiếm theo tên khóa học
+        ps.setInt(2, offset);
+        ps.setInt(3, pageSize);
+
+        try (ResultSet rs = ps.executeQuery()) {
+            while (rs.next()) {
+                Course course = mapResultSetToCourse(rs);
+                courses.add(course);
+            }
+        }
+    } catch (SQLException e) {
+        e.printStackTrace();
+    }
+
+    return courses;
+}
+
+public int getTotalCoursesBySearch(String searchQuery) {
+    int totalCourses = 0;
+
+    String query = "SELECT COUNT(*) FROM Course WHERE Name LIKE ?";  // Đếm số khóa học theo tên
+
+    try (PreparedStatement ps = connection.prepareStatement(query)) {
+        ps.setString(1, "%" + searchQuery + "%");  // Tìm kiếm theo tên khóa học
+
+        try (ResultSet rs = ps.executeQuery()) {
+            if (rs.next()) {
+                totalCourses = rs.getInt(1);
+            }
+        }
+    } catch (SQLException e) {
+        e.printStackTrace();
+    }
+
+    return totalCourses;
+}
+
 
 }

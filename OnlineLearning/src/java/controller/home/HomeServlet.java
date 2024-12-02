@@ -34,34 +34,21 @@ public class HomeServlet extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
-    /**
-     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
-     * methods.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-       
-        // Khởi tạo DAO
+
         DAOHome daoHome = new DAOHome();
-        // Lấy danh sách slider
+
         List<Slider> sliders = daoHome.getActiveSliders();
-        // Gửi dữ liệu đến JSP
+
         request.setAttribute("sliders", sliders);
-        
-          int limit = 5;  // Số lượng bài viết mới nhất cần lấy
-          // Lấy danh sách bài viết mới nhất
+
+        int limit = 5;
         List<LatestPost> latestPosts = daoHome.getLatestPosts(limit);
 
-        // Truyền danh sách bài viết vào request để forward đến JSP
         request.setAttribute("latestPosts", latestPosts);
-        
-        
+
         request.getRequestDispatcher("/home.jsp").forward(request, response);
-        
+
     }
 
 }

@@ -2,7 +2,6 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
-
 package controller.home;
 
 import dao.DAOHome;
@@ -20,33 +19,34 @@ import model.CountCourse;
  *
  * @author Admin
  */
-@WebServlet(name="PopularCourseServlet", urlPatterns={"/PopularCourseServlet"})
+@WebServlet(name = "PopularCourseServlet", urlPatterns = {"/PopularCourseServlet"})
 public class PopularCourseServlet extends HttpServlet {
-   
-    /** 
-     * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
+
+    /**
+     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
+     * methods.
+     *
      * @param request servlet request
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
+    @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        // Lấy số trang từ query parameter, mặc định là trang 1
+
         int pageNumber = 1;
-        String page = request.getParameter("page");  // Lấy trang từ tham số "page" trong URL
+        String page = request.getParameter("page");
         if (page != null && !page.isEmpty()) {
             try {
-                pageNumber = Integer.parseInt(page);  // Chuyển đổi trang sang kiểu int
+                pageNumber = Integer.parseInt(page);
             } catch (NumberFormatException e) {
-                pageNumber = 1;  // Nếu trang không hợp lệ, sử dụng trang mặc định
+                pageNumber = 1;
             }
         }
 
-        // Tạo đối tượng DAO để lấy danh sách khóa học với phân trang
         DAOHome DAOHome = new DAOHome();
         List<CountCourse> courses = DAOHome.getCoursesWithPagination(pageNumber);
 
-        // Truyền danh sách khóa học và số trang sang JSP
         request.setAttribute("courses", courses);
         request.setAttribute("currentPage", pageNumber);  // Truyền trang hiện tại
         request.getRequestDispatcher("/partials/popularCourses.jsp").forward(request, response);

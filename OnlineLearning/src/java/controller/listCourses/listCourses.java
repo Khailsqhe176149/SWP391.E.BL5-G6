@@ -12,45 +12,71 @@ import jakarta.servlet.http.HttpServletResponse;
 
 @WebServlet(name = "listCourses", urlPatterns = {"/listCourses"})
 public class listCourses extends HttpServlet {
- private DAOListCourses dao = new DAOListCourses();
+
+    private DAOListCourses dao = new DAOListCourses();
 
     @Override
-     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        int pageIndex = 1; 
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        int pageIndex = 1;
+
         if (request.getParameter("pageIndex") != null) {
             try {
                 pageIndex = Integer.parseInt(request.getParameter("pageIndex"));
             } catch (NumberFormatException e) {
-                pageIndex = 1;  
+                pageIndex = 1;
             }
         }
 
         int pageSize = 6;
-        
-        // Lấy tên môn học từ query string (nếu có)
+
         String subjectName = request.getParameter("subject");
-        
-        // Nếu có môn học, lấy khóa học theo môn học đó
+        String priceRange = request.getParameter("priceRange");
+
         List<Course> courses;
         int totalCourses;
+
         if (subjectName != null && !subjectName.isEmpty()) {
+
             courses = dao.getCoursesBySubject(subjectName, pageIndex, pageSize);
-            totalCourses = dao.getTotalCoursesBySubject(subjectName);  // Lấy tổng khóa học theo môn học
+            totalCourses = dao.getTotalCoursesBySubject(subjectName);
+        } else if (priceRange != null && !priceRange.isEmpty()) {
+
+            double minPrice = 0;
+            double maxPrice = Double.MAX_VALUE;
+
+            if (priceRange.equals("under100")) {
+                minPrice = 0;
+                maxPrice = 100;
+            } else if (priceRange.equals("100to500")) {
+                minPrice = 100;
+                maxPrice = 500;
+            } else if (priceRange.equals("above500")) {
+                minPrice = 500;
+                maxPrice = Double.MAX_VALUE;
+            } else if (priceRange.equals("free")) {
+                minPrice = 0;
+                maxPrice = 0;
+            } else if (priceRange.equals("paid")) {
+                minPrice = 1;
+                maxPrice = Double.MAX_VALUE;
+            }
+
+            courses = dao.getCoursesByPriceRange(minPrice, maxPrice, pageIndex, pageSize);
+            totalCourses = dao.getTotalCoursesByPriceRange(minPrice, maxPrice);
         } else {
+
             courses = dao.getCoursesWithPagination(pageIndex, pageSize);
-            totalCourses = dao.getTotalCourses();  // Tổng khóa học không phân theo môn học
+            totalCourses = dao.getTotalCourses();
         }
 
-        // Tính toán lại tổng số trang
         int totalPages = (int) Math.ceil((double) totalCourses / pageSize);
 
-        // Gửi các thông tin cần thiết đến JSP
-        request.setAttribute("courses", courses);  
-        request.setAttribute("pageIndex", pageIndex);  
-        request.setAttribute("totalPages", totalPages); 
-        
+        request.setAttribute("courses", courses);
+        request.setAttribute("pageIndex", pageIndex);
+        request.setAttribute("totalPages", totalPages);
+
         List<String> subjects = dao.getAllSubjects();
-        request.setAttribute("subjects", subjects);  
+        request.setAttribute("subjects", subjects);
 
         request.getRequestDispatcher("/listCourses.jsp").forward(request, response);
     }

@@ -46,9 +46,9 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarCollapse">
                 <div class="navbar-nav ms-auto p-4 p-lg-0">
-                    <a href="index.html" class="nav-item nav-link ">Home</a>
+                    <a href="home" class="nav-item nav-link ">Home</a>
                     <a href="about.html" class="nav-item nav-link active">About</a>
-                    <a href="courses.html" class="nav-item nav-link">Courses</a>
+                    <a href="" class="nav-item nav-link">Courses</a>
                     <div class="nav-item dropdown">
                         <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Pages</a>
                         <div class="dropdown-menu fade-down m-0">
@@ -114,7 +114,7 @@
                         </h2>
                         <div id="collapsePrice" class="accordion-collapse collapse show" aria-labelledby="headingPrice" data-bs-parent="#accordionPriceFilter">
                             <div class="accordion-body">
-                                <form action="listCourseByPrice" method="get" id="priceFilterForm">
+                                <form action="listCourses" method="get" id="priceFilterForm">
                                     <div class="form-check">
                                         <input class="form-check-input" type="radio" name="priceRange" id="free" value="free" onchange="handlePriceSelection(this);" />
                                         <label class="form-check-label" for="free">Free (Miễn phí)</label>
@@ -178,7 +178,7 @@
                                 <div class="form-check">
                                     <input class="form-check-input" type="radio" name="sort" id="oldest" value="oldest" onclick="this.form.submit();" />
                                     <label class="form-check-label" for="oldest">
-                                       sắp xếp theo thời gian tạo ra từ cũ đến mới
+                                        sắp xếp theo thời gian tạo ra từ cũ đến mới
                                     </label>
                                 </div>
 
@@ -238,32 +238,39 @@
                         </div>
                     </c:forEach>
                 </div>
-
                 <!-- Phân trang -->
                 <div class="d-flex justify-content-center mt-4">
                     <ul class="pagination">
-                        <!-- Previous page -->
+                        <!-- Hiển thị trang trước -->
                         <c:if test="${pageIndex > 1}">
                             <li class="page-item">
-                                <a class="page-link" href="?pageIndex=${pageIndex - 1}&subject=${param.subject}&priceRange=${param.priceRange}">Previous</a>
+                                <a class="page-link" href="?pageIndex=${pageIndex - 1}&subject=${param.subject}&priceRange=${param.priceRange}&sort=${param.sort}">
+                                    Previous
+                                </a>
                             </li>
                         </c:if>
 
-                        <!-- Hiển thị các trang -->
-                        <c:forEach var="i" begin="1" end="${totalPages}" step="1">
-                            <li class="page-item <c:if test='${i == pageIndex}'>active</c:if>">
-                                <a class="page-link" href="?pageIndex=${i}&subject=${param.subject}&priceRange=${param.priceRange}">${i}</a>
+                        <!-- Các trang -->
+                        <c:forEach var="i" begin="1" end="${totalPages}">
+                            <li class="page-item ${i == pageIndex ? 'active' : ''}">
+                                <a class="page-link" href="?pageIndex=${i}&subject=${param.subject}&priceRange=${param.priceRange}&sort=${param.sort}">
+                                    ${i}
+                                </a>
                             </li>
                         </c:forEach>
 
-                        <!-- Next page -->
+                        <!-- Hiển thị trang tiếp theo -->
                         <c:if test="${pageIndex < totalPages}">
                             <li class="page-item">
-                                <a class="page-link" href="?pageIndex=${pageIndex + 1}&subject=${param.subject}&priceRange=${param.priceRange}">Next</a>
+                                <a class="page-link" href="?pageIndex=${pageIndex + 1}&subject=${param.subject}&priceRange=${param.priceRange}&sort=${param.sort}">
+                                    Next
+                                </a>
                             </li>
                         </c:if>
                     </ul>
                 </div>
+
+
 
 
 
