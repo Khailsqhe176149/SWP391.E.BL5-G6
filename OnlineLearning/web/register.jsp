@@ -26,7 +26,7 @@
         <div class="row justify-content-center">
           <div class="col-md-6 col-lg-4">
             <div class="login-wrap p-0">
-              <h3 style="font-size: 24px" class="mb-4 text-center">Don't have an account?
+              <h3 style="font-size: 24px" class="mb-4 text-center">Have an account?
                 <a href="Login" style="color: #fbceb5; margin-left: 10px; font-size: 15px; text-decoration: underline;">Login here!</a>
               </h3>
               <form action="Register" method="post" class="signin-form" onsubmit="return validatePassword();">
