@@ -57,13 +57,13 @@ public class RegisterServlet extends HttpServlet {
         }
         if (email != null && !email.contains("@")) {
             
-            request.setAttribute("emailError","Email must contain '@'.");
+            request.setAttribute("emailError","Email phải có '@'.");
         }
 
       
         if (phone != null && !phone.matches("^0\\d{9}$")) {
             
-            request.setAttribute("phoneError","Phone number must have 10 digits and start with 0.");
+            request.setAttribute("phoneError","Số điện thoại phải có 10 số và bắt đầu bằng số 0.");
         }
         
         
