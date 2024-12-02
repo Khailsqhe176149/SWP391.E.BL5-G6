@@ -18,33 +18,29 @@ import model.Course;
  */
 public class DAOListCourses extends DBContext {
 
-    // Constructor kế thừa từ DBContext
     public DAOListCourses() {
-        super(); // Gọi constructor của lớp DBContext để khởi tạo kết nối
+        super();
     }
 
     public List<Course> getCoursesByNameASC(int pageIndex) {
         List<Course> courses = new ArrayList<>();
 
-        // Tính toán OFFSET (bỏ qua các bản ghi của các trang trước)
         int offset = (pageIndex - 1) * 6;
 
-        // Câu lệnh SQL để lấy khóa học sắp xếp theo tên (ASC) với phân trang
         String sql = "SELECT * FROM Course "
                 + "ORDER BY Name ASC "
                 + "OFFSET ? ROWS FETCH NEXT 6 ROWS ONLY";
 
         try (PreparedStatement ps = connection.prepareStatement(sql)) {
-            // Thiết lập giá trị cho OFFSET
+
             ps.setInt(1, offset);
 
-            // Lặp qua kết quả và thêm vào danh sách
-              try (ResultSet rs = ps.executeQuery()) {
-            while (rs.next()) {
-                Course course = mapResultSetToCourse(rs);
-                courses.add(course);
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    Course course = mapResultSetToCourse(rs);
+                    courses.add(course);
+                }
             }
-        }
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -52,6 +48,7 @@ public class DAOListCourses extends DBContext {
         return courses;
 
     }
+
     public List<Course> getCoursesByCreatedTimeAsc(int pageIndex) {
         List<Course> courses = new ArrayList<>();
 
@@ -74,6 +71,7 @@ public class DAOListCourses extends DBContext {
         }
         return courses;
     }
+
     public List<Course> getCoursesByCreatedTimeDesc(int pageIndex) {
         List<Course> courses = new ArrayList<>();
 
@@ -96,66 +94,63 @@ public class DAOListCourses extends DBContext {
         }
         return courses;
     }
-  public List<Course> getCoursesByEnrollmentDesc(int pageIndex) {
-    List<Course> courses = new ArrayList<>();
 
-    // Tính toán offset
-    int offset = (pageIndex - 1) * 6;
+    public List<Course> getCoursesByEnrollmentDesc(int pageIndex) {
+        List<Course> courses = new ArrayList<>();
 
-    // Câu lệnh SQL sử dụng LEFT JOIN để lấy tất cả khóa học và sắp xếp theo số lượng học viên đăng ký
-    String sql = "SELECT c.*, COALESCE(enrollment_counts.EnrollmentCount, 0) AS EnrollmentCount "
-               + "FROM Course c "
-               + "LEFT JOIN ( "
-               + "    SELECT r.CourseID, COUNT(r.UserID) AS EnrollmentCount "
-               + "    FROM CourseRegistrater r "
-               + "    GROUP BY r.CourseID "
-               + ") AS enrollment_counts ON c.Courseid = enrollment_counts.CourseID "
-               + "ORDER BY EnrollmentCount DESC "  // Sắp xếp theo số lượng học viên đăng ký
-               + "OFFSET ? ROWS FETCH NEXT 6 ROWS ONLY";  // OFFSET với số lượng bản ghi cần bỏ qua
+        int offset = (pageIndex - 1) * 6;
 
-    try (PreparedStatement ps = connection.prepareStatement(sql)) {
-        // Thiết lập giá trị cho OFFSET
-        ps.setInt(1, offset);
+        String sql = "SELECT c.*, COALESCE(enrollment_counts.EnrollmentCount, 0) AS EnrollmentCount "
+                + "FROM Course c "
+                + "LEFT JOIN ( "
+                + "    SELECT r.CourseID, COUNT(r.UserID) AS EnrollmentCount "
+                + "    FROM CourseRegistrater r "
+                + "    GROUP BY r.CourseID "
+                + ") AS enrollment_counts ON c.Courseid = enrollment_counts.CourseID "
+                + "ORDER BY EnrollmentCount DESC " // Sắp xếp theo số lượng học viên đăng ký
+                + "OFFSET ? ROWS FETCH NEXT 6 ROWS ONLY";  // OFFSET với số lượng bản ghi cần bỏ qua
 
-        // Lặp qua kết quả và thêm vào danh sách
-        try (ResultSet rs = ps.executeQuery()) {
-            while (rs.next()) {
-                Course course = mapResultSetToCourse(rs);  // Hàm này map dữ liệu từ ResultSet vào đối tượng Course
-                courses.add(course);
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+
+            ps.setInt(1, offset);
+
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    Course course = mapResultSetToCourse(rs);
+                    courses.add(course);
+                }
             }
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
-    } catch (SQLException e) {
-        e.printStackTrace();
+        return courses;
     }
-    return courses;
-}
-
-
 
     public List<Course> getCoursesByLessonCountDesc(int pageIndex) {
-    List<Course> courses = new ArrayList<>();
-    
-    int offset = (pageIndex - 1) * 6;
-    String sql = "SELECT c.* FROM Course c "
-               + "LEFT JOIN Lesson l ON c.Courseid = l.Courseid "
-               + "GROUP BY c.Courseid "
-               + "ORDER BY COUNT(l.Lessonid) DESC "
-               + "OFFSET ? ROWS FETCH NEXT 6 ROWS ONLY";
-    
-    try (PreparedStatement ps = connection.prepareStatement(sql)) {
-        ps.setInt(1, offset);
-        
-        try (ResultSet rs = ps.executeQuery()) {
-            while (rs.next()) {
-                Course course = mapResultSetToCourse(rs);
-                courses.add(course);
+        List<Course> courses = new ArrayList<>();
+
+        int offset = (pageIndex - 1) * 6;
+        String sql = "SELECT c.* FROM Course c "
+                + "LEFT JOIN Lesson l ON c.Courseid = l.Courseid "
+                + "GROUP BY c.Courseid "
+                + "ORDER BY COUNT(l.Lessonid) DESC "
+                + "OFFSET ? ROWS FETCH NEXT 6 ROWS ONLY";
+
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+            ps.setInt(1, offset);
+
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    Course course = mapResultSetToCourse(rs);
+                    courses.add(course);
+                }
             }
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
-    } catch (SQLException e) {
-        e.printStackTrace();
+        return courses;
     }
-    return courses;
-}
+
     private Course mapResultSetToCourse(ResultSet rs) throws SQLException {
         int courseId = rs.getInt("Courseid");
         String name = rs.getString("Name");
@@ -170,43 +165,41 @@ public class DAOListCourses extends DBContext {
 
         return new Course(courseId, name, subjectId, price, authorId, description, img, createdTime, status, tag);
     }
-public int getTotalCourseCount() {
-    int totalCourses = 0;
-    String sql = "SELECT COUNT(*) FROM Course";  // Không cần ORDER BY
 
-    try (PreparedStatement ps = connection.prepareStatement(sql); ResultSet rs = ps.executeQuery()) {
-        if (rs.next()) {
-            totalCourses = rs.getInt(1);
+    public int getTotalCourseCount() {
+        int totalCourses = 0;
+        String sql = "SELECT COUNT(*) FROM Course";  // Không cần ORDER BY
+
+        try (PreparedStatement ps = connection.prepareStatement(sql); ResultSet rs = ps.executeQuery()) {
+            if (rs.next()) {
+                totalCourses = rs.getInt(1);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
-    } catch (SQLException e) {
-        e.printStackTrace();
+        return totalCourses;
     }
-    return totalCourses;
-}
 
-    
-      public List<Course> getCoursesWithPagination(int pageIndex, int pageSize) {
+    public List<Course> getCoursesWithPagination(int pageIndex, int pageSize) {
         List<Course> courses = new ArrayList<>();
 
-        // Tính toán offset và limit cho phân trang
         int offset = (pageIndex - 1) * pageSize;
 
         String query = "SELECT Courseid, Name, Subjectid, Price, Authorid, Description, Img, Createdtime, Status, Tag "
                 + "FROM Course "
                 + "ORDER BY Createdtime DESC "
-                + // Có thể sắp xếp theo bất kỳ trường nào
-                "OFFSET ? ROWS FETCH NEXT ? ROWS ONLY";  // Câu lệnh SQL phân trang cho SQL Server
+                + "OFFSET ? ROWS FETCH NEXT ? ROWS ONLY";
 
         try (PreparedStatement ps = connection.prepareStatement(query)) {
             ps.setInt(1, offset);
             ps.setInt(2, pageSize);
 
-             try (ResultSet rs = ps.executeQuery()) {
-            while (rs.next()) {
-                Course course = mapResultSetToCourse(rs);
-                courses.add(course);
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    Course course = mapResultSetToCourse(rs);
+                    courses.add(course);
+                }
             }
-        }
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -216,12 +209,12 @@ public int getTotalCourseCount() {
 
     public int getTotalCourses() {
         int totalCourses = 0;
-        String query = "SELECT COUNT(*) FROM Course";  // Truy vấn đếm tổng số khóa học
+        String query = "SELECT COUNT(*) FROM Course";
 
         try (PreparedStatement ps = connection.prepareStatement(query); ResultSet rs = ps.executeQuery()) {
 
             if (rs.next()) {
-                totalCourses = rs.getInt(1);  // Lấy kết quả từ câu lệnh COUNT
+                totalCourses = rs.getInt(1);
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -232,7 +225,7 @@ public int getTotalCourseCount() {
 
     public List<String> getAllSubjects() {
         List<String> subjects = new ArrayList<>();
-        String query = "SELECT Name FROM Subjects WHERE Status = 1";  // Lọc những môn học có trạng thái active
+        String query = "SELECT Name FROM Subjects WHERE Status = 1";
 
         try (PreparedStatement stmt = connection.prepareStatement(query); ResultSet rs = stmt.executeQuery()) {
 
@@ -259,12 +252,12 @@ public int getTotalCourseCount() {
             ps.setInt(2, offset);
             ps.setInt(3, pageSize);
 
-             try (ResultSet rs = ps.executeQuery()) {
-            while (rs.next()) {
-                Course course = mapResultSetToCourse(rs);
-                courses.add(course);
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    Course course = mapResultSetToCourse(rs);
+                    courses.add(course);
+                }
             }
-        }
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -296,7 +289,6 @@ public int getTotalCourseCount() {
         List<Course> courses = new ArrayList<>();
         int offset = (pageIndex - 1) * pageSize;
 
-        // Câu lệnh SQL lọc theo phạm vi giá
         String query = "SELECT Courseid, Name, Subjectid, Price, Authorid, Description, Img, Createdtime, Status, Tag "
                 + "FROM Course WHERE Price BETWEEN ? AND ? "
                 + "ORDER BY Createdtime DESC "
@@ -308,12 +300,12 @@ public int getTotalCourseCount() {
             ps.setInt(3, offset);
             ps.setInt(4, pageSize);
 
-             try (ResultSet rs = ps.executeQuery()) {
-            while (rs.next()) {
-                Course course = mapResultSetToCourse(rs);
-                courses.add(course);
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    Course course = mapResultSetToCourse(rs);
+                    courses.add(course);
+                }
             }
-        }
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -340,54 +332,53 @@ public int getTotalCourseCount() {
 
         return total;
     }
-    
+
     public List<Course> searchCourses(String searchQuery, int pageIndex, int pageSize) {
-    List<Course> courses = new ArrayList<>();
-    int offset = (pageIndex - 1) * pageSize;
+        List<Course> courses = new ArrayList<>();
+        int offset = (pageIndex - 1) * pageSize;
 
-    String query = "SELECT Courseid, Name, Subjectid, Price, Authorid, Description, Img, Createdtime, Status, Tag "
-            + "FROM Course "
-            + "WHERE Name LIKE ? "
-            + "ORDER BY Createdtime DESC "
-            + "OFFSET ? ROWS FETCH NEXT ? ROWS ONLY";  // Câu lệnh phân trang và tìm kiếm
+        String query = "SELECT Courseid, Name, Subjectid, Price, Authorid, Description, Img, Createdtime, Status, Tag "
+                + "FROM Course "
+                + "WHERE Name LIKE ? "
+                + "ORDER BY Createdtime DESC "
+                + "OFFSET ? ROWS FETCH NEXT ? ROWS ONLY";
 
-    try (PreparedStatement ps = connection.prepareStatement(query)) {
-        ps.setString(1, "%" + searchQuery + "%"); // Tìm kiếm theo tên khóa học
-        ps.setInt(2, offset);
-        ps.setInt(3, pageSize);
+        try (PreparedStatement ps = connection.prepareStatement(query)) {
+            ps.setString(1, "%" + searchQuery + "%");
+            ps.setInt(2, offset);
+            ps.setInt(3, pageSize);
 
-        try (ResultSet rs = ps.executeQuery()) {
-            while (rs.next()) {
-                Course course = mapResultSetToCourse(rs);
-                courses.add(course);
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    Course course = mapResultSetToCourse(rs);
+                    courses.add(course);
+                }
             }
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
-    } catch (SQLException e) {
-        e.printStackTrace();
+
+        return courses;
     }
 
-    return courses;
-}
+    public int getTotalCoursesBySearch(String searchQuery) {
+        int totalCourses = 0;
 
-public int getTotalCoursesBySearch(String searchQuery) {
-    int totalCourses = 0;
+        String query = "SELECT COUNT(*) FROM Course WHERE Name LIKE ?";
 
-    String query = "SELECT COUNT(*) FROM Course WHERE Name LIKE ?";  // Đếm số khóa học theo tên
+        try (PreparedStatement ps = connection.prepareStatement(query)) {
+            ps.setString(1, "%" + searchQuery + "%");
 
-    try (PreparedStatement ps = connection.prepareStatement(query)) {
-        ps.setString(1, "%" + searchQuery + "%");  // Tìm kiếm theo tên khóa học
-
-        try (ResultSet rs = ps.executeQuery()) {
-            if (rs.next()) {
-                totalCourses = rs.getInt(1);
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    totalCourses = rs.getInt(1);
+                }
             }
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
-    } catch (SQLException e) {
-        e.printStackTrace();
+
+        return totalCourses;
     }
-
-    return totalCourses;
-}
-
 
 }

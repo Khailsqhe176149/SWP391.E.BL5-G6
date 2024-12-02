@@ -17,7 +17,7 @@
 
     <head>
         <meta charset="utf-8">
-        <title>eLEARNING - eLearning HTML Template</title>
+        <title>Home</title>
         <meta content="width=device-width, initial-scale=1.0" name="viewport">
         <meta content="" name="keywords">
         <meta content="" name="description">
@@ -185,33 +185,33 @@
 
         <!-- Load Popular Courses -->
         <script>
-            // Hàm để load courses từ courses.jsp bằng AJAX
+           
             function loadCourses(page) {
                 $.ajax({
-                    url: 'PopularCourseServlet', // Gọi đến servlet /courses
+                    url: 'PopularCourseServlet', 
                     type: 'GET',
-                    data: {page: page}, // Truyền thông tin phân trang
+                    data: {page: page}, 
                     success: function (data) {
-                        console.log('AJAX success:', data); // Debug: kiểm tra nội dung trả về
-                        $('#courses-container').html(data); // Đưa nội dung vào #courses-container
+                        console.log('AJAX success:', data); 
+                        $('#courses-container').html(data); 
                     },
                     error: function (xhr, status, error) {
-                        console.error('Error loading courses:', status, error); // Debug lỗi
-                        console.error(xhr.responseText); // In nội dung lỗi
+                        console.error('Error loading courses:', status, error); 
+                        console.error(xhr.responseText); 
                     }
                 });
             }
 
-            // Khi trang home.jsp được tải xong, load phần courses lần đầu tiên (trang đầu tiên)
+           
             $(document).ready(function () {
-                loadCourses(1); // Tải trang đầu tiên
+                loadCourses(1); 
             });
 
-            // Sự kiện click cho nút phân trang
+            
             $(document).on('click', '.pagination-button', function (e) {
-                e.preventDefault(); // Ngăn chặn hành vi mặc định của liên kết (tải lại trang)
-                var page = $(this).data('page'); // Lấy số trang từ data-page của nút
-                loadCourses(page); // Gọi hàm loadCourses với trang tương ứng
+                e.preventDefault();
+                var page = $(this).data('page'); 
+                loadCourses(page); 
             });
         </script>
 

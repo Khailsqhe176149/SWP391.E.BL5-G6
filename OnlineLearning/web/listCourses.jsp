@@ -4,7 +4,7 @@
 <html lang="en">
     <head>
         <meta charset="utf-8">
-        <title>eLEARNING - eLearning HTML Template</title>
+        <title>List Courses</title>
         <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
         <!-- Favicon -->
@@ -48,7 +48,7 @@
                 <div class="navbar-nav ms-auto p-4 p-lg-0">
                     <a href="home" class="nav-item nav-link ">Home</a>
                     <a href="about.html" class="nav-item nav-link ">About</a>
-                    <a href="listCourses" class="nav-item nav-link active">Courses</a>
+                    <a href="listCourses" class="nav-item nav-link ">Courses</a>
                     <div class="nav-item dropdown">
                         <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Pages</a>
                         <div class="dropdown-menu fade-down m-0">
@@ -109,7 +109,7 @@
                     <div class="accordion-item">
                         <h2 class="accordion-header" id="headingPrice">
                             <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapsePrice" aria-expanded="true" aria-controls="collapsePrice">
-                                Price Filter
+                                Price 
                             </button>
                         </h2>
                         <div id="collapsePrice" class="accordion-collapse collapse show" aria-labelledby="headingPrice" data-bs-parent="#accordionPriceFilter">
@@ -171,28 +171,28 @@
                                 <div class="form-check">
                                     <input class="form-check-input" type="radio" name="sort" id="latest" value="latest" onclick="this.form.submit();" />
                                     <label class="form-check-label" for="latest">
-                                        sắp xếp theo thời gian tạo ra từ mới đến cũ
+                                       Newest 
                                     </label>
                                 </div>
 
                                 <div class="form-check">
                                     <input class="form-check-input" type="radio" name="sort" id="oldest" value="oldest" onclick="this.form.submit();" />
                                     <label class="form-check-label" for="oldest">
-                                        sắp xếp theo thời gian tạo ra từ cũ đến mới
+                                        Oldest 
                                     </label>
                                 </div>
 
                                 <div class="form-check">
                                     <input class="form-check-input" type="radio" name="sort" id="mostRegistrations" value="mostRegistrations" onclick="this.form.submit();" />
                                     <label class="form-check-label" for="mostRegistrations">
-                                        sắp xếp số người đăng ký giảm dần
+                                       Highest registrations
                                     </label>
                                 </div>
 
                                 <div class="form-check">
                                     <input class="form-check-input" type="radio" name="sort" id="mostLessons" value="mostLessons" onclick="this.form.submit();" />
                                     <label class="form-check-label" for="mostLessons">
-                                        sắp xếp số lesson giảm dần
+                                        Highest lessons
                                     </label>
                                 </div>
                             </form>
@@ -235,11 +235,11 @@
                                         <h5 class="card-title"><c:out value="${course.name}" /></h5>
                                         <p class="card-text"><c:out value="${course.description}" /></p>
                                         <!-- Giá khóa học -->
-                                        <p class="card-price text-success me-3 mb-0"><strong><c:out value="${course.price}" /></strong></p>
+                                        <p class="card-price text-success me-3 mb-0"><strong>$<c:out value="${course.price}" /></strong></p>
                                     </div>
                                     <div class="d-flex align-items-center">
                                         <!-- Nút View Course -->
-                                        <a href="courseDetail?courseId=<c:out value='${course.courseId}' />" class="btn btn-primary">View Course</a>
+                                        <a href="CourseDetailServlet?courseId=<c:out value='${course.courseId}' />" class="btn btn-primary">View Course</a>
                                     </div>
                                 </div>
                             </div>
