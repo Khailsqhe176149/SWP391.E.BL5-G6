@@ -49,7 +49,7 @@ public class CourseDetailServlet extends HttpServlet {
         request.setAttribute("lessons", lessons);
         request.setAttribute("quizzes", quizzes);
 
-        request.getRequestDispatcher("/test.jsp").forward(request, response);
+        request.getRequestDispatcher("/course-detail.jsp").forward(request, response);
     }
 }
 
