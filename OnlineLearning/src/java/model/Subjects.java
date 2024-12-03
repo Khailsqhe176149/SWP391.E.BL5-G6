@@ -13,7 +13,7 @@ public class Subjects {
     private int subjectid;
     private String Name;
     private int Status;
-
+    private int courseCount;
     public Subjects() {
     }
 
@@ -45,6 +45,19 @@ public class Subjects {
 
     public void setStatus(int Status) {
         this.Status = Status;
+    }
+
+    public int getCourseCount() {
+        return courseCount;
+    }
+
+    public void setCourseCount(int courseCount) {
+        this.courseCount = courseCount;
+    }
+
+    @Override
+    public String toString() {
+        return "Subjects{" + "subjectid=" + subjectid + ", Name=" + Name + ", Status=" + Status + ", courseCount=" + courseCount + '}';
     }
     
 
