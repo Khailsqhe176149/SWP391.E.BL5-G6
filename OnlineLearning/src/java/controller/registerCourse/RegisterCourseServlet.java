@@ -28,7 +28,7 @@ public class RegisterCourseServlet extends HttpServlet {
 
     private DAORegisterCourse dao = new DAORegisterCourse();
 
-        protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String courseIdStr = request.getParameter("courseId");
         int courseId = Integer.parseInt(courseIdStr);
 
@@ -53,47 +53,47 @@ public class RegisterCourseServlet extends HttpServlet {
         request.setAttribute("course", course);
         request.getRequestDispatcher("/test.jsp").forward(request, response);
     }
+
     @Override
-protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-    // Lấy session của người dùng
-    HttpSession session = request.getSession(false); // false: nếu không có session thì trả về null
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        // Lấy session của người dùng
+        HttpSession session = request.getSession(false); // false: nếu không có session thì trả về null
 
-    // Kiểm tra nếu session tồn tại và chứa userID
-    if (session != null && session.getAttribute("userID") != null) {
-        // Lấy userID từ session
-        Integer userId = (Integer) session.getAttribute("userID");
+        // Kiểm tra nếu session tồn tại và chứa userID
+        if (session != null && session.getAttribute("userID") != null) {
+            // Lấy userID từ session
+            Integer userId = (Integer) session.getAttribute("userID");
 
-        // Lấy courseId từ tham số request
-        String courseIdStr = request.getParameter("courseId"); // Lấy tham số courseId từ form
-        if (courseIdStr == null || courseIdStr.isEmpty()) {
-            // Nếu không có courseId, trả về lỗi hoặc redirect
-            response.sendRedirect("errorPage.jsp"); // Chuyển hướng tới trang lỗi
-            return;
-        }
+            // Lấy courseId từ tham số request
+            String courseIdStr = request.getParameter("courseId"); // Lấy tham số courseId từ form
+            if (courseIdStr == null || courseIdStr.isEmpty()) {
+                // Nếu không có courseId, trả về lỗi hoặc redirect
+                response.sendRedirect("errorPage.jsp"); // Chuyển hướng tới trang lỗi
+                return;
+            }
 
-        int courseId = Integer.parseInt(courseIdStr); // Chuyển tham số thành int
+            int courseId = Integer.parseInt(courseIdStr); // Chuyển tham số thành int
 
-        // Trạng thái đăng ký khóa học (1 = Đã đăng ký)
-        int status = 1;
+            // Trạng thái đăng ký khóa học (1 = Đã đăng ký)
+            int status = 1;
 
-        // Lấy thời gian hiện tại để đăng ký
-        Date registrationDate = new Date(System.currentTimeMillis());
+            // Lấy thời gian hiện tại để đăng ký
+            Date registrationDate = new Date(System.currentTimeMillis());
 
-        // Đăng ký khóa học
-        boolean success = dao.registerCourse(courseId, userId, status, registrationDate);
+            // Đăng ký khóa học
+            boolean success = dao.registerCourse(courseId, userId, status, registrationDate);
 
-        if (success) {
-            // Chuyển hướng tới trang thông báo thành công
-            response.sendRedirect("courseRegistrationSuccess.jsp");
+            if (success) {
+                // Chuyển hướng tới trang thông báo thành công
+                response.sendRedirect("courseRegistrationSuccess.jsp");
+            } else {
+                // Nếu đăng ký thất bại, chuyển hướng tới trang thông báo thất bại
+                response.sendRedirect("courseRegistrationFailure.jsp");
+            }
         } else {
-            // Nếu đăng ký thất bại, chuyển hướng tới trang thông báo thất bại
-            response.sendRedirect("courseRegistrationFailure.jsp");
+            // Nếu không có userID trong session, chuyển hướng đến trang login
+            response.sendRedirect("login.jsp");
         }
-    } else {
-        // Nếu không có userID trong session, chuyển hướng đến trang login
-        response.sendRedirect("login.jsp");
     }
-}
-
 
 }
