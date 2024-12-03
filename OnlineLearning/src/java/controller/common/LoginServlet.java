@@ -42,10 +42,12 @@ public class LoginServlet extends HttpServlet {
         Account account = dao.checkLogin(email, password);
         String username = dao.getNameByEmail(email);
         if (account != null) {
- 
+            
             HttpSession session = request.getSession();
             session.setAttribute("userID", account.getUserID());
             session.setAttribute("username",username);
+            session.setAttribute("acc",account);
+            System.out.println(account.getRole_id());
             response.sendRedirect("home"); // Chuyển hướng tới LessonServlet
         } else {
    
