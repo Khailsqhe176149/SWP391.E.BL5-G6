@@ -57,7 +57,23 @@ public class DAOCoursesDetail extends DBContext {
 
         return new Course(courseId, name, subjectId, price, authorId, description, img, createdTime, status, tag);
     }
-    
+    public boolean isCourseRegistered(int userId, int courseId) {
+    String query = "SELECT COUNT(*) FROM CourseRegistrater WHERE UserID = ? AND CourseID = ? AND Status = 1"; // Trạng thái 1 là đã đăng ký
+    try (PreparedStatement ps = connection.prepareStatement(query)) {
+        ps.setInt(1, userId);
+        ps.setInt(2, courseId);
+        try (ResultSet rs = ps.executeQuery()) {
+            if (rs.next()) {
+                int count = rs.getInt(1);
+                return count > 0; // Nếu có ít nhất 1 bản ghi, nghĩa là người dùng đã đăng ký khóa học
+            }
+        }
+    } catch (SQLException e) {
+        e.printStackTrace();
+    }
+    return false; // Nếu không có bản ghi, nghĩa là người dùng chưa đăng ký
+}
+
     
     
           // Phương thức lấy tất cả bài học của một khóa học

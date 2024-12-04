@@ -40,100 +40,110 @@
         <!-- Navbar Start  -->
         <jsp:include page="templates/navbar.jsp" />
         <!-- Navbar End  -->
-<div class="container mt-5">
-    <h2>Course Detail</h2>
+        <div class="container mt-5">
+            <h2>Course Detail</h2>
 
-    <div class="row">
-        <!-- Hiển thị hình ảnh khóa học -->
-        <div class="col-md-6">
-            <img src="<c:out value='img/${course.img}' />" class="img-fluid" alt="${course.name}">
+            <div class="row">
+                <!-- Hiển thị hình ảnh khóa học -->
+                <div class="col-md-6">
+                    <img src="<c:out value="img/${course.img}" />" class="img-fluid" alt="${course.name}">
+                </div>
+
+                <!-- Hiển thị thông tin khóa học -->
+                <div class="col-md-6">
+                    <h3><c:out value="${course.name}" /></h3>
+
+                    <p><strong>Created on:</strong> <c:out value="${course.createdTime}" /></p>
+                    <p><strong>Status:</strong> <c:out value="${course.status}" /></p>
+                    <p><strong>Price:</strong> <span class="text-success"><c:out value="${course.price}" /></span></p>
+                    <p><strong>Description:</strong> <c:out value="${course.description}" /></p>
+                    <p><strong>Tag:</strong> <c:out value="${course.tag}" /></p>
+
+                    <div class="d-flex justify-content-between">
+                        <!-- Kiểm tra người dùng đã đăng ký khóa học hay chưa -->
+                        <c:choose>
+                            <c:when test="${!isRegistered}">
+                                <!-- Nếu người dùng chưa đăng ký, hiển thị nút Buy Now -->
+                                <form action="CheckOut" method="GET">
+                                    <input type="hidden" name="courseId" value="${course.courseId}" />
+                                    <button type="submit" class="btn btn-primary">Buy Now</button>
+                                </form>
+                            </c:when>
+                            <c:otherwise>
+                                <!-- Nếu người dùng đã đăng ký, hiển thị nút Learn Now -->
+                                <form action="#" method="POST">
+                                    <input type="hidden" name="courseId" value="${course.courseId}" />
+                                    <button type="submit" class="btn btn-primary">Learn Now</button>
+                                </form>
+                            </c:otherwise>
+                        </c:choose>
+
+                        <!-- Nút quay lại -->
+                        <a href="listCourses" class="btn btn-secondary">Back to Courses</a>
+                    </div>
+
+                </div>
+            </div>
         </div>
 
-        <!-- Hiển thị thông tin khóa học -->
-        <div class="col-md-6">
-            <h3><c:out value="${course.name}" /></h3>
 
-            <p><strong>Created on:</strong> <c:out value="${course.createdTime}" /></p>
-            <p><strong>Status:</strong> <c:out value="${course.status}" /></p>
-            <p><strong>Price:</strong> <span class="text-success"><c:out value="${course.price}" /></span></p>
-            <p><strong>Description:</strong> <c:out value="${course.description}" /></p>
-            <p><strong>Tag:</strong> <c:out value="${course.tag}" /></p>
+        <div class="container-xxl py-5 wow fadeInUp" data-wow-delay="0.1s">
+            <div class="container">    
+                <h2>Lesson</h2>
+                <div class="owl-carousel testimonial-carousel position-relative">
+                    <!-- Loop through the posts and display them in carousel items -->
+                    <c:forEach var="lesson" items="${lessons}">
+                        <div class="testimonial-item text-center">
 
-            <div class="d-flex justify-content-between">
-                <!-- Form để gửi courseId khi người dùng click vào Enroll Now -->
-                <form action="RegisterCourseServlet" method="GET">
-                    <!-- Thêm hidden input để lưu courseId -->
-                    <input type="hidden" name="courseId" value="${course.courseId}" />
+                            <!-- Post Title -->
+                            <h5 class="mb-0">${lesson.name}</h5>
+                            <p>not yet</p>
+                            <div class="testimonial-text bg-light text-center p-4">
+                                <!-- Post Content -->
+                                <p class="mb-0">${lesson.description}</p>
+                            </div>
+                        </div>
+                    </c:forEach>
+                </div>
+            </div>
+        </div>  
 
-                    <!-- Nút đăng ký khóa học -->
-                    <button type="submit" class="btn btn-primary">Enroll Now</button>
-                </form>
 
-                <!-- Nút quay lại -->
-                <a href="listCourses" class="btn btn-secondary">Back to Courses</a>
+        <div class="container-xxl py-5 wow fadeInUp" data-wow-delay="0.1s">
+            <div class="container">    
+                <h2>Exam</h2>
+                <div class="owl-carousel testimonial-carousel position-relative">
+                    <!-- Loop through the posts and display them in carousel items -->
+                    <c:forEach var="quiz" items="${quizzes}">
+                        <div class="testimonial-item text-center">
+
+                            <!-- Post Title -->
+                            <h5 class="mb-0">${quiz.name}</h5>
+
+                            <p>not yet</p> 
+                            <div class="testimonial-text bg-light text-center p-4">
+                                <!-- Post Content -->
+                                <p class="mb-0">${quiz.description}</p>
+                            </div>
+                        </div>
+                    </c:forEach>
+                </div>
             </div>
         </div>
     </div>
-</div>
+    <!-- Footer Start -->
+    <jsp:include page="templates/footer.jsp" />
+    <!-- Footer End -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- JavaScript Libraries -->
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="lib/wow/wow.min.js"></script>
+    <script src="lib/easing/easing.min.js"></script>
+    <script src="lib/waypoints/waypoints.min.js"></script>
+    <script src="lib/owlcarousel/owl.carousel.min.js"></script>
 
-
-            <div class="container-xxl py-5 wow fadeInUp" data-wow-delay="0.1s">
-                <div class="container">    
-                    <h2>Lesson</h2>
-                    <div class="owl-carousel testimonial-carousel position-relative">
-                        <!-- Loop through the posts and display them in carousel items -->
-                        <c:forEach var="lesson" items="${lessons}">
-                            <div class="testimonial-item text-center">
-
-                                <!-- Post Title -->
-                                <h5 class="mb-0">${lesson.name}</h5>
-                                <p>not yet</p>
-                                <div class="testimonial-text bg-light text-center p-4">
-                                    <!-- Post Content -->
-                                    <p class="mb-0">${lesson.description}</p>
-                                </div>
-                            </div>
-                        </c:forEach>
-                    </div>
-                </div>
-            </div>  
-
-
-            <div class="container-xxl py-5 wow fadeInUp" data-wow-delay="0.1s">
-                <div class="container">    
-                    <h2>Exam</h2>
-                    <div class="owl-carousel testimonial-carousel position-relative">
-                        <!-- Loop through the posts and display them in carousel items -->
-                        <c:forEach var="quiz" items="${quizzes}">
-                            <div class="testimonial-item text-center">
-
-                                <!-- Post Title -->
-                                <h5 class="mb-0">${quiz.name}</h5>
-
-                                <p>not yet</p> 
-                                <div class="testimonial-text bg-light text-center p-4">
-                                    <!-- Post Content -->
-                                    <p class="mb-0">${quiz.description}</p>
-                                </div>
-                            </div>
-                        </c:forEach>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <!-- Footer Start -->
-        <jsp:include page="templates/footer.jsp" />
-        <!-- Footer End -->
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
-        <!-- JavaScript Libraries -->
-        <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
-        <script src="lib/wow/wow.min.js"></script>
-        <script src="lib/easing/easing.min.js"></script>
-        <script src="lib/waypoints/waypoints.min.js"></script>
-        <script src="lib/owlcarousel/owl.carousel.min.js"></script>
-
-        <!-- Template Javascript -->
-        <script src="js/main.js"></script>
-    </body>
+    <!-- Template Javascript -->
+    <script src="js/main.js"></script>
+</body>
 </html>

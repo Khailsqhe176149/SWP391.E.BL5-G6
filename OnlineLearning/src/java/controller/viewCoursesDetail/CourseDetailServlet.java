@@ -13,6 +13,7 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import java.util.List;
 import model.Course;
 import model.Lesson;
@@ -29,28 +30,42 @@ public class CourseDetailServlet extends HttpServlet {
 
     private DAOCoursesDetail dao = new DAOCoursesDetail();
 
-    @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-       
-        String courseIdStr = request.getParameter("courseId");
-        int courseId = Integer.parseInt(courseIdStr);
+@Override
+protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    // Lấy thông tin userId từ session
+    HttpSession session = request.getSession(false);
+    Integer userId = (Integer) session.getAttribute("userID");
 
-       
-        Course course = dao.getCourseById(courseId);
+    // Lấy courseId từ request
+    String courseIdStr = request.getParameter("courseId");
+    int courseId = Integer.parseInt(courseIdStr);
 
-        
-        List<Lesson> lessons = dao.getLessonsByCourseId(courseId);
+    // Lấy thông tin khóa học từ cơ sở dữ liệu
+    DAOCoursesDetail dao = new DAOCoursesDetail();
+    Course course = dao.getCourseById(courseId);
+    List<Lesson> lessons = dao.getLessonsByCourseId(courseId);
+    List<Quiz> quizzes = dao.getQuizzesByCourseId(courseId);
 
-     
-        List<Quiz> quizzes = dao.getQuizzesByCourseId(courseId);
+    // Truyền thông tin khóa học, bài học, quiz sang JSP
+    request.setAttribute("course", course);
+    request.setAttribute("lessons", lessons);
+    request.setAttribute("quizzes", quizzes);
 
-        
-        request.setAttribute("course", course);
-        request.setAttribute("lessons", lessons);
-        request.setAttribute("quizzes", quizzes);
-
-        request.getRequestDispatcher("/course-detail.jsp").forward(request, response);
+    // Kiểm tra xem người dùng đã đăng ký khóa học chưa
+    boolean isRegistered = false;
+    if (userId != null) {
+        isRegistered = dao.isCourseRegistered(userId, courseId);
     }
+
+    // Truyền thông tin đăng ký vào request (nếu có userId)
+    request.setAttribute("isRegistered", isRegistered);
+
+    // Chuyển hướng sang trang chi tiết khóa học (JSP)
+    request.getRequestDispatcher("/course-detail.jsp").forward(request, response);
+}
+
+
+
 }
 
 

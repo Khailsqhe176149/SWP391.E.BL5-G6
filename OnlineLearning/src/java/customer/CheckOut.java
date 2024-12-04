@@ -2,8 +2,10 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
-package controller.registerCourse;
 
+package customer;
+
+import dao.DAOCheckOut;
 import dao.DAORegisterCourse;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -14,20 +16,18 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import java.util.Date;
-import java.util.List;
 import model.Course;
-import model.Lesson;
-import model.Quiz;
 
 /**
  *
  * @author Admin
  */
-@WebServlet(name = "RegisterCourseServlet", urlPatterns = {"/RegisterCourseServlet"})
-public class RegisterCourseServlet extends HttpServlet {
+@WebServlet(name="CheckOut", urlPatterns={"/CheckOut"})
+public class CheckOut extends HttpServlet {
+   
+     private DAOCheckOut dao = new DAOCheckOut();
 
-    private DAORegisterCourse dao = new DAORegisterCourse();
-
+     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String courseIdStr = request.getParameter("courseId");
         int courseId = Integer.parseInt(courseIdStr);
