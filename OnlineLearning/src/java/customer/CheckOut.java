@@ -2,7 +2,6 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
-
 package customer;
 
 import dao.DAOCheckOut;
@@ -22,78 +21,99 @@ import model.Course;
  *
  * @author Admin
  */
-@WebServlet(name="CheckOut", urlPatterns={"/CheckOut"})
+@WebServlet(name = "CheckOut", urlPatterns = {"/CheckOut"})
 public class CheckOut extends HttpServlet {
-   
-     private DAOCheckOut dao = new DAOCheckOut();
 
-     @Override
+    private DAOCheckOut dao = new DAOCheckOut();
+
+    @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        // Lấy thông tin khóa học
         String courseIdStr = request.getParameter("courseId");
         int courseId = Integer.parseInt(courseIdStr);
-
-        // Lấy thông tin khóa học
         Course course = dao.getCourseById(courseId);
 
         // Lấy thông tin người dùng từ session
         HttpSession session = request.getSession();
         Integer userId = (Integer) session.getAttribute("userID");
 
-        if (userId != null) {
-            // Lấy số dư ví của người dùng
-            double balance = dao.getWalletBalance(userId);
-            request.setAttribute("balance", balance); // Truyền số dư ví vào JSP
-
-            // Tính số dư ví sau khi thanh toán khóa học
-            double remainingBalance = balance - course.getPrice();
-            request.setAttribute("remainingBalance", remainingBalance); // Truyền số dư sau thanh toán vào JSP
+        // Nếu không có userId trong session, chuyển hướng người dùng tới trang login
+        if (userId == null) {
+            response.sendRedirect("login.jsp"); // Chuyển hướng tới trang login
+            return; // Dừng lại để không tiếp tục xử lý
         }
 
-        // Truyền thông tin khóa học vào JSP
+        // Lấy tên người dùng từ session
+        String username = (String) session.getAttribute("username");
+
+        // Lấy số dư ví của người dùng
+        double balance = dao.getWalletBalance(userId);
+        request.setAttribute("balance", balance); // Truyền số dư ví vào JSP
+
+        // Tính số dư ví sau khi thanh toán khóa học
+        double remainingBalance = balance - course.getPrice();
+        request.setAttribute("remainingBalance", remainingBalance); // Truyền số dư sau thanh toán vào JSP
+
+        // Truyền thông tin khóa học và tên người dùng vào JSP
         request.setAttribute("course", course);
+        request.setAttribute("username", username); // Truyền tên người dùng vào JSP
+
+        // Chuyển tiếp tới trang test.jsp
         request.getRequestDispatcher("/test.jsp").forward(request, response);
     }
 
     @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        // Lấy session của người dùng
-        HttpSession session = request.getSession(false); // false: nếu không có session thì trả về null
+protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+ // Lấy thông tin khóa học
+        String courseIdStr = request.getParameter("courseId");
+        int courseId = Integer.parseInt(courseIdStr);
+        Course course = dao.getCourseById(courseId);
 
-        // Kiểm tra nếu session tồn tại và chứa userID
-        if (session != null && session.getAttribute("userID") != null) {
-            // Lấy userID từ session
-            Integer userId = (Integer) session.getAttribute("userID");
+        // Lấy thông tin người dùng từ session
+        HttpSession session = request.getSession();
+        Integer userId = (Integer) session.getAttribute("userID");
 
-            // Lấy courseId từ tham số request
-            String courseIdStr = request.getParameter("courseId"); // Lấy tham số courseId từ form
-            if (courseIdStr == null || courseIdStr.isEmpty()) {
-                // Nếu không có courseId, trả về lỗi hoặc redirect
-                response.sendRedirect("errorPage.jsp"); // Chuyển hướng tới trang lỗi
-                return;
-            }
+        // Nếu không có userId trong session, chuyển hướng người dùng tới trang login
+        if (userId == null) {
+            response.sendRedirect("login.jsp"); // Chuyển hướng tới trang login
+            return;
+        }
 
-            int courseId = Integer.parseInt(courseIdStr); // Chuyển tham số thành int
+        // Lấy tên người dùng từ session
+        String username = (String) session.getAttribute("username");
 
-            // Trạng thái đăng ký khóa học (1 = Đã đăng ký)
-            int status = 1;
+        // Lấy số dư ví của người dùng
+        double balance = dao.getWalletBalance(userId);
 
-            // Lấy thời gian hiện tại để đăng ký
-            Date registrationDate = new Date(System.currentTimeMillis());
+        // Kiểm tra số dư ví và tiến hành thanh toán
+        if (balance >= course.getPrice()) {
+            // Tiến hành thanh toán và cập nhật ví
+            boolean registrationSuccess = dao.registerCourse(courseId, userId, 1, new Date());
 
-            // Đăng ký khóa học
-            boolean success = dao.registerCourse(courseId, userId, status, registrationDate);
-
-            if (success) {
-                // Chuyển hướng tới trang thông báo thành công
-                response.sendRedirect("courseRegistrationSuccess.jsp");
+            if (registrationSuccess) {
+                boolean balanceUpdated = dao.updateWalletBalance(userId, balance - course.getPrice());
+                
+                // Nếu cập nhật ví thành công, truyền thông báo thành công vào request
+                if (balanceUpdated) {
+                    request.setAttribute("message", "Registration successful!"); // Thành công
+                    request.setAttribute("redirectUrl", "home"); // Quay về trang home
+                } else {
+                    request.setAttribute("message", "Failed to update wallet balance!"); // Thất bại khi cập nhật ví
+                    request.setAttribute("redirectUrl", "errorPage.jsp"); // Quay về trang lỗi
+                }
             } else {
-                // Nếu đăng ký thất bại, chuyển hướng tới trang thông báo thất bại
-                response.sendRedirect("courseRegistrationFailure.jsp");
+                request.setAttribute("message", "Course registration failed!"); // Thất bại khi đăng ký khóa học
+                request.setAttribute("redirectUrl", "courseRegistrationFailure.jsp");
             }
         } else {
-            // Nếu không có userID trong session, chuyển hướng đến trang login
-            response.sendRedirect("login.jsp");
+            // Nếu số dư không đủ, hiển thị thông báo lỗi
+            request.setAttribute("message", "Insufficient balance to register for the course!");
+            request.setAttribute("redirectUrl", "insufficientBalance.jsp");
         }
+
+        // Chuyển đến JSP để hiển thị modal
+        request.getRequestDispatcher("/test.jsp").forward(request, response);
     }
+
 
 }

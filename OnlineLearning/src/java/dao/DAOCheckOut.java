@@ -1,7 +1,4 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
+
 package dao;
 
 import java.sql.PreparedStatement;
@@ -75,6 +72,25 @@ public class DAOCheckOut extends DBContext {
 
         return balance;
     }
+    
+    public boolean updateWalletBalance(int userId, double newBalance) {
+    String sql = "UPDATE Wallet "
+               + "SET Balance = ? "
+               + "FROM Wallet w "
+               + "INNER JOIN Account a ON w.AccountId = a.accId "
+               + "WHERE a.userID = ?";
+
+    try (PreparedStatement ps = connection.prepareStatement(sql)) {
+        ps.setDouble(1, newBalance); // Đặt số dư mới
+        ps.setInt(2, userId); // Đặt userID
+        int rowsAffected = ps.executeUpdate();
+        return rowsAffected > 0; // Trả về true nếu cập nhật thành công
+    } catch (SQLException ex) {
+        System.out.println("Lỗi khi cập nhật số dư ví: " + ex.getMessage());
+    }
+    return false; // Trả về false nếu có lỗi xảy ra
+}
+
 
     private Course mapResultSetToCourse(ResultSet rs) throws SQLException {
         int courseId = rs.getInt("Courseid");
