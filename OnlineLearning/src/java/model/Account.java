@@ -16,9 +16,39 @@ public class Account {
     private Date Createdtime; 
     private int status;
     private int userID;
+    
+    private String Rolename;
+    private String Name;
+    private String Phone;
+    
     public Account() {
     }
 
+    public Account(int acc_id, String email, String password,int status, Date Createdtime,  int role_id, int userID, String Name) {
+         this.acc_id = acc_id;
+        
+        this.email = email;
+        this.password = password;
+        this.Createdtime = Createdtime;
+        this.status = status;
+        this.role_id = role_id;
+        this.userID = userID;
+        this.Name = Name;
+    }
+ 
+     public Account(int acc_id, String email, String password,int status, Date Createdtime,  int role_id, int userID, String Name, String Phone) {
+         this.acc_id = acc_id;
+        
+        this.email = email;
+        this.password = password;
+        this.Createdtime = Createdtime;
+        this.status = status;
+        this.role_id = role_id;
+        this.userID = userID;
+        this.Name = Name;
+        this.Phone = Phone;
+    }
+    
     public Account(int acc_id, String email, String password,int status, Date Createdtime,  int role_id, int userID) {
         this.acc_id = acc_id;
         
@@ -28,6 +58,30 @@ public class Account {
         this.status = status;
         this.role_id = role_id;
         this.userID = userID;
+    }
+
+    public String getPhone() {
+        return Phone;
+    }
+
+    public void setPhone(String Phone) {
+        this.Phone = Phone;
+    }
+
+    public String getRolename() {
+        return Rolename;
+    }
+
+    public void setRolename(String Rolename) {
+        this.Rolename = Rolename;
+    }
+
+    public String getName() {
+        return Name;
+    }
+
+    public void setName(String Name) {
+        this.Name = Name;
     }
 
     public int getUserID() {
