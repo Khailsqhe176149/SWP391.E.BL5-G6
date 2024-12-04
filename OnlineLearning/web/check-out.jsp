@@ -33,7 +33,7 @@
         <!-- jQuery and Bootstrap JS -->
         <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
-
+ 
     </head>
     <body>
         <!-- Navbar Start  -->
@@ -97,80 +97,41 @@
                 <div class="col-md-4">
                     <div class="card course-info-card">
                         <div class="card-body">
-                            <!-- Hiển thị hình ảnh khóa học -->
-                            <img src="<c:out value="img/${course.img}" />" class="img-fluid mb-3" alt="<c:out value='${course.name}' />">
-
-                            <!-- Hiển thị tên khóa học -->
-                            <h2 class="card-title"><c:out value="${course.name}" /></h2>
-
-                            <!-- Hiển thị thông tin người dùng -->
-                            <p><strong>Customer Name:</strong> ${username}</p>
-
-
-                            <!-- Hiển thị giá khóa học -->
-                            <p class="course-price"><strong>Price:</strong> $<c:out value="${course.price}" /></p>
+                            <h2 class="card-title">Learn Web Development</h2>
+                            <p><strong>Instructor:</strong> John Doe</p>
+                            <p><strong>Category:</strong> Web Development</p>
+                            <p class="course-price">Price: $99.99</p>
 
                             <!-- Thông tin ví của người dùng -->
                             <div class="wallet-info">
-                                <p><strong>Your Wallet:</strong> $<c:out value="${balance}" /></p>
-                                <p><strong>Your Wallet After Pay:</strong> $<c:out value="${remainingBalance}" /></p>
+                                <p><strong>Your Wallet:</strong> $150.00</p>
+                                <p><strong>Your Wallet After Pay:</strong> $50.00</p>
                             </div>
 
                             <!-- Nút Đăng Ký khóa học -->
                             <form action="CheckOut" method="POST">
                                 <!-- Thêm hidden input để gửi courseId -->
-                                <input type="hidden" name="courseId" value="${course.courseId}" />
+                                <input type="hidden" name="courseId" value="1" />
                                 <button type="submit" class="btn btn-primary mt-3">Enroll Now</button>
                             </form>
                         </div>
                     </div>
                 </div>
-
             </div>
-        </div>
-        <!-- Modal for success or failure message -->
-        <div class="modal fade" id="messageModal" tabindex="-1" role="dialog" aria-labelledby="messageModalLabel" aria-hidden="true">
-            <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="messageModalLabel">Notification</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    <div class="modal-body">
-                        <!-- Display message dynamically based on request attribute -->
-                        <p>${message}</p>
-                    </div>
-                    <div class="modal-footer">
-                        <!-- Button to close the modal and redirect to home -->
-                        <a href="${redirectUrl}" class="btn btn-primary">Go to Home</a>
-                    </div>
-                </div>
-            </div>
-        </div>s
-        < <!-- Footer Start -->
-        <jsp:include page="templates/footer.jsp" />
-        <!-- Footer End -->
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
-        <!-- JavaScript Libraries -->
-        <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
-        <script src="lib/wow/wow.min.js"></script>
-        <script src="lib/easing/easing.min.js"></script>
-        <script src="lib/waypoints/waypoints.min.js"></script>
-        <script src="lib/owlcarousel/owl.carousel.min.js"></script>
+             </div>
+            < <!-- Footer Start -->
+            <jsp:include page="templates/footer.jsp" />
+            <!-- Footer End -->
+            <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+            <!-- JavaScript Libraries -->
+            <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
+            <script src="lib/wow/wow.min.js"></script>
+            <script src="lib/easing/easing.min.js"></script>
+            <script src="lib/waypoints/waypoints.min.js"></script>
+            <script src="lib/owlcarousel/owl.carousel.min.js"></script>
 
-        <!-- Template Javascript -->
-        <script src="js/main.js"></script>
-
-        <script type="text/javascript">
-            // Display the modal when the page loads if there's a message
-            $(document).ready(function () {
-                if ('${message}' != '') {
-                    $('#messageModal').modal('show');
-                }
-            });
-        </script>
+            <!-- Template Javascript -->
+            <script src="js/main.js"></script>
     </body>
 </html>
