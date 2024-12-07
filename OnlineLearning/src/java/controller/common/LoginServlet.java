@@ -45,7 +45,7 @@ public class LoginServlet extends HttpServlet {
             session.setAttribute("accID", account.getAcc_id());
             session.setAttribute("acc", account);
             System.out.println(account.getRole_id());
-            response.sendRedirect("home"); // Chuyển hướng tới LessonServlet
+            response.sendRedirect("home"); 
         } else {
 
             request.setAttribute("error", "Đăng nhập thất bại. Vui lòng kiểm tra lại thông tin.");

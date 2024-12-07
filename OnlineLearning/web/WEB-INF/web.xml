@@ -1,20 +1,31 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <web-app version="6.0" xmlns="https://jakarta.ee/xml/ns/jakartaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="https://jakarta.ee/xml/ns/jakartaee https://jakarta.ee/xml/ns/jakartaee/web-app_6_0.xsd">
-     <servlet>
+    <servlet>
         <servlet-name>UserProfileServlet</servlet-name>
         <servlet-class>controller.common.UserProfileServlet</servlet-class>
         <multipart-config>
-            <max-file-size>10485760</max-file-size> <!-- Giới hạn kích thước file tải lên (10MB) -->
-            <max-request-size>20971520</max-request-size> <!-- Giới hạn tổng kích thước yêu cầu (20MB) -->
-            <file-size-threshold>5242880</file-size-threshold> <!-- Giới hạn kích thước tệp để ghi vào bộ nhớ (5MB) -->
+            <max-file-size>10485760</max-file-size>
+            <!-- Giới hạn kích thước file tải lên (10MB) -->
+            <max-request-size>20971520</max-request-size>
+            <!-- Giới hạn tổng kích thước yêu cầu (20MB) -->
+            <file-size-threshold>5242880</file-size-threshold>
+            <!-- Giới hạn kích thước tệp để ghi vào bộ nhớ (5MB) -->
         </multipart-config>
+    </servlet>
+    <servlet>
+        <servlet-name>AccountList</servlet-name>
+        <servlet-class>controller.admin.AccountList</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>UserProfileServlet</servlet-name>
         <url-pattern>/profile</url-pattern>
     </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>AccountList</servlet-name>
+        <url-pattern>/AccountList</url-pattern>
+    </servlet-mapping>
     <session-config>
-        <session-timeout>30</session-timeout> <!-- Thời gian timeout 30 phút -->
+        <session-timeout>30</session-timeout>
+        <!-- Thời gian timeout 30 phút -->
     </session-config>
-
 </web-app>
