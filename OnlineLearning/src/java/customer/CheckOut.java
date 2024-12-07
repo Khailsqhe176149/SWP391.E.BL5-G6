@@ -59,7 +59,7 @@ public class CheckOut extends HttpServlet {
         request.setAttribute("username", username); // Truyền tên người dùng vào JSP
 
         // Chuyển tiếp tới trang test.jsp
-        request.getRequestDispatcher("/test.jsp").forward(request, response);
+        request.getRequestDispatcher("/check-out.jsp").forward(request, response);
     }
 
     @Override
@@ -112,7 +112,7 @@ protected void doPost(HttpServletRequest request, HttpServletResponse response) 
         }
 
         // Chuyển đến JSP để hiển thị modal
-        request.getRequestDispatcher("/test.jsp").forward(request, response);
+        request.getRequestDispatcher("/check-out.jsp").forward(request, response);
     }
 
 

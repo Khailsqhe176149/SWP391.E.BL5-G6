@@ -26,9 +26,23 @@ public class Course {
 
     public Course() {
     }
-
     
     // Getters and Setters
+     public Course(int courseId, String name, String description,double price, int status, String img) {
+        this.courseId = courseId;
+        this.name = name;
+        this.description = description;
+         this.price = price;
+        this.status = status;
+        this.img = img;
+    }
+    public Course(int courseId, String name, String description, double price, String img) {
+        this.courseId = courseId;
+        this.name = name;
+        this.description = description;
+        this.price = price;
+        this.img = img;
+    }
 
     public Course(int courseId, String name, int subjectid, double price, int authorId, String description, String img, Date createdTime, int status, String tag) {
         this.courseId = courseId;
@@ -122,5 +136,5 @@ public class Course {
     public void setTag(String tag) {
         this.tag = tag;
     }
-    
+
 }

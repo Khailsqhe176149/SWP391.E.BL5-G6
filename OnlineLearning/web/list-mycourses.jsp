@@ -55,30 +55,40 @@
             <div class="sidebar bg-light" style="width: 300px; height: 100vh; display: flex; flex-direction: column; justify-content: flex-start; align-items: center; padding-top: 100px;">
                 <!-- Avatar and User Info -->
                 <div class="text-center mb-4">
-                    <img src="img/cat-1.jpg" alt="User Avatar" class="rounded-circle" style="width: 120px; height: 120px;">
-                    <h3 class="mt-2 text-primary" style="font-size: 1.5rem;">John Doe</h3>
+                    <!-- Sử dụng ảnh đại diện từ đối tượng user -->
+                    <img src="img/${user.img}" alt="User Avatar" class="rounded-circle" style="width: 120px; height: 120px;">
+                    <!-- Sử dụng tên người dùng từ đối tượng user -->
+                    <h3 class="mt-2 text-primary" style="font-size: 1.5rem;">${user.name}</h3>
+                  
                 </div>
 
                 <!-- User Info Links -->
                 <div class="px-3">
-                  
+
                     <form action="ListMyCourses" method="GET" style="display: inline;">
                         <input type="hidden" name="status" value="2">
                         <button type="submit" class="d-block py-2 text-primary" style="font-size: 1.2rem; background: none; border: none;">My Courses</button>
                     </form>
                     <!-- Completed Courses và Studied Courses: Sử dụng POST -->
+
+                    <form action="ListMyCourses" method="POST" style="display: inline;">
+                        <input type="hidden" name="status" value="1">
+                        <button type="submit" class="d-block py-2 text-primary" style="font-size: 1.2rem; background: none; border: none;">Not Yet</button>
+                    </form>
+
                     <form action="ListMyCourses" method="POST" style="display: inline;">
                         <input type="hidden" name="status" value="2">
-                        <button type="submit" class="d-block py-2 text-primary" style="font-size: 1.2rem; background: none; border: none;">Completed Courses</button>
+                        <button type="submit" class="d-block py-2 text-primary" style="font-size: 1.2rem; background: none; border: none;">Studied Courses</button>
                     </form>
 
                     <form action="ListMyCourses" method="POST" style="display: inline;">
                         <input type="hidden" name="status" value="3">
-                        <button type="submit" class="d-block py-2 text-primary" style="font-size: 1.2rem; background: none; border: none;">Studied Courses</button>
+                        <button type="submit" class="d-block py-2 text-primary" style="font-size: 1.2rem; background: none; border: none;">Completed Courses</button>
                     </form>
 
-                    
-                     <form action="ListMyCourses" method="GET" style="display: inline;">
+
+
+                    <form action="ListMyCourses" method="GET" style="display: inline;">
                         <input type="hidden" name="status" value="3">
                         <button type="submit" class="d-block py-2 text-primary" style="font-size: 1.2rem; background: none; border: none;">Support</button>
                     </form>
@@ -104,14 +114,24 @@
                                     <p class="card-text" style="font-size: 0.9rem; color: #555; height: 60px; overflow: hidden;"><c:out value="${course.description}" /></p>
 
                                     <!-- Trạng thái khóa học -->
-                                    <p class="card-status text-success mb-2" style="font-size: 1rem;">
+                                    <!-- Trạng thái khóa học -->
+                                    <p class="card-status mb-2" style="font-size: 1rem;">
                                         <c:choose>
-                                            <c:when test="${course.status == 1}">Đã đăng ký, chưa học</c:when>
-                                            <c:when test="${course.status == 2}">Đang học</c:when>
-                                            <c:when test="${course.status == 3}">Đã hoàn thành</c:when>
-                                            <c:otherwise>Chưa xác định</c:otherwise>
+                                            <c:when test="${course.status == 1}">
+                                                <span class="text-danger">Not yet learned</span> <!-- Màu đỏ -->
+                                            </c:when>
+                                            <c:when test="${course.status == 2}">
+                                                <span class="text-warning">Studying</span> <!-- Màu vàng -->
+                                            </c:when>
+                                            <c:when test="${course.status == 3}">
+                                                <span class="text-success">Completed</span> <!-- Màu xanh lá cây -->
+                                            </c:when>
+                                            <c:otherwise>
+                                                <span class="text-muted">Chưa xác định</span> <!-- Màu xám nếu không xác định -->
+                                            </c:otherwise>
                                         </c:choose>
                                     </p>
+
 
                                     <!-- Nút View Course -->
                                     <a href="CourseDetailServlet?courseId=<c:out value='${course.courseId}' />" class="btn btn-primary btn-sm" style="font-size: 0.9rem;">View Course</a>

@@ -11,9 +11,7 @@
     <div class="collapse navbar-collapse" id="navbarCollapse">
         <div class="navbar-nav ms-auto p-4 p-lg-0">
             <a href="home" class="nav-item nav-link ">Home</a>
-           <c:if test="${acc.getRole_id() == 1}">
-                 <a href="admin/subject-management" class="nav-item nav-link ">Admin Dashboard</a>
-            </c:if>
+            
             <a href="about.html" class="nav-item nav-link">About</a>
             <a href="listCourses" class="nav-item nav-link">Courses</a>
             <div class="nav-item dropdown">
@@ -22,10 +20,19 @@
                     <a href="team.html" class="dropdown-item">Our Team</a>
                     <a href="testimonial.html" class="dropdown-item">Testimonial</a>
                     <a href="404.html" class="dropdown-item">404 Page</a>
+
+                    <!-- Chỉ hiển thị "Admin Dashboard" nếu user là admin -->
+                    <c:if test="${acc.getRole_id() == 1}">
+                        <a href="admin/subject-management" class="dropdown-item">Admin Dashboard</a>
+                        <a href="ListMyCourses" class="dropdown-item">My Courses</a>
+                    </c:if>
                 </div>
             </div>
+
             <a href="contact.html" class="nav-item nav-link">Contact</a>
         </div>
+
+
 
         <% if (session.getAttribute("username") != null) { %>
         <a href="profile" class="btn btn-primary py-4 px-lg-5 d-none d-lg-block"><%= session.getAttribute("username") %></a>
