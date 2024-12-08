@@ -26,6 +26,12 @@
 
     <!-- Template Stylesheet -->
     <link href="css/style.css" rel="stylesheet">
+     <!-- JavaScript for delete confirmation -->
+    <script>
+        function confirmDelete() {
+            return confirm('Are you sure you want to delete this account?');
+        }
+    </script>
 </head>
 
 <body>
@@ -40,7 +46,13 @@
         <c:if test="${not empty message}">
             <div class="alert alert-danger">${message}</div>
         </c:if>
-
+            
+         <!-- Add Account Button -->
+        <div class="mb-3">
+            <a href="addAccount" class="btn btn-success">
+                <i class="bi bi-person-plus"></i> Add New Account
+            </a>
+        </div>
         <!-- Search Form -->
         <form action="accountList" method="get" class="mb-4">
             <div class="row g-3">
@@ -65,8 +77,8 @@
                         <option value="0">Inactive</option>
                     </select>
                 </div>
-                <div class="col-md-2">
-                    <button type="submit" class="btn btn-primary w-100">Tìm kiếm</button>
+                <div class="col-md-2"  >
+                    <button type="submit" class="btn btn-primary w-100"style="margin-top: 32px;" >Tìm kiếm</button>
                 </div>
             </div>
         </form>
@@ -126,7 +138,7 @@
                                         <option value="2" ${account.role_id == 2 ? 'selected' : ''}>Admin</option>
                                         <option value="3" ${account.role_id == 3 ? 'selected' : ''}>Staff</option>
                                     </select>
-                                    <button type="submit" name="action" value="updaterole" class="btn btn-warning btn-sm">Cập nhật</button>
+                                    <button type="submit" name="action" value="updaterole" class="btn btn-warning btn-sm" style="margin-top: 10px;">Cập nhật</button>
                                 </form>
                             </td>
                             <td>
@@ -137,15 +149,20 @@
                                         <option value="1" ${account.status == 1 ? 'selected' : ''}>Active</option>
                                         <option value="0" ${account.status == 0 ? 'selected' : ''}>Inactive</option>
                                     </select>
-                                    <button type="submit" name="action" value="updatestatus" class="btn btn-success btn-sm">Cập nhật</button>
+                                    <button type="submit" name="action" value="updatestatus" class="btn btn-success btn-sm" style="margin-top: 10px;">Cập nhật</button>
                                 </form>
                             </td>
                             <td>
-                                <!-- Delete Account -->
-                                <form action="accountList" method="post">
+                                
+                                    
+                                    <!-- Delete Button with Confirmation -->
+                                <form action="accountList" method="post" style="display:inline;" onsubmit="return confirmDelete();">
                                     <input type="hidden" name="accountId" value="${account.acc_id}">
                                     <button type="submit" name="action" value="deleteaccount" class="btn btn-danger btn-sm">Xóa</button>
                                 </form>
+                                    
+                                    
+                                    
                             </td>
                         </tr>
                     </c:forEach>

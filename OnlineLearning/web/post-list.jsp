@@ -36,6 +36,12 @@
     <div class="container my-5">
         <h1 class="h3 mb-4">Post Management</h1>
 
+        <!-- Add New Post Button -->
+        <div class="mb-4">
+            <a href="add-post.jsp" class="btn btn-success">Add New Post</a>
+        </div>
+
+        <!-- Search Form -->
         <form action="post-management" method="get" class="mb-4">
             <div class="row g-3">
                 <div class="col-md-6">
@@ -54,6 +60,7 @@
             </div>
         </form>
 
+        <!-- Posts Table -->
         <table class="table table-bordered table-hover">
             <thead>
                 <tr>

@@ -65,7 +65,10 @@ public class AccountList extends HttpServlet {
         } 
     }
 
-    // Cập nhật role
+    
+
+
+// Cập nhật role
     private void updateRole(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String accountId = request.getParameter("accountId");
         String newRole = request.getParameter("role");
