@@ -19,7 +19,7 @@ public class Post {
     private String Img;
     private int Status;
     private int Sliderid;
-
+    private String authorName;
     public Post() {
     }
 
@@ -34,6 +34,29 @@ public class Post {
         this.Sliderid = Sliderid;
     }
 
+    public Post(int Postid, String Title, String Content, Date Createtime,  int authorid, String Img, int Status, int Sliderid, String authorName) {
+        this.Postid = Postid;
+        this.Title = Title;
+        this.Content = Content;
+        this.Createtime = Createtime;
+        this.authorid = authorid;
+        this.Img = Img;
+        this.Status = Status;
+        this.Sliderid = Sliderid;
+        this.authorName = authorName;
+    }
+
+    public String getAuthorName() {
+        return authorName;
+    }
+
+    public void setAuthorName(String authorName) {
+        this.authorName = authorName;
+    }
+
+   
+    
+    
     public int getPostid() {
         return Postid;
     }
