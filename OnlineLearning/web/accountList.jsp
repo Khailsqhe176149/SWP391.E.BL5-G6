@@ -45,6 +45,9 @@
                     <tr>
                         <th>ID</th>
                         <th>Email</th>
+                        <th>Username</th>
+                        <th>Phone</th>
+                        <th>Createdtime</th>
                         <th>Role</th>
                         <th>Status</th>
                         <th>Chi tiết</th>
@@ -57,6 +60,9 @@
                         <tr>
                             <td>${account.acc_id}</td>
                             <td>${account.email}</td>
+                            <td>${account.getName()}</td>
+                            <td>${account.getPhone()}</td>
+                            <td>${account.getCreatedtime()}</td>
                             <td>
                                 <c:choose>
                                     <c:when test="${account.role_id == 1}">Customer</c:when>

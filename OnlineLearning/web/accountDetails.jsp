@@ -27,6 +27,18 @@
         <label for="email">Email: </label>
         <input type="email" name="email" id="email" value="${account.email}" readonly><br><br>
         
+        <!-- Email - readonly -->
+        <label for="email">Username: </label>
+        <input type="email" name="email" id="email" value="${account.getName()}" readonly><br><br>
+        
+        <!-- Email - readonly -->
+        <label for="email">Phone: </label>
+        <input type="email" name="email" id="email" value="${account.getPhone()}" readonly><br><br>
+        
+        <!-- Email - readonly -->
+        <label for="email">Createdtime </label>
+        <input type="email" name="email" id="email" value="${account.getCreatedtime()}" readonly><br><br>
+        
      
         <!-- Role - editable -->
         <label for="role">Role: </label>
