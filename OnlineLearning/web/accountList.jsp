@@ -26,6 +26,12 @@
 
     <!-- Template Stylesheet -->
     <link href="css/style.css" rel="stylesheet">
+     <!-- JavaScript for delete confirmation -->
+    <script>
+        function confirmDelete() {
+            return confirm('Are you sure you want to delete this account?');
+        }
+    </script>
 </head>
 
 <body>
@@ -40,7 +46,13 @@
         <c:if test="${not empty message}">
             <div class="alert alert-danger">${message}</div>
         </c:if>
-
+            
+         <!-- Add Account Button -->
+        <div class="mb-3">
+            <a href="addAccount" class="btn btn-success">
+                <i class="bi bi-person-plus"></i> Add New Account
+            </a>
+        </div>
         <!-- Search Form -->
         <form action="accountList" method="get" class="mb-4">
             <div class="row g-3">
@@ -141,11 +153,16 @@
                                 </form>
                             </td>
                             <td>
-                                <!-- Delete Account -->
-                                <form action="accountList" method="post">
+                                
+                                    
+                                    <!-- Delete Button with Confirmation -->
+                                <form action="accountList" method="post" style="display:inline;" onsubmit="return confirmDelete();">
                                     <input type="hidden" name="accountId" value="${account.acc_id}">
                                     <button type="submit" name="action" value="deleteaccount" class="btn btn-danger btn-sm">Xóa</button>
                                 </form>
+                                    
+                                    
+                                    
                             </td>
                         </tr>
                     </c:forEach>

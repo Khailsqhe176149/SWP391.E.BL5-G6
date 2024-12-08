@@ -118,4 +118,100 @@ public class DAORegister extends DBContext {
 
         return false;  
     }
+    
+    public boolean registerUserForAdmin(String name, int gender, String dob, String phone, String address, String email, String password, int status, int roleid) {
+        if (isEmailExist(email)) {
+            return false;
+        }
+        if (isPhoneExist(phone)) {
+            return false; 
+        }
+        String sqlUser = "INSERT INTO Users (Name, Gender, Dob, Phone, Img, Address) VALUES (?, ?, ?, ?, ?, ?)";
+      
+        String sqlAccount = "INSERT INTO Account (Email, Pass, Status, Createdtime, Roleid, userID) VALUES (?, ?, ?, ?, ?, ?)";
+
+        try {
+           
+            connection.setAutoCommit(false);
+
+            
+            PreparedStatement userStmt = connection.prepareStatement(sqlUser, Statement.RETURN_GENERATED_KEYS);
+            userStmt.setString(1, name);
+            userStmt.setInt(2, gender);
+            userStmt.setString(3, dob);
+            userStmt.setString(4, phone);
+            userStmt.setString(5, "abc");  
+            userStmt.setString(6, address);
+
+            int rowsAffected = userStmt.executeUpdate();
+
+            
+            ResultSet generatedKeys = userStmt.getGeneratedKeys();
+            int userId = -1;
+            if (generatedKeys.next()) {
+                userId = generatedKeys.getInt(1); 
+            }
+
+            if (rowsAffected > 0 && userId > 0) {
+                
+                PreparedStatement accountStmt = connection.prepareStatement(sqlAccount);
+                accountStmt.setString(1, email);
+                accountStmt.setString(2, password); 
+                accountStmt.setInt(3, status); 
+                accountStmt.setDate(4, Date.valueOf(LocalDate.now())); 
+                accountStmt.setInt(5, roleid); 
+                accountStmt.setInt(6, userId); 
+
+                accountStmt.executeUpdate();
+
+                
+                connection.commit();
+                return true; 
+            }
+
+           
+            connection.rollback();
+        } catch (SQLException e) {
+            System.out.println("Error at DAORegister: " + e.getMessage());
+            e.printStackTrace();
+            try {
+                connection.rollback(); 
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+            }
+        } finally {
+            try {
+               
+                connection.setAutoCommit(true);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+
+        return false;  
+    }
+    
+//    public boolean registerUserForAdmin(String name, int gender, String dob, String phone, String address, String email, String password, int role, int status) {
+//    String sql = "INSERT INTO Account (Name, Gender, Dob, Phone, Address, Email, Password, Role, Status) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+//    try {
+//        PreparedStatement stmt = connection.prepareStatement(sql);
+//        stmt.setString(1, name);
+//        stmt.setInt(2, gender);
+//        stmt.setString(3, dob);
+//        stmt.setString(4, phone);
+//        stmt.setString(5, address);
+//        stmt.setString(6, email);
+//        stmt.setString(7, password); 
+//        stmt.setInt(8, role); 
+//        stmt.setInt(9, status); 
+//        int rowsInserted = stmt.executeUpdate();
+//        return rowsInserted > 0; 
+//    } catch (SQLException e) {
+//        e.printStackTrace();
+//    }
+//    return false;
+//}
+
+    
+    
 }
