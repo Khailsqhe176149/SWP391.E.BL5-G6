@@ -23,19 +23,23 @@ public class Course {
     private Date createdTime;
     private int status;
     private String tag;
+    private Date RegistrationDate;
 
     public Course() {
     }
-    
+
+   
+
     // Getters and Setters
-     public Course(int courseId, String name, String description,double price, int status, String img) {
+    public Course(int courseId, String name, String description, double price, int status, String img) {
         this.courseId = courseId;
         this.name = name;
         this.description = description;
-         this.price = price;
+        this.price = price;
         this.status = status;
         this.img = img;
     }
+
     public Course(int courseId, String name, String description, double price, String img) {
         this.courseId = courseId;
         this.name = name;
@@ -135,6 +139,14 @@ public class Course {
 
     public void setTag(String tag) {
         this.tag = tag;
+    }
+    
+     public void setRegistrationDate(Date RegistrationDate) {
+        this.RegistrationDate = RegistrationDate;
+    }
+
+    public Date getRegistrationDate() {
+        return RegistrationDate;
     }
 
 }

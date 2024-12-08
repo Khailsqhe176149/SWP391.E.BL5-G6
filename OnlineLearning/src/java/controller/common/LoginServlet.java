@@ -46,10 +46,6 @@ public class LoginServlet extends HttpServlet {
             session.setAttribute("acc", account);
             System.out.println(account.getRole_id());
             response.sendRedirect("home"); 
-        } else {
-
-            request.setAttribute("error", "Đăng nhập thất bại. Vui lòng kiểm tra lại thông tin.");
-            request.getRequestDispatcher("/login.jsp").forward(request, response);
         }
     }
 

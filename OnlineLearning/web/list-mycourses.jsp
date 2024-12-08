@@ -59,7 +59,7 @@
                     <img src="img/${user.img}" alt="User Avatar" class="rounded-circle" style="width: 120px; height: 120px;">
                     <!-- Sử dụng tên người dùng từ đối tượng user -->
                     <h3 class="mt-2 text-primary" style="font-size: 1.5rem;">${user.name}</h3>
-                  
+
                 </div>
 
                 <!-- User Info Links -->
@@ -134,7 +134,10 @@
 
 
                                     <!-- Nút View Course -->
-                                    <a href="CourseDetailServlet?courseId=<c:out value='${course.courseId}' />" class="btn btn-primary btn-sm" style="font-size: 0.9rem;">View Course</a>
+                                    <form action="ViewMyCoursesDetail" method="get">
+                                        <input type="hidden" name="courseId" value="<c:out value='${course.courseId}' />">
+                                        <button type="submit" class="btn btn-primary btn-sm" style="font-size: 0.9rem;">View Course</button>
+                                    </form>
                                 </div>
                             </div>
                         </div>

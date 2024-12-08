@@ -1,10 +1,12 @@
 <%@ page contentType="text/html; charset=UTF-8" language="java" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+
 <!DOCTYPE html>
 <html lang="en">
     <head>
         <meta charset="utf-8">
-        <title>List Courses</title>
+        <title>Courses Detail</title>
         <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
         <!-- Favicon -->
@@ -32,135 +34,135 @@
         <!-- jQuery and Bootstrap JS -->
         <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
-
-        <style>
-            .sidebar {
-                width: 300px; /* Set width for sidebar */
-                height: 100vh; /* Set height to full viewport height */
-                overflow-y: auto; /* Enable vertical scroll if content exceeds height */
-                padding-top: 20px;
+        <style>.lesson-item {
+                background-color: #f9f9f9;
+                padding: 15px;
+                border-radius: 8px;
+                box-shadow: 0 2px 5px rgba(0,0,0,0.1);
             }
-        </style>
 
+            .lesson-name {
+                font-size: 1.25rem;
+                font-weight: bold;
+                color: #0056b3;
+                transition: color 0.3s, text-decoration 0.3s;
+            }
+
+            .lesson-name:hover {
+                color: #003366;
+                text-decoration: underline;
+            }
+
+            .lesson-list {
+                max-height: 400px;
+                overflow-y: auto;
+                margin-top: 10px;
+                padding-right: 15px;
+            }
+
+            .lesson-item + .lesson-item {
+                margin-top: 15px;
+            }</style>
     </head>
-
     <body>
         <!-- Navbar Start  -->
         <jsp:include page="templates/navbar.jsp" />
         <!-- Navbar End  -->
+        <div class="container mt-5">
+            <h2>Course Detail</h2>
 
-        <!-- Sidebar and Main Content Start -->
-        <div class="container-fluid" style="display: flex; min-height: 100vh;">
-            <!-- Sidebar -->
-            <div class="sidebar bg-light" style="width: 300px; height: 100vh; display: flex; flex-direction: column; justify-content: flex-start; align-items: center; padding-top: 100px;">
-                <!-- Avatar and User Info -->
-                <div class="text-center mb-4">
-                    <img src="img/cat-1.jpg" alt="User Avatar" class="rounded-circle" style="width: 120px; height: 120px;">
-                    <h3 class="mt-2 text-primary" style="font-size: 1.5rem;">John Doe</h3>
+            <div class="row">
+                <!-- Hiển thị hình ảnh khóa học -->
+                <div class="col-md-6">
+                    <img src="<c:out value='img/${course.img}' />" class="img-fluid" alt="${course.name}">
                 </div>
 
-                <!-- User Info Links -->
-                <div class="px-3">
-                  
-                    <form action="ListMyCourses" method="GET" style="display: inline;">
-                        <input type="hidden" name="status" value="2">
-                        <button type="submit" class="d-block py-2 text-primary" style="font-size: 1.2rem; background: none; border: none;">My Courses</button>
-                    </form>
-                    <!-- Completed Courses và Studied Courses: Sử dụng POST -->
-                    <form action="ListMyCourses" method="POST" style="display: inline;">
-                        <input type="hidden" name="status" value="2">
-                        <button type="submit" class="d-block py-2 text-primary" style="font-size: 1.2rem; background: none; border: none;">Completed Courses</button>
-                    </form>
+                <!-- Hiển thị thông tin khóa học -->
+                <div class="col-md-6">
+                    <h3><c:out value="${course.name}"/></h3>
+                    <p><strong>Description:</strong> <c:out value="${course.description}"/></p>
 
-                    <form action="ListMyCourses" method="POST" style="display: inline;">
-                        <input type="hidden" name="status" value="3">
-                        <button type="submit" class="d-block py-2 text-primary" style="font-size: 1.2rem; background: none; border: none;">Studied Courses</button>
-                    </form>
+                    <p class="card-status mb-2" style="font-size: 1rem;">
+                        <c:choose>
+                            <c:when test="${course.status == 1}">
+                                <span class="text-danger">Not started</span>
+                            </c:when>
+                            <c:when test="${course.status == 2}">
+                                <span class="text-warning">In Progress</span>
+                            </c:when>
+                            <c:when test="${course.status == 3}">
+                                <span class="text-success">Completed</span>
+                            </c:when>
+                            <c:otherwise>
+                                <span class="text-muted">Status Unknown</span>
+                            </c:otherwise>
+                        </c:choose>
+                    </p>
+                    <p><strong>Number of Quizzes:</strong> ${quizCount}</p>
+                    <p><strong>Number of Lessons:</strong> ${lessonCount}</p>
 
-                    
-                     <form action="ListMyCourses" method="GET" style="display: inline;">
-                        <input type="hidden" name="status" value="3">
-                        <button type="submit" class="d-block py-2 text-primary" style="font-size: 1.2rem; background: none; border: none;">Support</button>
-                    </form>
+
+                    <p><strong>Registration Date:</strong> <c:out value="${course.registrationDate}"/></p>
                 </div>
+
             </div>
-
-
-
-            <!-- Main Content -->
-            <!-- Main Content -->
-            <div class="col-md-9 ps-4">
-                <h2>My Courses</h2>
-                <div class="row">
-                    <!-- Hiển thị danh sách khóa học -->
-                    <c:forEach var="course" items="${courses}">
-                        <div class="col-md-2 mb-3">
-                            <div class="card" style="border: 1px solid #ddd; border-radius: 8px; overflow: hidden; display: flex; flex-direction: column; height: 100%;">
-                                <!-- Hiển thị ảnh khóa học -->
-                                <img src="<c:out value='img/${course.img}' />" class="card-img-top" alt="${course.name}" style="max-height: 200px; object-fit: cover; width: 100%;">
-
-                                <div class="card-body p-3" style="flex-grow: 1;">
-                                    <h5 class="card-title" style="font-size: 1.1rem; font-weight: bold; height: 50px; overflow: hidden;"><c:out value="${course.name}" /></h5>
-                                    <p class="card-text" style="font-size: 0.9rem; color: #555; height: 60px; overflow: hidden;"><c:out value="${course.description}" /></p>
-
-                                    <!-- Trạng thái khóa học -->
-                                    <p class="card-status text-success mb-2" style="font-size: 1rem;">
-                                        <c:choose>
-                                            <c:when test="${course.status == 1}">Đã đăng ký, chưa học</c:when>
-                                            <c:when test="${course.status == 2}">Đang học</c:when>
-                                            <c:when test="${course.status == 3}">Đã hoàn thành</c:when>
-                                            <c:otherwise>Chưa xác định</c:otherwise>
-                                        </c:choose>
-                                    </p>
-
-                                    <!-- Nút View Course -->
-                                    <a href="CourseDetailServlet?courseId=<c:out value='${course.courseId}' />" class="btn btn-primary btn-sm" style="font-size: 0.9rem;">View Course</a>
-                                </div>
-                            </div>
+            <div class="mt-4">
+                <h4>Lessons</h4>
+                <div class="lesson-list" style="max-height: 300px; overflow-y: auto; border: 1px solid #ddd; padding: 10px; border-radius: 5px;">
+                    <c:forEach var="lesson" items="${lessons}">
+                        <div class="lesson-item mb-3">
+                            <h5 class="lesson-name" style="font-size: 1.2rem; color: #007bff; cursor: pointer; transition: color 0.3s;">
+                                <c:out value="${lesson.name}"/>
+                            </h5>
+                            <p><strong>Date:</strong> <c:out value="${lesson.date}"/></p>
+                            <p><strong>Description:</strong> <c:out value="${lesson.description}"/></p>
                         </div>
                     </c:forEach>
                 </div>
+            </div>
 
-
-                <!-- Phân trang -->
-                <div class="d-flex justify-content-center mt-4">
-                    <ul class="pagination">
-                        <!-- Hiển thị trang trước -->
-                        <c:if test="${pageIndex > 1}">
-                            <li class="page-item">
-                                <a class="page-link" href="?pageIndex=${pageIndex - 1}">
-                                    Previous
-                                </a>
-                            </li>
-                        </c:if>
-
-                        <!-- Các trang -->
-                        <c:forEach var="i" begin="1" end="${totalPages}">
-                            <li class="page-item ${i == pageIndex ? 'active' : ''}">
-                                <a class="page-link" href="?pageIndex=${i}">
-                                    ${i}
-                                </a>
-                            </li>
-                        </c:forEach>
-
-                        <!-- Hiển thị trang tiếp theo -->
-                        <c:if test="${pageIndex < totalPages}">
-                            <li class="page-item">
-                                <a class="page-link" href="?pageIndex=${pageIndex + 1}">
-                                    Next
-                                </a>
-                            </li>
-                        </c:if>
-                    </ul>
+            <div class="mt-2">
+                <h4>Exam</h4>
+                <div class="lesson-list" style="max-height: 300px; overflow-y: auto; border: 1px solid #ddd; padding: 10px; border-radius: 5px;">
+                    <c:forEach var="quiz" items="${quizzes}">
+                        <div class="lesson-item mb-3">
+                            <h5 class="lesson-name" style="font-size: 1.2rem; color: #007bff; cursor: pointer; transition: color 0.3s;">
+                                <c:out value="${quiz.name}"/>
+                            </h5>
+                            <p><strong>Description:</strong> <c:out value="${quiz.description}"/></p>
+                            <p><strong>Minimum Score:</strong> <c:out value="${quiz.miniumscore}"/></p>
+                            <p><strong>Content:</strong> <c:out value="${quiz.content}"/></p>
+                        </div>
+                    </c:forEach>
                 </div>
             </div>
 
+
+
+
+
         </div>
+
+
+
+
+
+
 
 
         <!-- Footer Start -->
         <jsp:include page="templates/footer.jsp" />
         <!-- Footer End -->
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+        <!-- JavaScript Libraries -->
+        <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
+        <script src="lib/wow/wow.min.js"></script>
+        <script src="lib/easing/easing.min.js"></script>
+        <script src="lib/waypoints/waypoints.min.js"></script>
+        <script src="lib/owlcarousel/owl.carousel.min.js"></script>
 
+        <!-- Template Javascript -->
+        <script src="js/main.js"></script>
     </body>
 </html>
