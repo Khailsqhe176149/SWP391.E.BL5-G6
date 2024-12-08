@@ -50,7 +50,8 @@ public class ViewMyCoursesDetail extends HttpServlet {
         List<Quiz> quizzes = dao.getQuizzesByCourseId(courseId);
         int quizCount = dao.countQuizzesByCourseId(courseId);
         int lessonCount = dao.countLessonsByCourseId(courseId);
-
+        
+       
         request.setAttribute("quizCount", quizCount);
         request.setAttribute("lessonCount", lessonCount);
         request.setAttribute("lessons", lessons);

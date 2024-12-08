@@ -1,12 +1,11 @@
 <%@ page contentType="text/html; charset=UTF-8" language="java" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
-
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <!DOCTYPE html>
 <html lang="en">
     <head>
         <meta charset="utf-8">
-        <title>Courses Detail</title>
+        <title>Lesson Videos</title>
         <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
         <!-- Favicon -->
@@ -34,135 +33,152 @@
         <!-- jQuery and Bootstrap JS -->
         <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
-        <style>.lesson-item {
-                background-color: #f9f9f9;
-                padding: 15px;
-                border-radius: 8px;
-                box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+
+        <style>
+            .container-fluid {
+                display: flex;
+                min-height: 100vh;
             }
 
-            .lesson-name {
-                font-size: 1.25rem;
-                font-weight: bold;
-                color: #0056b3;
-                transition: color 0.3s, text-decoration 0.3s;
-            }
-
-            .lesson-name:hover {
-                color: #003366;
-                text-decoration: underline;
-            }
-
-            .lesson-list {
-                max-height: 400px;
+            .sidebar {
+                width: 200px; /* Giảm chiều rộng của sidebar */
+                height: 100vh;
                 overflow-y: auto;
-                margin-top: 10px;
-                padding-right: 15px;
+                padding-top: 20px;
+                border-right: 1px solid #ddd; /* Thêm đường viền bên phải */
             }
 
-            .lesson-item + .lesson-item {
-                margin-top: 15px;
-            }</style>
+            .video-item {
+                padding: 10px;
+                cursor: pointer;
+                border-bottom: 1px solid #ddd;
+                transition: background-color 0.3s;
+            }
+
+            .video-item:hover {
+                background-color: #f8f9fa;
+            }
+
+            .video-content {
+                flex: 1;
+                padding: 20px;
+                text-align: center;
+            }
+
+            .video-content h3 {
+                font-size: 24px;
+                margin-bottom: 10px; /* Đặt khoảng cách dưới tiêu đề */
+            }
+
+            .video-content video {
+                width: 100%; /* Đảm bảo video chiếm hết chiều rộng của container */
+                height: auto; /* Tự động điều chỉnh chiều cao để giữ tỷ lệ */
+                max-width: 800px; /* Giới hạn chiều rộng tối đa của video */
+                max-height: 500px; /* Giới hạn chiều cao tối đa của video */
+                margin: 20px 0; /* Căn giữa và tạo khoảng cách trên dưới cho video */
+            }
+
+            .video-content p {
+                font-size: 16px;
+                color: #555;
+                line-height: 1.6;
+                margin-top: 15px; /* Khoảng cách trên cho mô tả */
+            }
+        </style>
     </head>
+
     <body>
-        <!-- Navbar Start  -->
+        <!-- Navbar Start -->
         <jsp:include page="templates/navbar.jsp" />
-        <!-- Navbar End  -->
-        <div class="container mt-5">
-            <h2>Course Detail</h2>
+        <!-- Navbar End -->
 
-            <div class="row">
-                <!-- Hiển thị hình ảnh khóa học -->
-                <div class="col-md-6">
-                    <img src="<c:out value='img/${course.img}' />" class="img-fluid" alt="${course.name}">
-                </div>
+        <!-- Sidebar and Main Content Start -->
+        <!-- Sidebar and Main Content Start -->
+        <div class="container-fluid">
+            <!-- Sidebar (Left Column) -->
+            <div class="sidebar bg-light">
+                <h3 class="text-center">Video List</h3>
 
-                <!-- Hiển thị thông tin khóa học -->
-                <div class="col-md-6">
-                    <h3><c:out value="${course.name}"/></h3>
-                    <p><strong>Description:</strong> <c:out value="${course.description}"/></p>
-
-                    <p class="card-status mb-2" style="font-size: 1rem;">
-                        <c:choose>
-                            <c:when test="${course.status == 1}">
-                                <span class="text-danger">Not started</span>
-                            </c:when>
-                            <c:when test="${course.status == 2}">
-                                <span class="text-warning">In Progress</span>
-                            </c:when>
-                            <c:when test="${course.status == 3}">
-                                <span class="text-success">Completed</span>
-                            </c:when>
-                            <c:otherwise>
-                                <span class="text-muted">Status Unknown</span>
-                            </c:otherwise>
-                        </c:choose>
-                    </p>
-                    <p><strong>Number of Quizzes:</strong> ${quizCount}</p>
-                    <p><strong>Number of Lessons:</strong> ${lessonCount}</p>
-
-
-                    <p><strong>Registration Date:</strong> <c:out value="${course.registrationDate}"/></p>
-                </div>
-
-            </div>
-            <div class="mt-4">
-                <h4>Lessons</h4>
-                <div class="lesson-list" style="max-height: 300px; overflow-y: auto; border: 1px solid #ddd; padding: 10px; border-radius: 5px;">
-                    <c:forEach var="lesson" items="${lessons}">
-                        <div class="lesson-item mb-3">
-                            <h5 class="lesson-name" style="font-size: 1.2rem; color: #007bff; cursor: pointer; transition: color 0.3s;">
-                                <c:out value="${lesson.name}"/>
-                            </h5>
-                            <p><strong>Date:</strong> <c:out value="${lesson.date}"/></p>
-                            <p><strong>Description:</strong> <c:out value="${lesson.description}"/></p>
+                <!-- Accordion for Video List -->
+                <div class="accordion" id="videoAccordion">
+                    <!-- Accordion Item for Video List -->
+                    <div class="accordion-item">
+                        <h2 class="accordion-header" id="headingVideos">
+                            <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseVideos" aria-expanded="true" aria-controls="collapseVideos">
+                                Video List
+                            </button>
+                        </h2>
+                        <div id="collapseVideos" class="accordion-collapse collapse show" aria-labelledby="headingVideos" data-bs-parent="#videoAccordion">
+                            <div class="accordion-body">
+                                <!-- List of videos -->
+                                <ul class="list-unstyled">
+                                    <c:forEach var="video" items="${videos}">
+                                        <li class="video-item">
+                                            <!-- Form to submit videoId -->
+                                            <form action="ListLessonVideo" method="post">
+                                                <input type="hidden" name="videoId" value="${video.videoId}">
+                                                <input type="hidden" name="lessonId" value="${lessonid}" />
+                                                <!-- Button with video icon and title -->
+                                                <button type="submit" class="btn btn-link">
+                                                    <!-- Video Icon (Font Awesome) -->
+                                                    <i class="fas fa-video" style="margin-right: 10px;"></i> 
+                                                    ${video.videoTitle}
+                                                </button>
+                                            </form>
+                                        </li>
+                                    </c:forEach>
+                                </ul>
+                            </div>
                         </div>
-                    </c:forEach>
+                    </div>
                 </div>
-            </div>
 
-            <div class="mt-2">
-                <h4>Exam</h4>
-                <div class="lesson-list" style="max-height: 300px; overflow-y: auto; border: 1px solid #ddd; padding: 10px; border-radius: 5px;">
-                    <c:forEach var="quiz" items="${quizzes}">
-                        <div class="lesson-item mb-3">
-                            <h5 class="lesson-name" style="font-size: 1.2rem; color: #007bff; cursor: pointer; transition: color 0.3s;">
-                                <c:out value="${quiz.name}"/>
-                            </h5>
-                            <p><strong>Description:</strong> <c:out value="${quiz.description}"/></p>
-                            <p><strong>Minimum Score:</strong> <c:out value="${quiz.miniumscore}"/></p>
-                            <p><strong>Content:</strong> <c:out value="${quiz.content}"/></p>
+                <!-- Accordion Item for Lesson Readings -->
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="headingReadings">
+                        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseReadings" aria-expanded="false" aria-controls="collapseReadings">
+                            Related Documents
+                        </button>
+                    </h2>
+                    <div id="collapseReadings" class="accordion-collapse collapse" aria-labelledby="headingReadings" data-bs-parent="#lessonAccordion">
+                        <div class="accordion-body">
+                            <!-- List of lesson readings -->
+                            <!-- Hiển thị danh sách bài đọc -->
+                            <ul class="list-unstyled">
+                                <c:forEach var="reading" items="${lessonReadings}">
+                                    <li>
+                                        <a href="${reading.readingURL}" target="_blank">${reading.title}</a>
+                                        <p>${reading.description}</p>
+                                    </li>
+                                </c:forEach>
+                            </ul>
+
                         </div>
-                    </c:forEach>
+                    </div>
                 </div>
+
             </div>
 
+            <!-- Main Content (Right Column) -->
+            <div class="video-content">
+                <!-- Video Title above the video -->
+                <h3>${videoTitle}</h3>
 
+                <!-- Video will be displayed here -->
+                <video id="videoPlayer" controls>
+                    
+                    <source id="videoSource" src="video/${videoURL}" type="video/mp4">
+                    Your browser does not support the video tag.
+                </video>
 
-
-
+                <!-- Video Description below the video -->
+                <p>${videoDescription}</p>
+            </div>
         </div>
-
-
-
-
-
-
 
 
         <!-- Footer Start -->
         <jsp:include page="templates/footer.jsp" />
         <!-- Footer End -->
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
-        <!-- JavaScript Libraries -->
-        <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
-        <script src="lib/wow/wow.min.js"></script>
-        <script src="lib/easing/easing.min.js"></script>
-        <script src="lib/waypoints/waypoints.min.js"></script>
-        <script src="lib/owlcarousel/owl.carousel.min.js"></script>
-
-        <!-- Template Javascript -->
-        <script src="js/main.js"></script>
     </body>
 </html>

@@ -1,50 +1,62 @@
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
+
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Quizzes</title>
-        <style>
-            .quiz-container {
-                max-width: 800px;
-                margin: 0 auto;
-                padding: 20px;
-                background-color: #f9f9f9;
-                border: 1px solid #ddd;
-                border-radius: 8px;
-                box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            }
-            .quiz-item {
-                padding: 15px;
-                margin-bottom: 15px;
-                background-color: #fff;
-                border-radius: 5px;
-                border: 1px solid #ddd;
-            }
-            .quiz-item h5 {
-                font-size: 1.2rem;
-                color: #007bff;
-                margin-bottom: 10px;
-            }
-            .quiz-item p {
-                margin: 5px 0;
-                font-size: 1rem;
-            }
-        </style>
-    </head>
-    <body>
-        <div class="quiz-container">
-            <h2>Quizzes</h2>
-            <c:forEach var="quiz" items="${quizzes}">
-                <div class="quiz-item">
-                    <h5><c:out value="${quiz.name}"/></h5>
-                    <p><strong>Description:</strong> <c:out value="${quiz.description}"/></p>
-                    <p><strong>Minimum Score:</strong> <c:out value="${quiz.miniumscore}"/></p>
-                    <p><strong>Content:</strong> <c:out value="${quiz.content}"/></p>
-                </div>
-            </c:forEach>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lesson Videos</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        .video-list {
+            list-style-type: none;
+            padding: 0;
+        }
+        .video-item {
+            margin-bottom: 20px;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        .video-title {
+            font-size: 1.5em;
+            color: #333;
+        }
+        .video-description {
+            font-size: 1em;
+            color: #666;
+        }
+        .video-link {
+            font-size: 1em;
+            color: #007bff;
+            text-decoration: none;
+        }
+        .video-link:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <h1>Lesson Videos</h1>
+    
+    <!-- Kiểm tra xem có video nào không -->
+    <c:if test="${empty videos}">
+        <p>No videos found for this lesson.</p>
+    </c:if>
 
-        </div>
-    </body>
+    <!-- Lặp qua danh sách video và hiển thị thông tin -->
+    <ul class="video-list">
+        <c:forEach var="video" items="${videos}">
+            <li class="video-item">
+                <h3 class="video-title">${video.videoTitle}</h3>
+                <p class="video-description">${video.description}</p>
+                <a class="video-link" href="${video.videoURL}" target="_blank">Watch Video</a>
+            </li>
+        </c:forEach>
+    </ul>
+</body>
 </html>
