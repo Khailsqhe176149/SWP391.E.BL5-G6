@@ -65,8 +65,8 @@
                         <option value="0">Inactive</option>
                     </select>
                 </div>
-                <div class="col-md-2">
-                    <button type="submit" class="btn btn-primary w-100">Tìm kiếm</button>
+                <div class="col-md-2"  >
+                    <button type="submit" class="btn btn-primary w-100"style="margin-top: 32px;" >Tìm kiếm</button>
                 </div>
             </div>
         </form>
@@ -126,7 +126,7 @@
                                         <option value="2" ${account.role_id == 2 ? 'selected' : ''}>Admin</option>
                                         <option value="3" ${account.role_id == 3 ? 'selected' : ''}>Staff</option>
                                     </select>
-                                    <button type="submit" name="action" value="updaterole" class="btn btn-warning btn-sm">Cập nhật</button>
+                                    <button type="submit" name="action" value="updaterole" class="btn btn-warning btn-sm" style="margin-top: 10px;">Cập nhật</button>
                                 </form>
                             </td>
                             <td>
@@ -137,7 +137,7 @@
                                         <option value="1" ${account.status == 1 ? 'selected' : ''}>Active</option>
                                         <option value="0" ${account.status == 0 ? 'selected' : ''}>Inactive</option>
                                     </select>
-                                    <button type="submit" name="action" value="updatestatus" class="btn btn-success btn-sm">Cập nhật</button>
+                                    <button type="submit" name="action" value="updatestatus" class="btn btn-success btn-sm" style="margin-top: 10px;">Cập nhật</button>
                                 </form>
                             </td>
                             <td>

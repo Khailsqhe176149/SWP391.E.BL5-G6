@@ -12,6 +12,7 @@ import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Calendar;
 import model.Users;
 
 /**
@@ -190,7 +191,27 @@ public class DAOPostList extends DBContext  {
         }
     }
              
-    
+    public boolean addPost(Post post) {
+    String sql = "INSERT INTO Post (Title, Content, Img, Status, Sliderid, authorid, Createdtime) VALUES (?, ?, ?, ?, ?, ?, ?)";
+    java.sql.Date currentDate = new java.sql.Date(Calendar.getInstance().getTimeInMillis());
+    try (PreparedStatement ps = connection.prepareStatement(sql)) {
+        ps.setString(1, post.getTitle());
+        ps.setString(2, post.getContent());
+        ps.setString(3, post.getImg());
+        ps.setInt(4, post.getStatus());
+        ps.setInt(5, post.getSliderid());
+        ps.setInt(6, post.getAuthorid());
+        ps.setDate(7, currentDate); 
+
+        int result = ps.executeUpdate();
+        return result > 0;
+    } catch (SQLException e) {
+        e.printStackTrace();
+    }
+    return false;
+}
+
+
     
     
 }
