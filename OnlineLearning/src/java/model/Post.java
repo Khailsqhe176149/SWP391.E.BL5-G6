@@ -19,7 +19,13 @@ public class Post {
     private String Img;
     private int Status;
     private int Sliderid;
+
     private String authorName;
+
+
+    private Users author;
+    private PostCategory category;
+
     public Post() {
     }
 
@@ -120,5 +126,27 @@ public class Post {
     public void setSliderid(int Sliderid) {
         this.Sliderid = Sliderid;
     }
+
+    public Users getAuthor() {
+        return author;
+    }
+
+    public void setAuthor(Users author) {
+        this.author = author;
+    }
+
+    public PostCategory getCategory() {
+        return category;
+    }
+
+    public void setCategory(PostCategory category) {
+        this.category = category;
+    }
+
+    @Override
+    public String toString() {
+        return "Post{" + "Postid=" + Postid + ", Title=" + Title + ", Content=" + Content + ", Createtime=" + Createtime + ", authorid=" + authorid + ", Img=" + Img + ", Status=" + Status + ", Sliderid=" + Sliderid + ", author=" + author + ", category=" + category + '}';
+    }
+    
     
 }

@@ -191,26 +191,7 @@ public class DAORegister extends DBContext {
         return false;  
     }
     
-//    public boolean registerUserForAdmin(String name, int gender, String dob, String phone, String address, String email, String password, int role, int status) {
-//    String sql = "INSERT INTO Account (Name, Gender, Dob, Phone, Address, Email, Password, Role, Status) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
-//    try {
-//        PreparedStatement stmt = connection.prepareStatement(sql);
-//        stmt.setString(1, name);
-//        stmt.setInt(2, gender);
-//        stmt.setString(3, dob);
-//        stmt.setString(4, phone);
-//        stmt.setString(5, address);
-//        stmt.setString(6, email);
-//        stmt.setString(7, password); 
-//        stmt.setInt(8, role); 
-//        stmt.setInt(9, status); 
-//        int rowsInserted = stmt.executeUpdate();
-//        return rowsInserted > 0; 
-//    } catch (SQLException e) {
-//        e.printStackTrace();
-//    }
-//    return false;
-//}
+
 
     
     
