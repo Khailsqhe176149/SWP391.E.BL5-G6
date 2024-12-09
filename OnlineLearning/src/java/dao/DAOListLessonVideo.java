@@ -22,7 +22,7 @@ public class DAOListLessonVideo extends DBContext {
     public DAOListLessonVideo() {
         super(); // Gọi constructor của lớp DBContext để khởi tạo kết nối
     }
-       // Phương thức lấy tất cả video của một lesson
+
     public List<LessonVideos> getVideosByLesson(int lessonId) {
         List<LessonVideos> videos = new ArrayList<>();
         String sql = "SELECT Videoid, VideoURL, VideoTitle, Description FROM LessonVideos WHERE Lessonid = ?";
@@ -50,8 +50,7 @@ public class DAOListLessonVideo extends DBContext {
         
         return videos;
     }
-    
-     // Hàm lấy danh sách LessonReading theo lessonId
+   
     public List<LessonReading> getLessonReadingsByLessonId(int lessonId) {
         List<LessonReading> lessonReadings = new ArrayList<>();
         String sql = "SELECT * FROM LessonReading WHERE LessonId = ?"; // Câu lệnh SQL
@@ -79,6 +78,52 @@ public class DAOListLessonVideo extends DBContext {
 
         return lessonReadings;
     }
+    
+    public boolean updateCourseStatusInProgress(int courseId, int userId) {
+        String query = "UPDATE CourseRegistrater SET Status = 2 WHERE CourseID = ? AND UserID = ?";
+        boolean isUpdated = false;
+
+       
+        try (PreparedStatement ps = connection.prepareStatement(query)) {
+            ps.setInt(1, courseId);  // Đặt CourseID vào vị trí đầu tiên trong câu lệnh SQL
+            ps.setInt(2, userId);    // Đặt UserID vào vị trí thứ hai trong câu lệnh SQL
+
+          
+            int rowsAffected = ps.executeUpdate();
+
+           
+            if (rowsAffected > 0) {
+                isUpdated = true;  
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();  
+        }
+
+        return isUpdated;
+    }
+    
+    public LessonVideos getVideoById(int videoId) {
+        LessonVideos video = null;
+        String sql = "SELECT Videoid, VideoURL, VideoTitle, Description FROM LessonVideos WHERE Videoid = ?";
+
+        try (PreparedStatement stmt = connection.prepareStatement(sql)) {
+            stmt.setInt(1, videoId);
+            ResultSet rs = stmt.executeQuery();
+
+            if (rs.next()) {
+                String videoURL = rs.getString("VideoURL");
+                String videoTitle = rs.getString("VideoTitle");
+                String description = rs.getString("Description");
+
+                video = new LessonVideos(videoId, videoURL, videoTitle, description);
+            }
+        } catch (SQLException ex) {
+            System.out.println("Error while getting video by ID: " + ex.getMessage());
+        }
+
+        return video;
+    }
+      
     public static void main(String[] args) {
         // Tạo đối tượng DAOLessonDetail để sử dụng hàm
         DAOListLessonVideo dao = new DAOListLessonVideo();

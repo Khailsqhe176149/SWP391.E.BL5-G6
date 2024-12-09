@@ -47,7 +47,7 @@ public class DAOListMyCourses extends DBContext {
                 + "FROM Course c "
                 + "JOIN CourseRegistrater cr ON c.Courseid = cr.CourseID "
                 + "WHERE cr.UserID = ? "
-                + "ORDER BY cr.RegistrationDate DESC "
+                + "ORDER BY cr.RegistrationDate ASC "
                 + // Sắp xếp theo ngày đăng ký
                 "OFFSET ? ROWS FETCH NEXT ? ROWS ONLY";  // Phân trang
 

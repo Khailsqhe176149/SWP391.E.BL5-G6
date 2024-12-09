@@ -103,7 +103,7 @@
 
 
                     <p><strong>Registration Date:</strong> <c:out value="${course.registrationDate}"/></p>
-                    <a href="ListMyCourses" class="btn btn-secondary">Back to Courses</a>
+                    <a href="ListMyCourses" class="btn btn-secondary">Back to My List Courses</a>
                 </div>
 
             </div>
@@ -118,7 +118,7 @@
                             <p><strong>Date:</strong> <c:out value="${lesson.date}"/></p>
                             <p><strong>Description:</strong> <c:out value="${lesson.description}"/></p>
                             <form action="ListLessonVideo" method="GET">
-                                
+                                <input type="hidden" name="courseId" value="${course.courseId}">
                                 <input type="hidden" name="lessonId" value="${lesson.lessonid}" />
                                 <button type="submit" class="btn btn-primary">Learn</button>
                             </form>

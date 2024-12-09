@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
-package customer;
+package controller.customer;
 
 import dao.DAOListMyCourses;
 import jakarta.servlet.RequestDispatcher;
@@ -25,6 +25,7 @@ import model.Users;
 @WebServlet(name = "ListMyCourses", urlPatterns = {"/ListMyCourses"})
 public class ListMyCourses extends HttpServlet {
 
+    @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         // Lấy userID từ session
         HttpSession session = request.getSession(false);  // false để không tạo session mới nếu không tồn tại
@@ -115,6 +116,7 @@ public class ListMyCourses extends HttpServlet {
         int totalPages = (int) Math.ceil((double) totalCourses / pageSize);
 
         // Đưa danh sách khóa học và thông tin phân trang vào request attribute
+         request.setAttribute("user", user); 
         request.setAttribute("courses", courses);
         request.setAttribute("pageIndex", pageIndex);
         request.setAttribute("totalPages", totalPages);

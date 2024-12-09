@@ -56,7 +56,7 @@
                 <!-- Avatar and User Info -->
                 <div class="text-center mb-4">
                     <!-- Sử dụng ảnh đại diện từ đối tượng user -->
-                    <img src="img/${user.img}" alt="User Avatar" class="rounded-circle" style="width: 120px; height: 120px;">
+                    <img src="${user.img}" alt="User Avatar" class="rounded-circle" style="width: 120px; height: 120px;">
                     <!-- Sử dụng tên người dùng từ đối tượng user -->
                     <h3 class="mt-2 text-primary" style="font-size: 1.5rem;">${user.name}</h3>
 

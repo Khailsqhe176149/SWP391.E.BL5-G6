@@ -98,7 +98,7 @@
             <!-- Sidebar (Left Column) -->
             <div class="sidebar bg-light">
 
-
+                <h3> View Lesson</h3>
                 <!-- Accordion for Video List -->
                 <div class="accordion" id="videoAccordion">
                     <!-- Accordion Item for Video List -->
@@ -148,8 +148,8 @@
                             <ul class="list-unstyled">
                                 <c:forEach var="reading" items="${lessonReadings}">
                                     <li>
-                                        <i class="fas fa-link" style="margin-right: 10px; color: #06BBCC"></i>
-                                        <a href="${reading.readingURL}" target="_blank">${reading.title}</a>
+                                        
+                                        <a href="${reading.readingURL}" target="_blank"><i class="fas fa-link" style="margin-right: 10px; color: #06BBCC"></i>${reading.title}</a>
                                          
                                         <p>${reading.description}</p>
                                     </li>
