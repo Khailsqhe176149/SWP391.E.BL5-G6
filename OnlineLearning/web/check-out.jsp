@@ -148,7 +148,7 @@
                     </div>
                 </div>
             </div>
-        </div>s
+        </div>
         < <!-- Footer Start -->
         <jsp:include page="templates/footer.jsp" />
         <!-- Footer End -->
