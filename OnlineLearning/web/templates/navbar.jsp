@@ -19,11 +19,12 @@
                 <div class="dropdown-menu fade-down m-0">
                     <a href="team.html" class="dropdown-item">Our Team</a>
                     <a href="testimonial.html" class="dropdown-item">Testimonial</a>
+                    <a href="post" class="dropdown-item">Post</a>
                     <a href="404.html" class="dropdown-item">404 Page</a>
 
-                    <!-- Chỉ hiển thị "Admin Dashboard" nếu user là admin -->
+                    <!-- Chỉ hiển thị "Subject Management" nếu user là admin -->
                     <c:if test="${acc.getRole_id() == 1}">
-                        <a href="admin/subject-management" class="dropdown-item">Admin Dashboard</a>
+                        <a href="admin/subject-management" class="dropdown-item">Subject Management</a>
                         <a href="ListMyCourses" class="dropdown-item">My Courses</a>
                     </c:if>
                 </div>
