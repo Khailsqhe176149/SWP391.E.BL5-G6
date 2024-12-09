@@ -55,5 +55,10 @@ public class PostCategory {
     public void setStatus(int Status) {
         this.Status = Status;
     }
+
+    @Override
+    public String toString() {
+        return "PostCategory{" + "postCatPostidegoryId=" + postCatPostidegoryId + ", Postid=" + Postid + ", Name=" + Name + ", Status=" + Status + '}';
+    }
     
 }
