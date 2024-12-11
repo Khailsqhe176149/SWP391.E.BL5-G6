@@ -74,8 +74,8 @@
                 <div class="mb-3">
                     <label for="role" class="form-label">Role:</label>
                     <select name="role" id="role" class="form-select" required>
-                        <option value="1" ${account.role_id == 1 ? 'selected' : ''}>Customer</option>
-                        <option value="2" ${account.role_id == 2 ? 'selected' : ''}>Admin</option>
+                        <option value="1" ${account.role_id == 1 ? 'selected' : ''}>Admin</option>
+                        <option value="2" ${account.role_id == 2 ? 'selected' : ''}>Customer</option>
                         <option value="3" ${account.role_id == 3 ? 'selected' : ''}>Staff</option>
                     </select>
                 </div>
@@ -89,11 +89,11 @@
                     </select>
                 </div>
                 
-                <button type="submit" name="action" value="update" class="btn btn-primary">Cập nhật</button>
+                <button type="submit" name="action" value="update" class="btn btn-primary">Update</button>
             </form>
         </c:if>
 
-        <a href="accountList" class="btn btn-secondary mt-3">Trở lại danh sách tài khoản</a>
+        <a href="accountList" class="btn btn-secondary mt-3">Back to account list</a>
     </div>
 </body>
 </html>
