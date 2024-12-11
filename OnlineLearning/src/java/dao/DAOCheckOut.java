@@ -1,4 +1,3 @@
-
 package dao;
 
 import java.sql.PreparedStatement;
@@ -17,7 +16,8 @@ public class DAOCheckOut extends DBContext {
     public DAOCheckOut() {
         super(); // Gọi constructor của lớp DBContext để khởi tạo kết nối
     }
-     public boolean registerCourse(int courseId, int userId, int status, java.util.Date registrationDate) {
+
+    public boolean registerCourse(int courseId, int userId, int status, java.util.Date registrationDate) {
         String sql = "INSERT INTO CourseRegistrater (CourseID, UserID, Status, RegistrationDate) VALUES (?, ?, ?, ?)";
         try (PreparedStatement ps = connection.prepareStatement(sql)) {
             ps.setInt(1, courseId);
@@ -72,23 +72,61 @@ public class DAOCheckOut extends DBContext {
 
         return balance;
     }
-    
-    public boolean updateWalletBalance(int userId, double newBalance) {
-    String sql = "UPDATE Wallet "
-               + "SET Balance = ? "
-               + "FROM Wallet w "
-               + "INNER JOIN Account a ON w.AccountId = a.accId "
-               + "WHERE a.userID = ?";
 
-    try (PreparedStatement ps = connection.prepareStatement(sql)) {
-        ps.setDouble(1, newBalance); // Đặt số dư mới
-        ps.setInt(2, userId); // Đặt userID
-        int rowsAffected = ps.executeUpdate();
-        return rowsAffected > 0; // Trả về true nếu cập nhật thành công
-    } catch (SQLException ex) {
-        System.out.println("Lỗi khi cập nhật số dư ví: " + ex.getMessage());
+    public boolean updateWalletBalance(int userId, double newBalance) {
+        String sql = "UPDATE Wallet "
+                + "SET Balance = ? "
+                + "FROM Wallet w "
+                + "INNER JOIN Account a ON w.AccountId = a.accId "
+                + "WHERE a.userID = ?";
+
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+            ps.setDouble(1, newBalance); // Đặt số dư mới
+            ps.setInt(2, userId); // Đặt userID
+            int rowsAffected = ps.executeUpdate();
+            return rowsAffected > 0; // Trả về true nếu cập nhật thành công
+        } catch (SQLException ex) {
+            System.out.println("Lỗi khi cập nhật số dư ví: " + ex.getMessage());
+        }
+        return false; // Trả về false nếu có lỗi xảy ra
     }
-    return false; // Trả về false nếu có lỗi xảy ra
+
+    public int getWalletIdByUserId(int userId) {
+        String sql = "SELECT w.WalletId "
+                + "FROM Wallet w "
+                + "INNER JOIN Account a ON w.AccountId = a.accId "
+                + "WHERE a.userID = ?";
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+            ps.setInt(1, userId);
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    return rs.getInt("WalletId");
+                }
+            }
+        } catch (SQLException ex) {
+            System.out.println("Lỗi khi lấy WalletId: " + ex.getMessage());
+        }
+        return -1; // Trả về -1 nếu không tìm thấy
+    }
+
+    public boolean addTransactionHistory(int walletId, double amount, int transactionType, String description, Integer courseId) {
+    String sql = "INSERT INTO TransactionHistory (WalletId, Amount, TransactionType, Description, CourseID) VALUES (?, ?, ?, ?, ?)";
+    try (PreparedStatement ps = connection.prepareStatement(sql)) {
+        ps.setInt(1, walletId);
+        ps.setDouble(2, amount);
+        ps.setInt(3, transactionType);
+        ps.setString(4, description);
+        if (courseId != null) {
+            ps.setInt(5, courseId);
+        } else {
+            ps.setNull(5, java.sql.Types.INTEGER);
+        }
+        int rowsAffected = ps.executeUpdate();
+        return rowsAffected > 0;
+    } catch (SQLException ex) {
+        System.out.println("Lỗi khi thêm lịch sử giao dịch: " + ex.getMessage());
+    }
+    return false;
 }
 
 

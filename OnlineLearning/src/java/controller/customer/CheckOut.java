@@ -63,8 +63,8 @@ public class CheckOut extends HttpServlet {
     }
 
     @Override
-protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
- // Lấy thông tin khóa học
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        // Lấy thông tin khóa học
         String courseIdStr = request.getParameter("courseId");
         int courseId = Integer.parseInt(courseIdStr);
         Course course = dao.getCourseById(courseId);
@@ -92,19 +92,30 @@ protected void doPost(HttpServletRequest request, HttpServletResponse response) 
 
             if (registrationSuccess) {
                 boolean balanceUpdated = dao.updateWalletBalance(userId, balance - course.getPrice());
+
                 
-                // Nếu cập nhật ví thành công, truyền thông báo thành công vào request
                 if (balanceUpdated) {
-                    request.setAttribute("message", "Registration successful!"); // Thành công
-                    request.setAttribute("redirectUrl", "home"); // Quay về trang home
+                    int walletId = dao.getWalletIdByUserId(userId);
+                    // Ghi lại lịch sử giao dịch, có CourseID để biết giao dịch này gắn liền với khóa học nào
+                    boolean historyRecorded = dao.addTransactionHistory(walletId, -course.getPrice(), 1, "Payment for course ID: " + courseId, courseId);
+
+                    if (historyRecorded) {
+                        request.setAttribute("message", "Registration successful!");
+                        request.setAttribute("redirectUrl", "home");
+                    } else {
+                        request.setAttribute("message", "Registration successful but failed to record transaction history!");
+                        request.setAttribute("redirectUrl", "errorPage.jsp");
+                    }
                 } else {
-                    request.setAttribute("message", "Failed to update wallet balance!"); // Thất bại khi cập nhật ví
-                    request.setAttribute("redirectUrl", "errorPage.jsp"); // Quay về trang lỗi
+                    request.setAttribute("message", "Failed to update wallet balance!");
+                    request.setAttribute("redirectUrl", "errorPage.jsp");
                 }
+
             } else {
-                request.setAttribute("message", "Course registration failed!"); // Thất bại khi đăng ký khóa học
-                request.setAttribute("redirectUrl", "courseRegistrationFailure.jsp");
+                request.setAttribute("message", "Failed to update wallet balance!");
+                request.setAttribute("redirectUrl", "errorPage.jsp");
             }
+
         } else {
             // Nếu số dư không đủ, hiển thị thông báo lỗi
             request.setAttribute("message", "Insufficient balance to register for the course!");
@@ -114,6 +125,5 @@ protected void doPost(HttpServletRequest request, HttpServletResponse response) 
         // Chuyển đến JSP để hiển thị modal
         request.getRequestDispatcher("/check-out.jsp").forward(request, response);
     }
-
 
 }
