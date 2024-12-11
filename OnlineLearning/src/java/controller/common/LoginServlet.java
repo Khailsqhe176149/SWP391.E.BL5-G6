@@ -38,7 +38,11 @@ public class LoginServlet extends HttpServlet {
         Account account = dao.checkLogin(email, password);
         String username = dao.getNameByEmail(email);
         if (account != null) {
-
+            if (account.getStatus() == 0) {
+                HttpSession session = request.getSession();
+                session.setAttribute("notificationErr", "Your account has been banned !");
+                response.sendRedirect("login.jsp");
+            } else {
             HttpSession session = request.getSession();
             session.setAttribute("userID", account.getUserID());
             session.setAttribute("username", username);
@@ -46,6 +50,11 @@ public class LoginServlet extends HttpServlet {
             session.setAttribute("acc", account);
             System.out.println(account.getRole_id());
             response.sendRedirect("home"); 
+            }
+        } else {
+            HttpSession session = request.getSession();
+                 session.setAttribute("notificationErr", "Wrong account or password !");
+                response.sendRedirect("login.jsp");
         }
     }
 
