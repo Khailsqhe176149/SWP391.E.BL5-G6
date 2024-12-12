@@ -83,7 +83,7 @@
                         <td>${post.getStatus() == 1 ? 'Active' : 'Inactive'}</td>
                         <td>${post.getSliderid()}</td>
                         <td>
-                            <a href="post-management?action=edit&postId=${post.getPostid()}" class="btn btn-warning btn-sm">Edit</a>
+                            <a href="post-management?action=edit&postId=${post.getPostid()}" class="btn btn-warning btn-sm"> <i class="fas fa-edit"></i> </a>
                         </td>
                     </tr>
                 </c:forEach>

@@ -5,6 +5,7 @@
 package model;
 
 import java.util.Date;
+import java.util.List;
 
 /**
  *
@@ -25,10 +26,8 @@ public class Course {
     private String tag;
     private Date RegistrationDate;
     private String SubjectName;
+    private List<Lesson> lessons;
 
-  
-    
-    
     public Course() {
     }
 
@@ -39,11 +38,8 @@ public class Course {
         this.status = status;
         this.SubjectName = SubjectName;
     }
-    
-    
+
     // Getters and Setters
-    
-    
     public Course(int courseId, String name, int subjectid, double price, String description, String img, int status) {
         this.courseId = courseId;
         this.name = name;
@@ -163,16 +159,16 @@ public class Course {
     public void setTag(String tag) {
         this.tag = tag;
     }
-    
-     public void setRegistrationDate(Date RegistrationDate) {
+
+    public void setRegistrationDate(Date RegistrationDate) {
         this.RegistrationDate = RegistrationDate;
     }
 
     public Date getRegistrationDate() {
         return RegistrationDate;
     }
-    
-      public String getSubjectName() {
+
+    public String getSubjectName() {
         return SubjectName;
     }
 
@@ -180,5 +176,12 @@ public class Course {
         this.SubjectName = SubjectName;
     }
     
+        public List<Lesson> getLessons() {
+    return lessons;
+}
+
+public void setLessons(List<Lesson> lessons) {
+    this.lessons = lessons;
+}
 
 }

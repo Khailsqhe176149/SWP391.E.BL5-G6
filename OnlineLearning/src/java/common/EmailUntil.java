@@ -5,6 +5,8 @@
 package common;
 
 import java.util.Properties;
+import java.util.Random;
+import javax.mail.Authenticator;
 import javax.mail.Message;
 import javax.mail.MessagingException;
 import javax.mail.PasswordAuthentication;
@@ -18,6 +20,7 @@ import javax.mail.internet.MimeMessage;
  * @author Khải
  */
 public class EmailUntil {
+
     public static void sendEmail(String toEmail, String subject, String messageText) {
         // Cấu hình các thuộc tính cho email
         Properties props = new Properties();
@@ -27,8 +30,7 @@ public class EmailUntil {
         props.put("mail.smtp.starttls.enable", "true"); // Sử dụng TLS để bảo mật
 
         // Xác thực thông tin Gmail của bạn
-
-             final String fromEmail = "lsqkhai301023@gmail.com"; // Email của bạn
+        final String fromEmail = "lsqkhai301023@gmail.com"; // Email của bạn
         final String password = "pajsfwkvfsyrlnbh"; // Mật khẩu của bạn (có thể cần mật khẩu ứng dụng)
         Session session = Session.getInstance(props, new javax.mail.Authenticator() {
             @Override
@@ -53,29 +55,25 @@ public class EmailUntil {
             e.printStackTrace();
         }
     }
-    
-    
-    
-    
-    public static void sendResetEmail(String toEmail, String token) {
-        String resetLink = "http://localhost:9999/OnlineLearning/reset-confirm.jsp?token=" + token; // Đổi URL phù hợp
-        String subject = "Password Reset Request";
-        String messageText = "Click the link below to reset your password:\n" + resetLink;
 
-        sendEmailtoken(toEmail, subject, messageText);
+    public static String getRandomCode() {
+        Random rnd = new Random();
+        int number = rnd.nextInt(999999);
+
+        return String.format("%06d", number);
     }
 
-    public static void sendEmailtoken(String toEmail, String subject, String messageText) {
-        // Cấu hình các thuộc tính cho email
-        Properties props = new Properties();
-        props.put("mail.smtp.host", "smtp.gmail.com");
-        props.put("mail.smtp.port", "587");
+    public static void sendEmailOTP(String toEmail, String code) {
+
+         Properties props = new Properties();
+        props.put("mail.smtp.host", "smtp.gmail.com"); // SMTP server của Gmail
+        props.put("mail.smtp.port", "587"); // Cổng SMTP
         props.put("mail.smtp.auth", "true");
-        props.put("mail.smtp.starttls.enable", "true");
+        props.put("mail.smtp.starttls.enable", "true"); // Sử dụng TLS để bảo mật
 
-       final String fromEmail = "lsqkhai301023@gmail.com"; // Email của bạn
+        // Xác thực thông tin Gmail của bạn
+        final String fromEmail = "lsqkhai301023@gmail.com"; // Email của bạn
         final String password = "pajsfwkvfsyrlnbh"; // Mật khẩu của bạn (có thể cần mật khẩu ứng dụng)
-
         Session session = Session.getInstance(props, new javax.mail.Authenticator() {
             @Override
             protected PasswordAuthentication getPasswordAuthentication() {
@@ -83,20 +81,23 @@ public class EmailUntil {
             }
         });
 
+
         try {
+           
+
             Message message = new MimeMessage(session);
-            message.setFrom(new InternetAddress(fromEmail));
-            message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(toEmail));
-            message.setSubject(subject);
-            message.setText(messageText);
+            message.setFrom(new InternetAddress(fromEmail)); // Người gửi
+            message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(toEmail)); // Người nhận
+
+            message.setSubject("Online Learning's account new password");
+            message.setText("New Password: " + code + "\n"
+                    + "Click here for login: http://localhost:9999/OnlineLearning/Login ");
 
             Transport.send(message);
-            System.out.println("Reset email sent to: " + toEmail);
-        } catch (MessagingException e) {
+
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
-    
-    
-    
+
 }

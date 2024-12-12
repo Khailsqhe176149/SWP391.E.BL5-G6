@@ -13,7 +13,7 @@
 
                     <form action="ManagerCourses" method="GET" style="display: inline;">
                         <input type="hidden" name="status" value="2">
-                        <button type="submit" class="d-block py-2 text-primary" style="font-size: 1.2rem; background: none; border: none;"> Courses</button>
+                        <button type="submit" class="d-block py-2 text-primary" style="font-size: 1.2rem; background: none; border: none;">List Courses</button>
                     </form>
                     <!-- Completed Courses và Studied Courses: S? d?ng POST -->
                        <form action="AddCourses" method="GET" style="display: inline;">
@@ -22,10 +22,13 @@
                     </form>
                     
                     
-                    <form action="ListMyCourses" method="POST" style="display: inline;">
-                        <input type="hidden" name="status" value="1">
-                        <button type="submit" class="d-block py-2 text-primary" style="font-size: 1.2rem; background: none; border: none;">Courses Content</button>
+                    <form action="AddLessonToCourses" method="GET" style="display: inline;">
+                        <button type="submit" class="d-block py-2 text-primary" style="font-size: 1.2rem; background: none; border: none;">Add Lesson To Courses</button>
                     </form>
+                    <form action="ListLesson" method="GET" style="display: inline;">
+                        <button type="submit" class="d-block py-2 text-primary" style="font-size: 1.2rem; background: none; border: none;">List Lesson</button>
+                    </form>
+
 
 
 

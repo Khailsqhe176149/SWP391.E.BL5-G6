@@ -15,6 +15,10 @@ public class LessonReading {
     private String description;
     private String readingURL; // URL của tài liệu đọc
 
+    public LessonReading() {
+    }
+    
+    
     // Constructors, getters, and setters
     public LessonReading(int readingId, int lessonId, String title, String description, String readingURL) {
         this.readingId = readingId;

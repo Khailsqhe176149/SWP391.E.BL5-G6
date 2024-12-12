@@ -5,6 +5,7 @@
 package model;
 
 import java.util.Date;
+import java.util.List;
 
 /**
  *
@@ -16,10 +17,13 @@ public class Lesson {
     private String Name;
     private String Content;
     private String Description;
+ 
+
+
 
     public Lesson() {
     }
-
+    
     public Lesson(int Lessonid, Date Date, String Name, String Content, String Description) {
         this.Lessonid = Lessonid;
         this.Date = Date;
@@ -67,5 +71,6 @@ public class Lesson {
     public void setDescription(String Description) {
         this.Description = Description;
     }
+
     
 }

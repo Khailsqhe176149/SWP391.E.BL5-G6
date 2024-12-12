@@ -67,11 +67,12 @@
 
     </head>
 
-    <body class="bg-light">
-        <!-- Navbar Start -->
+    <body>
+        <!-- Navbar Start  -->
         <jsp:include page="templates/navbar.jsp" />
-        <!-- Navbar End -->
+        <!-- Navbar End  -->
 
+        <!-- Sidebar and Main Content Start -->
         <div class="container-fluid" style="display: flex; min-height: 100vh;">
             <!-- Sidebar -->
 
@@ -82,89 +83,66 @@
 
             <!-- Main Content -->
             <div class="col-md-9 ps-4">
-             
-                    <h1 class="mb-4">Manage Courses</h1>
-                    <table class="table table-striped" id="coursesTable">
+                <h1 class="mb-4">Add Lessons to Course</h1>
+                <h3 class="mb-3">Course ID: ${courseId}</h3>
+                <form action="AddLessonToCourses" method="post">
+                    <input type="hidden" name="courseId" value="${courseId}" />
+                    <table class="table table-striped" id="lessonsTable">
                         <thead>
                             <tr>
-                                <th>Course ID</th>
-                                <th>Course Name</th>
-                                <th>Subject</th>
-                                <th>Status</th>
-                                <th>Action</th>
+                                <th>Lesson ID</th>
+                                <th>Lesson Name</th>
+                                <th>Select</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <c:forEach var="course" items="${courses}">
+                            <c:forEach var="lesson" items="${lessons}">
                                 <tr>
-                                    <td>${course.courseId}</td>
-                                    <td>${course.name}</td>
-                                    <td>${course.subjectName}</td>
+                                    <td>${lesson.lessonid}</td>
+                                    <td>${lesson.name}</td>
                                     <td>
-                                        <span class="badge ${course.status == 1 ? 'badge-success' : 'badge-danger'}">
-                                            ${course.status == 1 ? 'Active' : 'Inactive'}
-                                        </span>
+                                        <input type="checkbox" name="lessonIds" value="${lesson.lessonid}" />
                                     </td>
-                                    <td>
-                                        <a href="addLesson?courseId=${course.courseId}" class="btn btn-primary">Add Lesson</a>
-                                        <button class="btn btn-info" data-bs-toggle="modal" data-bs-target="#lessonModal${course.courseId}">View Lessons</button>
-                                    </td>
-
-
-
                                 </tr>
                             </c:forEach>
                         </tbody>
                     </table>
-               
-                <c:forEach var="course" items="${courses}">
-                    <!-- Modal -->
-                    <div class="modal fade" id="lessonModal${course.courseId}" tabindex="-1" aria-labelledby="lessonModalLabel${course.courseId}" aria-hidden="true">
-                        <div class="modal-dialog modal-lg">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h5 class="modal-title" id="lessonModalLabel${course.courseId}">Lessons in Course: ${course.name}</h5>
-                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                </div>
-                                <div class="modal-body">
-                                    <table class="table table-bordered">
-                                        <thead>
-                                            <tr>
-                                                <th>Lesson ID</th>
-                                                <th>Lesson Name</th>
-                                                <th>Description</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <c:forEach var="lesson" items="${course.lessons}">
-                                                <tr>
-                                                    <td>${lesson.lessonid}</td>
-                                                    <td>${lesson.name}</td>
-                                                    <td>${lesson.description}</td>
-                                                </tr>
-                                            </c:forEach>
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </c:forEach>
+                    <button type="submit" class="btn btn-success mt-3">Add Selected Lessons</button>
+                </form>
 
             </div>
-            <!-- Main Content End -->
         </div>
+
 
         <!-- Footer Start -->
         <jsp:include page="templates/footer.jsp" />
         <!-- Footer End -->
-    </body>
+        <!-- jQuery script to handle button actions -->
 
-    <script>
-        $(document).ready(function () {
-            $('#coursesTable').DataTable(); // Initialize DataTable
-        });
-    </script>
-     <!-- Bootstrap JS -->
+
+        <script>
+            $(document).ready(function () {
+
+                $('.table').DataTable({
+                    paging: true,
+                    searching: true,
+                    ordering: true,
+                    lengthChange: true,
+                    info: true,
+                    language: {
+                        search: "Search Course:",
+                        lengthMenu: "Show _MENU_ courses per page",
+                        info: "Showing _START_ to _END_ of _TOTAL_ courses",
+                        paginate: {
+                            previous: "Previous",
+                            next: "Next"
+                        }
+                    }
+                });
+            });
+        </script>
+
+        <!-- Bootstrap JS -->
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
+    </body>
 </html>

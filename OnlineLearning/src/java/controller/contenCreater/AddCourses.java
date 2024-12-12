@@ -47,7 +47,7 @@ public class AddCourses extends HttpServlet {
         request.setAttribute("authorid", authorid);
 
         // Chuyển hướng đến trang edit course
-        request.getRequestDispatcher("test2.jsp").forward(request, response);
+        request.getRequestDispatcher("add-course.jsp").forward(request, response);
     }
 
     @Override

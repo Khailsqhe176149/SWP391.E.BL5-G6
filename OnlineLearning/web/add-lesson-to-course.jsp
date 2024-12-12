@@ -67,11 +67,12 @@
 
     </head>
 
-    <body class="bg-light">
-        <!-- Navbar Start -->
+    <body>
+        <!-- Navbar Start  -->
         <jsp:include page="templates/navbar.jsp" />
-        <!-- Navbar End -->
+        <!-- Navbar End  -->
 
+        <!-- Sidebar and Main Content Start -->
         <div class="container-fluid" style="display: flex; min-height: 100vh;">
             <!-- Sidebar -->
 
@@ -82,41 +83,40 @@
 
             <!-- Main Content -->
             <div class="col-md-9 ps-4">
-             
-                    <h1 class="mb-4">Manage Courses</h1>
-                    <table class="table table-striped" id="coursesTable">
-                        <thead>
+                <h1 class="mb-4">Manage Courses</h1>
+                <table class="table table-striped" id="coursesTable">
+                    <thead>
+                        <tr>
+                            <th>Course ID</th>
+                            <th>Course Name</th>
+                            <th>Subject</th>
+                            <th>Status</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <c:forEach var="course" items="${courses}">
                             <tr>
-                                <th>Course ID</th>
-                                <th>Course Name</th>
-                                <th>Subject</th>
-                                <th>Status</th>
-                                <th>Action</th>
+                                <td>${course.courseId}</td>
+                                <td>${course.name}</td>
+                                <td>${course.subjectName}</td>
+                                <td>
+                                    <span class="badge ${course.status == 1 ? 'badge-success' : 'badge-danger'}">
+                                        ${course.status == 1 ? 'Active' : 'Inactive'}
+                                    </span>
+                                </td>
+                                <td>
+                                    <a href="addLesson?courseId=${course.courseId}" class="btn btn-primary">Add Lesson</a>
+                                    <button class="btn btn-info" data-bs-toggle="modal" data-bs-target="#lessonModal${course.courseId}">View Lessons</button>
+                                </td>
+
+
+
                             </tr>
-                        </thead>
-                        <tbody>
-                            <c:forEach var="course" items="${courses}">
-                                <tr>
-                                    <td>${course.courseId}</td>
-                                    <td>${course.name}</td>
-                                    <td>${course.subjectName}</td>
-                                    <td>
-                                        <span class="badge ${course.status == 1 ? 'badge-success' : 'badge-danger'}">
-                                            ${course.status == 1 ? 'Active' : 'Inactive'}
-                                        </span>
-                                    </td>
-                                    <td>
-                                        <a href="addLesson?courseId=${course.courseId}" class="btn btn-primary">Add Lesson</a>
-                                        <button class="btn btn-info" data-bs-toggle="modal" data-bs-target="#lessonModal${course.courseId}">View Lessons</button>
-                                    </td>
+                        </c:forEach>
+                    </tbody>
+                </table>
 
-
-
-                                </tr>
-                            </c:forEach>
-                        </tbody>
-                    </table>
-               
                 <c:forEach var="course" items="${courses}">
                     <!-- Modal -->
                     <div class="modal fade" id="lessonModal${course.courseId}" tabindex="-1" aria-labelledby="lessonModalLabel${course.courseId}" aria-hidden="true">
@@ -152,19 +152,38 @@
                 </c:forEach>
 
             </div>
-            <!-- Main Content End -->
         </div>
+
 
         <!-- Footer Start -->
         <jsp:include page="templates/footer.jsp" />
         <!-- Footer End -->
-    </body>
+        <!-- jQuery script to handle button actions -->
 
-    <script>
-        $(document).ready(function () {
-            $('#coursesTable').DataTable(); // Initialize DataTable
-        });
-    </script>
-     <!-- Bootstrap JS -->
+     
+        <script>
+            $(document).ready(function () {
+
+                $('.table').DataTable({
+                    paging: true,
+                    searching: true,
+                    ordering: true,
+                    lengthChange: true,
+                    info: true,
+                    language: {
+                        search: "Search Course:",
+                        lengthMenu: "Show _MENU_ courses per page",
+                        info: "Showing _START_ to _END_ of _TOTAL_ courses",
+                        paginate: {
+                            previous: "Previous",
+                            next: "Next"
+                        }
+                    }
+                });
+            });
+        </script>
+
+        <!-- Bootstrap JS -->
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
+    </body>
 </html>

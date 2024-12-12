@@ -70,6 +70,7 @@
     <body>
         <!-- Navbar Start  -->
         <jsp:include page="templates/navbar.jsp" />
+
         <!-- Navbar End  -->
 
         <!-- Sidebar and Main Content Start -->
@@ -83,53 +84,32 @@
 
             <!-- Main Content -->
             <div class="col-md-9 ps-4">
-                <h2>Add Lesson</h2>
+                <h2>Edit Lesson Reading</h2>
 
-                <!-- Error message display -->
-                <c:if test="${not empty errorMessage}">
-                    <div class="alert alert-danger">
-                        <strong>Error:</strong> ${errorMessage}
-                    </div>
-                </c:if>
-
-                <!-- Form to edit lesson -->
-                <form action="AddNewLesson" method="POST">
-                   
+                <form action="EditLessonReading" method="POST">
+                    <input type="hidden" name="readingId" value="${lessonReading.readingId}">  <!-- Ẩn trường readingId -->
+                    <input type="hidden" name="lessonId" value="${lessonReading.lessonId}">  <!-- Ẩn trường readingId -->
 
                     <div class="mb-3">
-                        <label for="name" class="form-label">Lesson Name</label>
-                        <input type="text" class="form-control" id="name" name="name" value="${lesson.name}" required>
-                    </div>
-
-                    <div class="mb-3">
-                        <label for="content" class="form-label">Content</label>
-                        <textarea class="form-control" id="content" name="content" rows="3" required>${lesson.content}</textarea>
+                        <label for="title" class="form-label">Title</label>
+                        <input type="text" class="form-control" id="title" name="title" value="${lessonReading.title}" required>
                     </div>
 
                     <div class="mb-3">
                         <label for="description" class="form-label">Description</label>
-                        <textarea class="form-control" id="description" name="description" rows="3" required>${lesson.description}</textarea>
+                        <textarea class="form-control" id="description" name="description" rows="3" required>${lessonReading.description}</textarea>
                     </div>
 
                     <div class="mb-3">
-                        <label for="date" class="form-label">Date</label>
-                        <input type="date" class="form-control" id="date" name="date" value="${lesson.date != null ? lesson.date.toString().substring(0, 10) : ''}" required>
+                        <label for="readingURL" class="form-label">Reading URL</label>
+                        <input type="url" class="form-control" id="readingURL" name="readingURL" value="${lessonReading.readingURL}" required>
                     </div>
 
-                    <button type="submit" class="btn btn-primary">Add Lesson</button>
+                    <button type="submit" class="btn btn-success">Update Reading</button>
+                    <a href="ViewLessonReading?lessonId=${lessonReading.lessonId}" class="btn btn-secondary">Back to Lesson Readings</a>
                 </form>
-                    
-                    
-                     <a href="ListLesson" class="btn btn-secondary mt-3">Back to List</a>
-               
-               
-                
-                
             </div>
-
         </div>
-
-
 
 
         <!-- Footer Start -->

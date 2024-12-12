@@ -83,47 +83,31 @@
 
             <!-- Main Content -->
             <div class="col-md-9 ps-4">
-                <h2>Add Lesson</h2>
+                <h2>Add New Video</h2>
 
-                <!-- Error message display -->
-                <c:if test="${not empty errorMessage}">
-                    <div class="alert alert-danger">
-                        <strong>Error:</strong> ${errorMessage}
-                    </div>
-                </c:if>
+                <!-- Form for adding video -->
+                <form action="AddLessonVideo" method="POST">
+                    <input type="hidden" name="lessonId" value="${lessonId}">
 
-                <!-- Form to edit lesson -->
-                <form action="AddNewLesson" method="POST">
-                   
-
-                    <div class="mb-3">
-                        <label for="name" class="form-label">Lesson Name</label>
-                        <input type="text" class="form-control" id="name" name="name" value="${lesson.name}" required>
+                    <div class="form-group">
+                        <label for="videoTitle">Video Title</label>
+                        <input type="text" class="form-control" id="videoTitle" name="videoTitle" required>
                     </div>
 
-                    <div class="mb-3">
-                        <label for="content" class="form-label">Content</label>
-                        <textarea class="form-control" id="content" name="content" rows="3" required>${lesson.content}</textarea>
+                    <div class="form-group">
+                        <label for="description">Description</label>
+                        <textarea class="form-control" id="description" name="description" required></textarea>
                     </div>
 
-                    <div class="mb-3">
-                        <label for="description" class="form-label">Description</label>
-                        <textarea class="form-control" id="description" name="description" rows="3" required>${lesson.description}</textarea>
+                    <div class="form-group">
+                        <label for="videoURL">Video URL</label>
+                        <input type="url" class="form-control" id="videoURL" name="videoURL" required>
                     </div>
-
-                    <div class="mb-3">
-                        <label for="date" class="form-label">Date</label>
-                        <input type="date" class="form-control" id="date" name="date" value="${lesson.date != null ? lesson.date.toString().substring(0, 10) : ''}" required>
-                    </div>
-
-                    <button type="submit" class="btn btn-primary">Add Lesson</button>
+                    <a href="ListLesson" class="btn btn-secondary mt-3">Back to List</a>
+                    <button type="submit" class="btn btn-primary mt-3">Add Video</button>
                 </form>
-                    
-                    
-                     <a href="ListLesson" class="btn btn-secondary mt-3">Back to List</a>
-               
-               
-                
+                      <img src="img/guilde1.jpg" width="width" height="height" alt="alt"/>
+                     <img src="img/guilde2.jpg" width="width" height="height" alt="alt"/>
                 
             </div>
 

@@ -83,7 +83,7 @@
 
             <!-- Main Content -->
             <div class="col-md-9 ps-4">
-                <h2>Add Lesson</h2>
+                <h1 class="mb-4">Edit Lesson</h1>
 
                 <!-- Error message display -->
                 <c:if test="${not empty errorMessage}">
@@ -93,8 +93,11 @@
                 </c:if>
 
                 <!-- Form to edit lesson -->
-                <form action="AddNewLesson" method="POST">
-                   
+                <form action="EditLesson" method="POST">
+                    <div class="mb-3">
+                        <label for="lessonId" class="form-label">Lesson ID</label>
+                        <input type="text" class="form-control" id="lessonId" name="lessonId" value="${lesson.lessonid}" readonly>
+                    </div>
 
                     <div class="mb-3">
                         <label for="name" class="form-label">Lesson Name</label>
@@ -116,51 +119,47 @@
                         <input type="date" class="form-control" id="date" name="date" value="${lesson.date != null ? lesson.date.toString().substring(0, 10) : ''}" required>
                     </div>
 
-                    <button type="submit" class="btn btn-primary">Add Lesson</button>
+                    <button type="submit" class="btn btn-primary">Update Lesson</button>
                 </form>
-                    
-                    
-                     <a href="ListLesson" class="btn btn-secondary mt-3">Back to List</a>
-               
-               
-                
-                
+
+
+                <!-- Back to Lessons List -->
+                <a href="ListLesson" class="btn btn-secondary mt-3">Back to List</a>
             </div>
 
         </div>
+    </div>
 
 
+    <!-- Footer Start -->
+    <jsp:include page="templates/footer.jsp" />
+    <!-- Footer End -->
+    <!-- jQuery script to handle button actions -->
 
 
-        <!-- Footer Start -->
-        <jsp:include page="templates/footer.jsp" />
-        <!-- Footer End -->
-        <!-- jQuery script to handle button actions -->
+    <script>
+        $(document).ready(function () {
 
-
-        <script>
-            $(document).ready(function () {
-
-                $('.table').DataTable({
-                    paging: true,
-                    searching: true,
-                    ordering: true,
-                    lengthChange: true,
-                    info: true,
-                    language: {
-                        search: "Search Course:",
-                        lengthMenu: "Show _MENU_ courses per page",
-                        info: "Showing _START_ to _END_ of _TOTAL_ courses",
-                        paginate: {
-                            previous: "Previous",
-                            next: "Next"
-                        }
+            $('.table').DataTable({
+                paging: true,
+                searching: true,
+                ordering: true,
+                lengthChange: true,
+                info: true,
+                language: {
+                    search: "Search Course:",
+                    lengthMenu: "Show _MENU_ courses per page",
+                    info: "Showing _START_ to _END_ of _TOTAL_ courses",
+                    paginate: {
+                        previous: "Previous",
+                        next: "Next"
                     }
-                });
+                }
             });
-        </script>
+        });
+    </script>
 
-        <!-- Bootstrap JS -->
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
-    </body>
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
 </html>

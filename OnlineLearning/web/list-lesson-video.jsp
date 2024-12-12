@@ -144,13 +144,13 @@
                     <div id="collapseReadings" class="accordion-collapse collapse" aria-labelledby="headingReadings" data-bs-parent="#lessonAccordion">
                         <div class="accordion-body">
                             <!-- List of lesson readings -->
-                          
+
                             <ul class="list-unstyled">
                                 <c:forEach var="reading" items="${lessonReadings}">
                                     <li>
-                                        
+
                                         <a href="${reading.readingURL}" target="_blank"><i class="fas fa-link" style="margin-right: 10px; color: #06BBCC"></i>${reading.title}</a>
-                                         
+
                                         <p>${reading.description}</p>
                                     </li>
                                 </c:forEach>
@@ -176,11 +176,11 @@
                 <!-- Video Title above the video -->
                 <h3>${videoTitle}</h3>
 
-                <!-- Video will be displayed here -->
-                <video id="videoPlayer" controls>
-                    <source id="videoSource" src="video/${videoURL}" type="video/mp4">
-                    Your browser does not support the video tag.
-                </video>
+                
+                <iframe width="700" height="420"
+                        src="${videoURL}">
+                </iframe>
+                
 
                 <!-- Video Description below the video -->
                 <p style="font-size: 18px; color: #333; line-height: 1.6; margin-top: 20px;">

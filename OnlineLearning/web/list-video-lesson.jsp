@@ -83,50 +83,35 @@
 
             <!-- Main Content -->
             <div class="col-md-9 ps-4">
-                <h2>Add Lesson</h2>
+                <h2>Lesson Videos</h2>
 
-                <!-- Error message display -->
-                <c:if test="${not empty errorMessage}">
-                    <div class="alert alert-danger">
-                        <strong>Error:</strong> ${errorMessage}
-                    </div>
-                </c:if>
-
-                <!-- Form to edit lesson -->
-                <form action="AddNewLesson" method="POST">
-                   
-
-                    <div class="mb-3">
-                        <label for="name" class="form-label">Lesson Name</label>
-                        <input type="text" class="form-control" id="name" name="name" value="${lesson.name}" required>
-                    </div>
-
-                    <div class="mb-3">
-                        <label for="content" class="form-label">Content</label>
-                        <textarea class="form-control" id="content" name="content" rows="3" required>${lesson.content}</textarea>
-                    </div>
-
-                    <div class="mb-3">
-                        <label for="description" class="form-label">Description</label>
-                        <textarea class="form-control" id="description" name="description" rows="3" required>${lesson.description}</textarea>
-                    </div>
-
-                    <div class="mb-3">
-                        <label for="date" class="form-label">Date</label>
-                        <input type="date" class="form-control" id="date" name="date" value="${lesson.date != null ? lesson.date.toString().substring(0, 10) : ''}" required>
-                    </div>
-
-                    <button type="submit" class="btn btn-primary">Add Lesson</button>
-                </form>
-                    
-                    
-                     <a href="ListLesson" class="btn btn-secondary mt-3">Back to List</a>
-               
-               
-                
-                
+                <table id="videoTable" class="table table-bordered table-striped">
+                    <thead>
+                        <tr>
+                            <th>Video Title</th>
+                            <th>Description</th>
+                            <th>Video URL</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <c:forEach var="video" items="${videos}">
+                            <tr>
+                                <td>${video.videoTitle}</td>
+                                <td>${video.description}</td>
+                                <td><a href="${video.videoURL}" target="_blank">Watch</a></td>
+                                <td>
+                                    <a href="EditLessonVideo?videoId=${video.videoId}&lessonId=${lessonId}" class="btn btn-primary btn-sm">Edit</a>
+                                    <a href="DeleteLessonVideo?videoId=${video.videoId}&lessonId=${lessonId}" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure you want to delete this video?');">Delete</a>
+                                </td>
+                            </tr>
+                        </c:forEach>
+                    </tbody>
+                </table>
+                 <a href="AddLessonVideo?videoId=${video.videoId}&lessonId=${lessonId}" class="btn btn-primary mt-3">Add Video</a>
+                 <a href="ListLesson" class="btn btn-secondary mt-3">Back to List</a>
             </div>
-
+           
         </div>
 
 
