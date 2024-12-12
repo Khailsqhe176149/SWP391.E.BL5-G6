@@ -1,37 +1,20 @@
-<%-- 
-    Document   : resetPassword
-    Created on : Nov 30, 2024, 7:28:45 PM
-    Author     : Khải
---%>
-
-<%@ page contentType="text/html; charset=UTF-8" language="java" %>
 <!DOCTYPE html>
-<html>
+<html lang="vi">
 <head>
     <meta charset="UTF-8">
-    <title>Reset Mật Khẩu</title>
-    <link rel="stylesheet" href="css/style.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>??t l?i m?t kh?u</title>
 </head>
 <body>
-    <div class="container">
-        <h2>Reset Mật Khẩu</h2>
-        <form action="reset-password" method="post">
-            <input type="hidden" name="token" value="${param.token}">
-            <label for="password">Mật khẩu mới:</label>
-            <input type="password" id="password" name="password" required><br>
+    <h2>??t l?i m?t kh?u</h2>
+    <form action="reset-password" method="post">
+        <label for="newPassword">M?t kh?u m?i:</label>
+        <input type="password" id="newPassword" name="newPassword" required placeholder="Nh?p m?t kh?u m?i">
+        
+        <label for="confirmPassword">X�c nh?n m?t kh?u m?i:</label>
+        <input type="password" id="confirmPassword" name="confirmPassword" required placeholder="X�c nh?n m?t kh?u m?i">
 
-            <label for="confirmPassword">Xác nhận mật khẩu:</label>
-            <input type="password" id="confirmPassword" name="confirmPassword" required><br>
-
-            <input type="submit" value="Reset Mật Khẩu">
-        </form>
-
-        <c:if test="${not empty messageErr}">
-            <p style="color:red;">${messageErr}</p>
-        </c:if>
-        <c:if test="${not empty message}">
-            <p style="color:green;">${message}</p>
-        </c:if>
-    </div>
+        <button type="submit">??t l?i m?t kh?u</button>
+    </form>
 </body>
 </html>

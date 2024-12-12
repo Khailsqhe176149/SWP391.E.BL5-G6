@@ -14,7 +14,7 @@ public class DAOResetPassword extends DBContext {
 
     public boolean resetPassword(String email, String newPassword) {
         boolean isUpdated = false;
-        String query = "UPDATE Account SET password = ? WHERE email = ?";
+        String query = "UPDATE Account SET Pass = ? WHERE Email = ?";
         
         try (
              PreparedStatement ps = connection.prepareStatement(query)) {

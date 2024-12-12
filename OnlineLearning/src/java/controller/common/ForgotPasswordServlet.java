@@ -1,7 +1,7 @@
 package controller.common;
 
 import common.EmailUntil;
-import dao.DAORegister;
+import dao.DAOResetPassword;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -10,55 +10,79 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 
 import java.io.IOException;
-import java.security.SecureRandom;
-import java.util.Base64;
 
 @WebServlet(name = "ForgotPasswordServlet", urlPatterns = {"/forgot-password"})
 public class ForgotPasswordServlet extends HttpServlet {
 
-    private final DAORegister dao = new DAORegister();
-
-    private final long EXPIRATION_TIME = 15 * 60 * 1000; // 15 phút
+    private final DAOResetPassword dao = new DAOResetPassword();
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        // Trả về trang quên mật khẩu (forgot-password.jsp)
+        // request.getRequestDispatcher("/forgot-password.jsp").forward(request, response);
         request.getRequestDispatcher("/forgot-password.jsp").forward(request, response);
     }
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        String action = request.getParameter("action");
         String email = request.getParameter("email");
-
-        // Kiểm tra email có tồn tại trong cơ sở dữ liệu
-        if (dao.isEmailExist(email)) {
-            // Tạo token ngẫu nhiên
-            String token = generateToken();
-
-// Lưu token và thời gian tạo token vào session
+        if ("sendVerificationCode".equals(action)) {
+            //String email = request.getParameter("email");
+            String verificationCode = EmailUntil.getRandomCode();
+            EmailUntil.sendEmailOTP(email, verificationCode);
             HttpSession session = request.getSession();
-            long tokenCreationTime = System.currentTimeMillis(); // Lưu thời gian tạo token
-            session.setAttribute("resetToken", token);
-            session.setAttribute("resetTokenCreationTime", tokenCreationTime); // Lưu thời gian tạo token
-            session.setAttribute("resetTokenEmail", email); // Lưu email vào session
+            session.setAttribute("verificationCode", verificationCode);
+            boolean isPasswordUpdated = dao.resetPassword(email, verificationCode);
+            if (isPasswordUpdated) {
+                    response.getWriter().write("Mật khẩu của bạn đã được thay đổi thành công.");
+                } else {
+                    response.getWriter().write("Có lỗi xảy ra khi thay đổi mật khẩu. Vui lòng thử lại.");
+                }
+            //String emailverify = email;
+            //session.setAttribute("emailverify", emailverify);
+            // sendEmail(email, request, response);
+             response.sendRedirect("login.jsp");
+//        } else if ("confirmVerificationCode".equals(action)) {
+//            //confirmVerificationCode(request, response);
+//
+//            String inputVerificationCode = request.getParameter("verificationCode");
+//            String newPassword = request.getParameter("newPassword");
+//            String confirmPassword = request.getParameter("confirmPassword");
+//            String emailOTP = request.getParameter("emailverify");
+//            
+//            HttpSession session = request.getSession();
+//            String sessionVerificationCode = (String) session.getAttribute("verificationCode");
+//
+//            // Kiểm tra mã xác thực
+//            if (sessionVerificationCode == null || !sessionVerificationCode.equals(inputVerificationCode)) {
+//                response.getWriter().write("Mã xác thực không đúng. Vui lòng kiểm tra lại.");
+//                return;
+//            }
+//
+//            // Kiểm tra mật khẩu mới và xác nhận mật khẩu
+//            if (newPassword == null || confirmPassword == null || !newPassword.equals(confirmPassword)) {
+//                response.getWriter().write("Mật khẩu mới không khớp. Vui lòng thử lại.");
+//                return;
+//            }
+//
+//            // Cập nhật mật khẩu trong cơ sở dữ liệu (giả sử có DAORegister để xử lý việc thay đổi mật khẩu)
+//           
+//            if ( 1 == 1) {
+//                boolean isPasswordUpdated = dao.resetPassword(email, newPassword);
+//                if (isPasswordUpdated) {
+//                    response.getWriter().write("Mật khẩu của bạn đã được thay đổi thành công.");
+//                } else {
+//                    response.getWriter().write("Có lỗi xảy ra khi thay đổi mật khẩu. Vui lòng thử lại.");
+//                }
+//            } 
+////            else {
+////                response.getWriter().write("Không tìm thấy thông tin người dùng.");
+////            }
 
-            // Gửi email với token
-            String resetLink = "http://localhost:9999/OnlineLearning/reset-password?token=" + token;
-            String message = "Click the link to reset your password: " + resetLink;
-            EmailUntil.sendEmail(email, "Password Reset Request", message);
-
-            request.setAttribute("message", "Chúng tôi đã gửi một liên kết reset mật khẩu đến email của bạn.");
-            request.getRequestDispatcher("/forgot-password.jsp").forward(request, response);
-        } else {
-            request.setAttribute("messageErr", "Email không tồn tại trong hệ thống.");
-            request.getRequestDispatcher("/forgot-password.jsp").forward(request, response);
         }
     }
 
-    // Hàm tạo token ngẫu nhiên
-    private String generateToken() {
-        SecureRandom random = new SecureRandom();
-        byte[] bytes = new byte[24];  // Tạo 24 byte cho token
-        random.nextBytes(bytes);
-        return Base64.getUrlEncoder().encodeToString(bytes); // Chuyển sang chuỗi Base64
-    }
+  
+
 }

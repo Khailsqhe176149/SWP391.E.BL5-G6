@@ -81,7 +81,9 @@ public class RegisterServlet extends HttpServlet {
         if (isRegistered) {
             String subject = "Registration Successful";
             String message = "Dear " + name + ",\n\nYour account has been successfully created!";
+            //String code =EmailUntil.getRandomCode();
             EmailUntil.sendEmail(email, subject, message);
+            // EmailUntil.sendEmailOTP(email, code);
             response.sendRedirect("Login");
         } else {
             
