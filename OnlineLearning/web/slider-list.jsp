@@ -1,0 +1,113 @@
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Slider Management</title>
+
+        <!-- Bootstrap CSS -->
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+        <!-- Favicon -->
+        <link href="img/favicon.ico" rel="icon">
+
+        <!-- Google Web Fonts -->
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;600&family=Nunito:wght@600;700;800&display=swap" rel="stylesheet">
+
+        <!-- Icon Font Stylesheet -->
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
+
+        <!-- Template Stylesheet -->
+        <link href="css/style.css" rel="stylesheet">
+    </head>
+
+    <body>
+        <!-- Navbar Start -->
+        <jsp:include page="templates/navbar.jsp" />
+        <!-- Navbar End -->
+
+        <div class="container my-5">
+            <h1 class="h3 mb-4">Silder Management</h1>
+
+            <!-- Add New Post Button -->
+            <div class="mb-4">
+                <a href="add-slider.jsp" class="btn btn-success">Add New Slider</a>
+            </div>
+
+            <!-- Search Form -->
+            <form action="slider-management" method="get" class="mb-4">
+                <div class="row g-3">
+                    <div class="col-md-6">
+                        <input type="text" name="search" placeholder="Search by title" value="${param.search}" class="form-control" />
+                    </div>
+                    <div class="col-md-4">
+                        <select name="status" class="form-select">
+                            <option value="">Select Status</option>
+                            <option value="1" ${param.status == '1' ? 'selected' : ''}>Active</option>
+                            <option value="0" ${param.status == '0' ? 'selected' : ''}>Inactive</option>
+                        </select>
+                    </div>
+                    <div class="col-md-2">
+                        <button type="submit" class="btn btn-primary w-100">Search</button>
+                    </div>
+                </div>
+            </form>
+
+            <!-- Posts Table -->
+            <table class="table table-bordered table-hover">
+                <thead>
+                    <tr>
+                        <th>Title</th>
+                        <th>Description</th>
+                        <th>Image</th>
+                        <th>Status</th>
+                        <th>Slider Category</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <c:forEach var="slider" items="${sliders}">
+                        <tr>
+                            <td>${slider.getTitle()}</td>
+                            <td>${slider.getDescription()}</td>
+                            <td>
+                                <img src="${slider.getImg()}" alt="Slider Image" class="img-fluid" width="50" height="50" />
+                            </td>
+                            <td>${slider.getStatus() == 1 ? 'Active' : 'Inactive'}</td>
+                            <td>${slider.getSlidercategoryid()}</td>
+                            <td>
+                                <a href="slider-management?action=edit&sliderId=${slider.getSliderid()}" class="btn btn-warning btn-sm"> <i class="fas fa-edit"></i> </a>
+
+                                
+                                   <!-- Delete Button with Confirmation -->
+                                <a href="javascript:void(0);" class="btn btn-danger btn-sm"
+                                   onclick="confirmDelete('${slider.getSliderid()}')">
+                                    <i class="fas fa-trash-alt"></i>
+                                </a>
+                            </td>
+                        </tr>
+                    </c:forEach>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Bootstrap JS -->
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+        <!-- JavaScript for delete confirmation -->
+        <script type="text/javascript">
+            function confirmDelete(sliderId) {
+                if (confirm("Are you sure you want to delete this slider?")) {
+                    window.location.href = "slider-management?action=delete&sliderId=" + sliderId;
+                }
+            }
+        </script>
+    </body>
+
+</html>

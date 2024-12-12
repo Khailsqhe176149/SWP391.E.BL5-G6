@@ -18,8 +18,7 @@ public class ForgotPasswordServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        // Trả về trang quên mật khẩu (forgot-password.jsp)
-        // request.getRequestDispatcher("/forgot-password.jsp").forward(request, response);
+        
         request.getRequestDispatcher("/forgot-password.jsp").forward(request, response);
     }
 
@@ -28,7 +27,7 @@ public class ForgotPasswordServlet extends HttpServlet {
         String action = request.getParameter("action");
         String email = request.getParameter("email");
         if ("sendVerificationCode".equals(action)) {
-            //String email = request.getParameter("email");
+            
             String verificationCode = EmailUntil.getRandomCode();
             EmailUntil.sendEmailOTP(email, verificationCode);
             HttpSession session = request.getSession();
@@ -39,46 +38,9 @@ public class ForgotPasswordServlet extends HttpServlet {
                 } else {
                     response.getWriter().write("Có lỗi xảy ra khi thay đổi mật khẩu. Vui lòng thử lại.");
                 }
-            //String emailverify = email;
-            //session.setAttribute("emailverify", emailverify);
-            // sendEmail(email, request, response);
+            
              response.sendRedirect("login.jsp");
-//        } else if ("confirmVerificationCode".equals(action)) {
-//            //confirmVerificationCode(request, response);
-//
-//            String inputVerificationCode = request.getParameter("verificationCode");
-//            String newPassword = request.getParameter("newPassword");
-//            String confirmPassword = request.getParameter("confirmPassword");
-//            String emailOTP = request.getParameter("emailverify");
-//            
-//            HttpSession session = request.getSession();
-//            String sessionVerificationCode = (String) session.getAttribute("verificationCode");
-//
-//            // Kiểm tra mã xác thực
-//            if (sessionVerificationCode == null || !sessionVerificationCode.equals(inputVerificationCode)) {
-//                response.getWriter().write("Mã xác thực không đúng. Vui lòng kiểm tra lại.");
-//                return;
-//            }
-//
-//            // Kiểm tra mật khẩu mới và xác nhận mật khẩu
-//            if (newPassword == null || confirmPassword == null || !newPassword.equals(confirmPassword)) {
-//                response.getWriter().write("Mật khẩu mới không khớp. Vui lòng thử lại.");
-//                return;
-//            }
-//
-//            // Cập nhật mật khẩu trong cơ sở dữ liệu (giả sử có DAORegister để xử lý việc thay đổi mật khẩu)
-//           
-//            if ( 1 == 1) {
-//                boolean isPasswordUpdated = dao.resetPassword(email, newPassword);
-//                if (isPasswordUpdated) {
-//                    response.getWriter().write("Mật khẩu của bạn đã được thay đổi thành công.");
-//                } else {
-//                    response.getWriter().write("Có lỗi xảy ra khi thay đổi mật khẩu. Vui lòng thử lại.");
-//                }
-//            } 
-////            else {
-////                response.getWriter().write("Không tìm thấy thông tin người dùng.");
-////            }
+
 
         }
     }
