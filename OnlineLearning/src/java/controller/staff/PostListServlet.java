@@ -74,19 +74,20 @@ public class PostListServlet extends HttpServlet {
             int authorId = (int) session.getAttribute("userID");
 
             // Lấy ảnh từ form (nếu có)
+            String imgPath = "img/post.jpg"; // Đặt ảnh mặc định là slider.jpg
             Part imagePart = request.getPart("img");
-            String imgPath = null;
-            if (imagePart != null) {
+            if (imagePart != null && imagePart.getSize() > 0) {
                 String fileName = Path.of(imagePart.getSubmittedFileName()).getFileName().toString();
-                String uploadDir = getServletContext().getRealPath("/") + "img"; // Dựng thư mục lưu ảnh
+                String uploadDir = getServletContext().getRealPath("/") + "img"; // Đường dẫn lưu ảnh
                 File uploadFile = new File(uploadDir);
                 if (!uploadFile.exists()) {
                     uploadFile.mkdirs();  // Tạo thư mục nếu không có
                 }
                 imgPath = "img/" + fileName;
-                imagePart.write(uploadDir + File.separator + fileName);  // Lưu file vào thư mục
+                imagePart.write(uploadDir + File.separator + fileName);  // Lưu ảnh vào thư mục
             }
-
+            
+            
             // Tạo đối tượng Post
             Post newPost = new Post();
             newPost.setTitle(title);

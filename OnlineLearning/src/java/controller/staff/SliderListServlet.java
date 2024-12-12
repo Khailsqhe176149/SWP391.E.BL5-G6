@@ -50,7 +50,8 @@ public class SliderListServlet extends HttpServlet {
         } else if ("delete".equals(action)) {
             int sliderId = Integer.parseInt(request.getParameter("sliderId"));
             dao.deleteSlider(sliderId);
-
+            HttpSession session = request.getSession();
+            session.setAttribute("message", "Delete slider successfully.");
             response.sendRedirect("slider-management");
 
         } else {
@@ -58,7 +59,7 @@ public class SliderListServlet extends HttpServlet {
             String search = request.getParameter("search");
             String status = request.getParameter("status");
             int page = 1; // Trang mặc định
-            int pageSize = 3; // Số bản ghi mỗi trang
+            int pageSize = 4; // Số bản ghi mỗi trang
             if (request.getParameter("page") != null) {
                 page = Integer.parseInt(request.getParameter("page"));
             }
@@ -82,8 +83,7 @@ public class SliderListServlet extends HttpServlet {
             request.setAttribute("search", search);
             request.setAttribute("status", status);
             //request.setAttribute("message", "aa.");
-            
-            
+
             RequestDispatcher dispatcher = request.getRequestDispatcher("/slider-list.jsp");
             dispatcher.forward(request, response);
         }
@@ -100,17 +100,18 @@ public class SliderListServlet extends HttpServlet {
             int slidercategoryId = Integer.parseInt(request.getParameter("slidercategoryid"));
 
             // Lấy ảnh từ form (nếu có)
+ 
+            String imgPath = "img/slider.jpg"; // Đặt ảnh mặc định là slider.jpg
             Part imagePart = request.getPart("img");
-            String imgPath = null;
-            if (imagePart != null) {
+            if (imagePart != null && imagePart.getSize() > 0) {
                 String fileName = Path.of(imagePart.getSubmittedFileName()).getFileName().toString();
-                String uploadDir = getServletContext().getRealPath("/") + "img"; // Dựng thư mục lưu ảnh
+                String uploadDir = getServletContext().getRealPath("/") + "img"; // Đường dẫn lưu ảnh
                 File uploadFile = new File(uploadDir);
                 if (!uploadFile.exists()) {
                     uploadFile.mkdirs();  // Tạo thư mục nếu không có
                 }
                 imgPath = "img/" + fileName;
-                imagePart.write(uploadDir + File.separator + fileName);  // Lưu file vào thư mục
+                imagePart.write(uploadDir + File.separator + fileName);  // Lưu ảnh vào thư mục
             }
 
             // Tạo đối tượng Slider
@@ -124,10 +125,15 @@ public class SliderListServlet extends HttpServlet {
             // Thêm bài viết vào database
             boolean success = dao.addSlider(newSlider);
             if (success) {
+                HttpSession session = request.getSession();
+                session.setAttribute("message", "Add slider successfully.");
                 response.sendRedirect("slider-management");
             } else {
-                response.getWriter().write("Failed to add slider");
+                HttpSession session = request.getSession();
+                session.setAttribute("message", "Fail to add slider.");
+                response.sendRedirect("slider-management");
             }
+
         }
 
         if ("updateSlider".equals(action)) {
@@ -170,8 +176,10 @@ public class SliderListServlet extends HttpServlet {
             }
 
             dao.updateSlider(slider);
-
+            HttpSession session = request.getSession();
+            session.setAttribute("message", "Update slider successfully.");
             response.sendRedirect("slider-management");
+
         }
     }
 
