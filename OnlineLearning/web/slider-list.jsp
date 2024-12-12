@@ -81,12 +81,19 @@
                                 <img src="${slider.getImg()}" alt="Slider Image" class="img-fluid" width="50" height="50" />
                             </td>
                             <td>${slider.getStatus() == 1 ? 'Active' : 'Inactive'}</td>
-                            <td>${slider.getSlidercategoryid()}</td>
+                            <td>
+                                <c:choose>
+                                    <c:when test="${slider.getSlidercategoryid() == 1}">Introduction</c:when>
+                                    <c:when test="${slider.getSlidercategoryid() == 2}">New Courses</c:when>
+                                    <c:when test="${slider.getSlidercategoryid() == 3}">News</c:when>
+                                    <c:otherwise>Unknown</c:otherwise>
+                                </c:choose>
+                            </td>
                             <td>
                                 <a href="slider-management?action=edit&sliderId=${slider.getSliderid()}" class="btn btn-warning btn-sm"> <i class="fas fa-edit"></i> </a>
 
                                 
-                                   <!-- Delete Button with Confirmation -->
+                                   
                                 <a href="javascript:void(0);" class="btn btn-danger btn-sm"
                                    onclick="confirmDelete('${slider.getSliderid()}')">
                                     <i class="fas fa-trash-alt"></i>
