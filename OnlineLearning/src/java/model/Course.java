@@ -5,6 +5,7 @@
 package model;
 
 import java.util.Date;
+import java.util.List;
 
 /**
  *
@@ -24,13 +25,31 @@ public class Course {
     private int status;
     private String tag;
     private Date RegistrationDate;
+    private String SubjectName;
+    private List<Lesson> lessons;
 
     public Course() {
     }
 
-   
+    public Course(int courseId, String name, double price, int status, String SubjectName) {
+        this.courseId = courseId;
+        this.name = name;
+        this.price = price;
+        this.status = status;
+        this.SubjectName = SubjectName;
+    }
 
     // Getters and Setters
+    public Course(int courseId, String name, int subjectid, double price, String description, String img, int status) {
+        this.courseId = courseId;
+        this.name = name;
+        this.subjectid = subjectid;
+        this.price = price;
+        this.description = description;
+        this.img = img;
+        this.status = status;
+    }
+
     public Course(int courseId, String name, String description, double price, int status, String img) {
         this.courseId = courseId;
         this.name = name;
@@ -140,13 +159,29 @@ public class Course {
     public void setTag(String tag) {
         this.tag = tag;
     }
-    
-     public void setRegistrationDate(Date RegistrationDate) {
+
+    public void setRegistrationDate(Date RegistrationDate) {
         this.RegistrationDate = RegistrationDate;
     }
 
     public Date getRegistrationDate() {
         return RegistrationDate;
     }
+
+    public String getSubjectName() {
+        return SubjectName;
+    }
+
+    public void setSubjectName(String SubjectName) {
+        this.SubjectName = SubjectName;
+    }
+    
+        public List<Lesson> getLessons() {
+    return lessons;
+}
+
+public void setLessons(List<Lesson> lessons) {
+    this.lessons = lessons;
+}
 
 }

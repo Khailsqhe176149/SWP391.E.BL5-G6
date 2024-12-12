@@ -14,7 +14,13 @@ public class Subjects {
     private String Name;
     private int Status;
     private int courseCount;
+
     public Subjects() {
+    }
+
+    public Subjects(int subjectid, String Name) {
+        this.subjectid = subjectid;
+        this.Name = Name;
     }
 
     public Subjects(int subjectid, String Name, int Status) {
@@ -59,6 +65,5 @@ public class Subjects {
     public String toString() {
         return "Subjects{" + "subjectid=" + subjectid + ", Name=" + Name + ", Status=" + Status + ", courseCount=" + courseCount + '}';
     }
-    
 
 }

@@ -83,84 +83,68 @@
 
             <!-- Main Content -->
             <div class="col-md-9 ps-4">
-                <h2>Add Lesson</h2>
+                <h1 class="my-4">Add New Lesson Reading</h1>
 
-                <!-- Error message display -->
-                <c:if test="${not empty errorMessage}">
-                    <div class="alert alert-danger">
-                        <strong>Error:</strong> ${errorMessage}
-                    </div>
-                </c:if>
+                <form action="AddLessonReading" method="POST">
+                    <!-- Hidden input for lessonId -->
+                    <input type="hidden" name="lessonId" value="${lessonId}">
 
-                <!-- Form to edit lesson -->
-                <form action="AddNewLesson" method="POST">
-                   
-
+                    <!-- Title -->
                     <div class="mb-3">
-                        <label for="name" class="form-label">Lesson Name</label>
-                        <input type="text" class="form-control" id="name" name="name" value="${lesson.name}" required>
+                        <label for="title" class="form-label">Title</label>
+                        <input type="text" class="form-control" id="title" name="title" required>
                     </div>
 
-                    <div class="mb-3">
-                        <label for="content" class="form-label">Content</label>
-                        <textarea class="form-control" id="content" name="content" rows="3" required>${lesson.content}</textarea>
-                    </div>
-
+                    <!-- Description -->
                     <div class="mb-3">
                         <label for="description" class="form-label">Description</label>
-                        <textarea class="form-control" id="description" name="description" rows="3" required>${lesson.description}</textarea>
+                        <textarea class="form-control" id="description" name="description" rows="4" required></textarea>
                     </div>
 
+                    <!-- Reading URL -->
                     <div class="mb-3">
-                        <label for="date" class="form-label">Date</label>
-                        <input type="date" class="form-control" id="date" name="date" value="${lesson.date != null ? lesson.date.toString().substring(0, 10) : ''}" required>
+                        <label for="readingURL" class="form-label">Reading URL</label>
+                        <input type="url" class="form-control" id="readingURL" name="readingURL" required>
                     </div>
 
-                    <button type="submit" class="btn btn-primary">Add Lesson</button>
+                    <!-- Submit Button -->
+                    <button type="submit" class="btn btn-success">Add Reading</button>
+                    <a href="ListLesson" class="btn btn-secondary ms-2">Back to Lessons List</a>
                 </form>
-                    
-                    
-                     <a href="ListLesson" class="btn btn-secondary mt-3">Back to List</a>
-               
-               
-                
-                
             </div>
-
         </div>
+    </div>
 
 
+    <!-- Footer Start -->
+    <jsp:include page="templates/footer.jsp" />
+    <!-- Footer End -->
+    <!-- jQuery script to handle button actions -->
 
 
-        <!-- Footer Start -->
-        <jsp:include page="templates/footer.jsp" />
-        <!-- Footer End -->
-        <!-- jQuery script to handle button actions -->
+    <script>
+        $(document).ready(function () {
 
-
-        <script>
-            $(document).ready(function () {
-
-                $('.table').DataTable({
-                    paging: true,
-                    searching: true,
-                    ordering: true,
-                    lengthChange: true,
-                    info: true,
-                    language: {
-                        search: "Search Course:",
-                        lengthMenu: "Show _MENU_ courses per page",
-                        info: "Showing _START_ to _END_ of _TOTAL_ courses",
-                        paginate: {
-                            previous: "Previous",
-                            next: "Next"
-                        }
+            $('.table').DataTable({
+                paging: true,
+                searching: true,
+                ordering: true,
+                lengthChange: true,
+                info: true,
+                language: {
+                    search: "Search Course:",
+                    lengthMenu: "Show _MENU_ courses per page",
+                    info: "Showing _START_ to _END_ of _TOTAL_ courses",
+                    paginate: {
+                        previous: "Previous",
+                        next: "Next"
                     }
-                });
+                }
             });
-        </script>
+        });
+    </script>
 
-        <!-- Bootstrap JS -->
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
-    </body>
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
 </html>

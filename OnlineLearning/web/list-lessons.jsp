@@ -83,84 +83,71 @@
 
             <!-- Main Content -->
             <div class="col-md-9 ps-4">
-                <h2>Add Lesson</h2>
+                <h1 class="mb-4">List of Lessons</h1>
 
-                <!-- Error message display -->
-                <c:if test="${not empty errorMessage}">
-                    <div class="alert alert-danger">
-                        <strong>Error:</strong> ${errorMessage}
-                    </div>
-                </c:if>
+                <!-- Table to display lessons -->
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>Lesson ID</th>
+                            <th>Name</th>
 
-                <!-- Form to edit lesson -->
-                <form action="AddNewLesson" method="POST">
-                   
+                            <th>Description</th>
+                            <th>Date</th>
+                            <th>Detail</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Iterating through lessons list -->
+                        <c:forEach var="lesson" items="${lessons}">
+                            <tr>
+                                <td>${lesson.lessonid}</td>
+                                <td>${lesson.name}</td>
 
-                    <div class="mb-3">
-                        <label for="name" class="form-label">Lesson Name</label>
-                        <input type="text" class="form-control" id="name" name="name" value="${lesson.name}" required>
-                    </div>
+                                <td>${lesson.description}</td>
+                                <td>${lesson.date}</td>
+                                <td>
+                                    <a href="ViewLessonReading?lessonId=${lesson.lessonid}" class="btn btn-warning btn-sm">Reading</a>
+                                    <a href="ListVideoLesson?lessonId=${lesson.lessonid}" class="btn btn-warning btn-sm">Video</a>
 
-                    <div class="mb-3">
-                        <label for="content" class="form-label">Content</label>
-                        <textarea class="form-control" id="content" name="content" rows="3" required>${lesson.content}</textarea>
-                    </div>
+                                </td>
+                                <td>
+                                    <!-- Edit and Delete buttons -->
+                                    <a href="EditLesson?lessonId=${lesson.lessonid}" class="btn btn-warning btn-sm">Edit</a>
+                                    <a href="DeleteLesson?lessonId=${lesson.lessonid}" class="btn btn-danger btn-sm">Delete</a>
 
-                    <div class="mb-3">
-                        <label for="description" class="form-label">Description</label>
-                        <textarea class="form-control" id="description" name="description" rows="3" required>${lesson.description}</textarea>
-                    </div>
+                                </td>
+                            </tr>
+                        </c:forEach>
+                    </tbody>
+                </table>
 
-                    <div class="mb-3">
-                        <label for="date" class="form-label">Date</label>
-                        <input type="date" class="form-control" id="date" name="date" value="${lesson.date != null ? lesson.date.toString().substring(0, 10) : ''}" required>
-                    </div>
-
-                    <button type="submit" class="btn btn-primary">Add Lesson</button>
-                </form>
-                    
-                    
-                     <a href="ListLesson" class="btn btn-secondary mt-3">Back to List</a>
-               
-               
-                
-                
+                <!-- Add New Lesson Button -->
+                <a href="AddNewLesson" class="btn btn-primary">Add New Lesson</a>
             </div>
 
         </div>
+    </div>
 
 
+    <!-- Footer Start -->
+    <jsp:include page="templates/footer.jsp" />
+    <!-- Footer End -->
+    <!-- jQuery script to handle button actions -->
 
 
-        <!-- Footer Start -->
-        <jsp:include page="templates/footer.jsp" />
-        <!-- Footer End -->
-        <!-- jQuery script to handle button actions -->
+   <!-- DataTables JS -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.5/js/jquery.dataTables.min.js"></script>
 
+    <script>
+        $(document).ready(function () {
+            $('#videoTable').DataTable();  // Initialize DataTable for sorting and paging
+        });
+    </script>
 
-        <script>
-            $(document).ready(function () {
-
-                $('.table').DataTable({
-                    paging: true,
-                    searching: true,
-                    ordering: true,
-                    lengthChange: true,
-                    info: true,
-                    language: {
-                        search: "Search Course:",
-                        lengthMenu: "Show _MENU_ courses per page",
-                        info: "Showing _START_ to _END_ of _TOTAL_ courses",
-                        paginate: {
-                            previous: "Previous",
-                            next: "Next"
-                        }
-                    }
-                });
-            });
-        </script>
-
-        <!-- Bootstrap JS -->
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
-    </body>
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
 </html>

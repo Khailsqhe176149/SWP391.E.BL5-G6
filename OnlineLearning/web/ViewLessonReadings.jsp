@@ -68,74 +68,54 @@
     </head>
 
     <body>
-        <!-- Navbar Start  -->
-        <jsp:include page="templates/navbar.jsp" />
-        <!-- Navbar End  -->
-
         <!-- Sidebar and Main Content Start -->
         <div class="container-fluid" style="display: flex; min-height: 100vh;">
             <!-- Sidebar -->
-
             <jsp:include page="templates/sidebar.jsp" />
-
-
-
 
             <!-- Main Content -->
             <div class="col-md-9 ps-4">
-                <h2>Add Lesson</h2>
+                <h1 class="my-4">Lesson Readings</h1>
 
-                <!-- Error message display -->
-                <c:if test="${not empty errorMessage}">
-                    <div class="alert alert-danger">
-                        <strong>Error:</strong> ${errorMessage}
-                    </div>
-                </c:if>
+              
 
-                <!-- Form to edit lesson -->
-                <form action="AddNewLesson" method="POST">
-                   
-
-                    <div class="mb-3">
-                        <label for="name" class="form-label">Lesson Name</label>
-                        <input type="text" class="form-control" id="name" name="name" value="${lesson.name}" required>
-                    </div>
-
-                    <div class="mb-3">
-                        <label for="content" class="form-label">Content</label>
-                        <textarea class="form-control" id="content" name="content" rows="3" required>${lesson.content}</textarea>
-                    </div>
-
-                    <div class="mb-3">
-                        <label for="description" class="form-label">Description</label>
-                        <textarea class="form-control" id="description" name="description" rows="3" required>${lesson.description}</textarea>
-                    </div>
-
-                    <div class="mb-3">
-                        <label for="date" class="form-label">Date</label>
-                        <input type="date" class="form-control" id="date" name="date" value="${lesson.date != null ? lesson.date.toString().substring(0, 10) : ''}" required>
-                    </div>
-
-                    <button type="submit" class="btn btn-primary">Add Lesson</button>
-                </form>
-                    
-                    
-                     <a href="ListLesson" class="btn btn-secondary mt-3">Back to List</a>
+                <!-- Table displaying Lesson Readings -->
+                <table class="table table-striped table-bordered" id="lessonReadingsTable">
+                    <thead class="thead-dark">
+                        <tr>
+                            <th>Title</th>
+                            <th>Description</th>
+                            <th>Reading URL</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <c:forEach var="reading" items="${readings}">
+                            <tr>
+                                <td>${reading.title}</td>
+                                <td>${reading.description}</td>
+                                <td><a href="${reading.readingURL}" target="_blank" class="btn btn-primary btn-sm">View</a></td>
+                                <td>
+                                    <a href="EditLessonReading?readingId=${reading.readingId}&lessonId=${lessonId}" class="btn btn-warning btn-sm">Edit</a>
+                                    <a href="DeleteLessonReading?readingId=${reading.readingId}&lessonId=${lessonId}" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure you want to delete this reading?');">Delete</a>
+                                </td>
+                            </tr>
+                        </c:forEach>
+                    </tbody>
+                </table>
+                  <!-- Button to add new Lesson Reading -->
                
-               
-                
-                
+                <!-- Back to Lessons List -->
+                <a href="ListLesson" class="btn btn-secondary mt-3">Back to List</a>
+                <br>  <br>
+                 <a href="AddLessonReading?lessonId=${lessonId}" class="btn btn-primary mb-3">Add New Reading</a>
             </div>
-
         </div>
-
-
-
 
         <!-- Footer Start -->
         <jsp:include page="templates/footer.jsp" />
         <!-- Footer End -->
-        <!-- jQuery script to handle button actions -->
+
 
 
         <script>

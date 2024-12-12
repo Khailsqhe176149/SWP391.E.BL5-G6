@@ -75,92 +75,75 @@
         <!-- Sidebar and Main Content Start -->
         <div class="container-fluid" style="display: flex; min-height: 100vh;">
             <!-- Sidebar -->
+           
 
-            <jsp:include page="templates/sidebar.jsp" />
-
-
+             <jsp:include page="templates/sidebar.jsp" />
 
 
             <!-- Main Content -->
             <div class="col-md-9 ps-4">
-                <h2>Add Lesson</h2>
+                <h2>Edit Course</h2>
 
-                <!-- Error message display -->
-                <c:if test="${not empty errorMessage}">
-                    <div class="alert alert-danger">
-                        <strong>Error:</strong> ${errorMessage}
-                    </div>
+                <c:if test="${not empty error}">
+                    <div class="alert alert-danger">${error}</div>
                 </c:if>
 
-                <!-- Form to edit lesson -->
-                <form action="AddNewLesson" method="POST">
-                   
+                <form action="EditCourse" method="POST">
+                    <input type="hidden" name="courseId" value="${course.courseId}">
 
-                    <div class="mb-3">
-                        <label for="name" class="form-label">Lesson Name</label>
-                        <input type="text" class="form-control" id="name" name="name" value="${lesson.name}" required>
+                    <div class="form-group">
+                        <label for="name">Course Name</label>
+                        <input type="text" class="form-control" id="name" name="name" value="${course.name}" required>
                     </div>
 
-                    <div class="mb-3">
-                        <label for="content" class="form-label">Content</label>
-                        <textarea class="form-control" id="content" name="content" rows="3" required>${lesson.content}</textarea>
+                    <div class="form-group">
+                        <label for="description">Description</label>
+                        <textarea class="form-control" id="description" name="description" rows="4" required>${course.description}</textarea>
                     </div>
 
-                    <div class="mb-3">
-                        <label for="description" class="form-label">Description</label>
-                        <textarea class="form-control" id="description" name="description" rows="3" required>${lesson.description}</textarea>
+                    <div class="form-group">
+                        <label for="price">Price</label>
+                        <input type="number" class="form-control" id="price" name="price" value="${course.price}" step="0.01" required>
                     </div>
 
-                    <div class="mb-3">
-                        <label for="date" class="form-label">Date</label>
-                        <input type="date" class="form-control" id="date" name="date" value="${lesson.date != null ? lesson.date.toString().substring(0, 10) : ''}" required>
+                    <div class="form-group">
+                        <label for="subjectId">Subject</label>
+                        <select class="form-control" id="subjectId" name="subjectId" required>
+                            <c:forEach var="subject" items="${subjects}">
+                                <option value="${subject.subjectid}" ${subject.subjectid == course.subjectid ? 'selected' : ''}>
+                                    ${subject.name}
+                                </option>
+                            </c:forEach>
+                        </select>
                     </div>
 
-                    <button type="submit" class="btn btn-primary">Add Lesson</button>
+                    <div class="form-group">
+                        <label for="status">Status</label>
+                        <select class="form-control" id="status" name="status" required>
+                            <option value="1" ${course.status == 1 ? 'selected' : ''}>Active</option>
+                            <option value="0" ${course.status == 0 ? 'selected' : ''}>Inactive</option>
+                        </select>
+                    </div>
+                        <br>
+                    <button type="submit" class="btn btn-primary">Save Changes</button>
+                    <a href="ListCourses.jsp" class="btn btn-secondary">Cancel</a>
                 </form>
-                    
-                    
-                     <a href="ListLesson" class="btn btn-secondary mt-3">Back to List</a>
-               
-               
-                
-                
             </div>
 
         </div>
 
 
 
-
-        <!-- Footer Start -->
-        <jsp:include page="templates/footer.jsp" />
-        <!-- Footer End -->
-        <!-- jQuery script to handle button actions -->
+    </div>
 
 
-        <script>
-            $(document).ready(function () {
+    <!-- Footer Start -->
+    <jsp:include page="templates/footer.jsp" />
+    <!-- Footer End -->
 
-                $('.table').DataTable({
-                    paging: true,
-                    searching: true,
-                    ordering: true,
-                    lengthChange: true,
-                    info: true,
-                    language: {
-                        search: "Search Course:",
-                        lengthMenu: "Show _MENU_ courses per page",
-                        info: "Showing _START_ to _END_ of _TOTAL_ courses",
-                        paginate: {
-                            previous: "Previous",
-                            next: "Next"
-                        }
-                    }
-                });
-            });
-        </script>
 
-        <!-- Bootstrap JS -->
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
-    </body>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
 </html>
