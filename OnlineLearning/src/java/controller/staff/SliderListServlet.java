@@ -2,7 +2,6 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
-
 package controller.staff;
 
 import dao.DAOSliderList;
@@ -28,11 +27,11 @@ import model.Slider;
  *
  * @author Khải
  */
-@WebServlet(name="SliderListServlet", urlPatterns={"/slider-management"})
+@WebServlet(name = "SliderListServlet", urlPatterns = {"/slider-management"})
 public class SliderListServlet extends HttpServlet {
-   
-   private final DAOSliderList dao = new DAOSliderList();
-    private static final String UPLOAD_DIRECTORY = "img";  
+
+    private final DAOSliderList dao = new DAOSliderList();
+    private static final String UPLOAD_DIRECTORY = "img";
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String action = request.getParameter("action");
@@ -40,44 +39,65 @@ public class SliderListServlet extends HttpServlet {
         if ("edit".equals(action)) {
             int sliderId = Integer.parseInt(request.getParameter("sliderId"));
             Slider slider = dao.getSliderById(sliderId);
-            
+
             request.setAttribute("slider", slider);
             RequestDispatcher dispatcher = request.getRequestDispatcher("/edit-slider.jsp");
             dispatcher.forward(request, response);
-        }else if ("add".equals(action)) {
-           
+        } else if ("add".equals(action)) {
+
             RequestDispatcher dispatcher = request.getRequestDispatcher("/add-slider.jsp");
             dispatcher.forward(request, response);
-        }
-        else if ("delete".equals(action)) {
+        } else if ("delete".equals(action)) {
             int sliderId = Integer.parseInt(request.getParameter("sliderId"));
             dao.deleteSlider(sliderId);
-            
-            
-                response.sendRedirect("slider-management");
-            
+
+            response.sendRedirect("slider-management");
+
         } else {
-         
+
             String search = request.getParameter("search");
             String status = request.getParameter("status");
-            List<Slider> sliders = dao.getFilteredSliders(search, status);
+            int page = 1; // Trang mặc định
+            int pageSize = 3; // Số bản ghi mỗi trang
+            if (request.getParameter("page") != null) {
+                page = Integer.parseInt(request.getParameter("page"));
+            }
+
+            //List<Slider> sliders = dao.getFilteredSliders1(search, status);
+            List<Slider> sliders = dao.getFilteredSliders(search, status, page, pageSize);
+
+            if (sliders == null || sliders.isEmpty()) {
+                // Nếu danh sách trống, có thể hiển thị thông báo hoặc xử lý khác.
+                request.setAttribute("message", "No sliders found.");
+            }
+            // Lấy tổng số bản ghi để tính số trang
+            int totalSliders = dao.getTotalSliderCount(search, status);
+            int totalPages = (int) Math.ceil((double) totalSliders / pageSize);
+
             request.setAttribute("sliders", sliders);
+
+            // Truyền dữ liệu vào request
+            request.setAttribute("totalPages", totalPages);
+            request.setAttribute("currentPage", page);
+            request.setAttribute("search", search);
+            request.setAttribute("status", status);
+            //request.setAttribute("message", "aa.");
+            
+            
             RequestDispatcher dispatcher = request.getRequestDispatcher("/slider-list.jsp");
             dispatcher.forward(request, response);
         }
     }
 
-   protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String action = request.getParameter("action");
-            
+
         if ("addSlider".equals(action)) {
             // Lấy thông tin từ form
             String title = request.getParameter("title");
             String description = request.getParameter("description");
             int status = Integer.parseInt(request.getParameter("status"));
             int slidercategoryId = Integer.parseInt(request.getParameter("slidercategoryid"));
-
-         
 
             // Lấy ảnh từ form (nếu có)
             Part imagePart = request.getPart("img");
@@ -100,7 +120,6 @@ public class SliderListServlet extends HttpServlet {
             newSlider.setStatus(status);
             newSlider.setSlidercategoryid(slidercategoryId);
             newSlider.setImg(imgPath);
-            
 
             // Thêm bài viết vào database
             boolean success = dao.addSlider(newSlider);
@@ -110,17 +129,15 @@ public class SliderListServlet extends HttpServlet {
                 response.getWriter().write("Failed to add slider");
             }
         }
-    
-        
+
         if ("updateSlider".equals(action)) {
             int sliderId = Integer.parseInt(request.getParameter("sliderId"));
             String title = request.getParameter("title");
             String description = request.getParameter("description");
-            
-            int status = Integer.parseInt(request.getParameter("status")); 
+
+            int status = Integer.parseInt(request.getParameter("status"));
             int slidercategoryId = Integer.parseInt(request.getParameter("slidercategoryid"));
-            
-            
+
             // Lấy bài viết hiện tại
             Slider slider = dao.getSliderById(sliderId);
             slider.setTitle(title);
@@ -152,15 +169,12 @@ public class SliderListServlet extends HttpServlet {
                 }
             }
 
-     
             dao.updateSlider(slider);
 
-   
             response.sendRedirect("slider-management");
         }
     }
-    
-    
+
     private String processImageUpload(HttpServletRequest request) throws ServletException, IOException {
         String imgFileName = null;
         if (request.getContentType() != null && request.getContentType().startsWith("multipart/form-data")) {

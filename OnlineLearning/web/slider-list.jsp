@@ -41,6 +41,16 @@
                 <a href="add-slider.jsp" class="btn btn-success">Add New Slider</a>
             </div>
 
+
+            <!-- Display Message if Exists -->
+            <c:if test="${not empty message}">
+                <div class="alert alert-warning" role="alert">
+                    ${message}
+                </div>
+            </c:if>
+
+
+
             <!-- Search Form -->
             <form action="slider-management" method="get" class="mb-4">
                 <div class="row g-3">
@@ -58,6 +68,7 @@
                         <button type="submit" class="btn btn-primary w-100">Search</button>
                     </div>
                 </div>
+                        <input type="hidden" name="page" value="${param.page}" />
             </form>
 
             <!-- Posts Table -->
@@ -92,8 +103,8 @@
                             <td>
                                 <a href="slider-management?action=edit&sliderId=${slider.getSliderid()}" class="btn btn-warning btn-sm"> <i class="fas fa-edit"></i> </a>
 
-                                
-                                   
+
+
                                 <a href="javascript:void(0);" class="btn btn-danger btn-sm"
                                    onclick="confirmDelete('${slider.getSliderid()}')">
                                     <i class="fas fa-trash-alt"></i>
@@ -104,16 +115,67 @@
                 </tbody>
             </table>
         </div>
+        <!-- Hiển thị các nút phân trang -->
+        <c:if test="${totalPages > 1}">
+            <nav aria-label="Page navigation example">
+                <ul class="pagination justify-content-center">
+                    <!-- Trang đầu -->
+                    <c:if test="${currentPage > 1}">
+                        <li class="page-item">
+                            <a class="page-link" href="?page=1&search=${param.search}&status=${param.status}" aria-label="First">
+                                <span aria-hidden="true">&laquo;</span>
+                            </a>
+                        </li>
+                    </c:if>
+
+                    <!-- Trang trước -->
+                    <c:if test="${currentPage > 1}">
+                        <li class="page-item">
+                            <a class="page-link" href="?page=${currentPage - 1}&search=${param.search}&status=${param.status}" aria-label="Previous">
+                                <span aria-hidden="true">&lsaquo;</span>
+                            </a>
+                        </li>
+                    </c:if>
+
+                    <!-- Trang hiện tại -->
+                    <c:forEach var="i" begin="1" end="${totalPages}">
+                        <li class="page-item ${i == currentPage ? 'active' : ''}">
+                            <a class="page-link" href="?page=${i}&search=${param.search}&status=${param.status}">${i}</a>
+                        </li>
+                    </c:forEach>
+
+                    <!-- Trang sau -->
+                    <c:if test="${currentPage < totalPages}">
+                        <li class="page-item">
+                            <a class="page-link" href="?page=${currentPage + 1}&search=${param.search}&status=${param.status}" aria-label="Next">
+                                <span aria-hidden="true">&rsaquo;</span>
+                            </a>
+                        </li>
+                    </c:if>
+
+                    <!-- Trang cuối -->
+                    <c:if test="${currentPage < totalPages}">
+                        <li class="page-item">
+                            <a class="page-link" href="?page=${totalPages}&search=${param.search}&status=${param.status}" aria-label="Last">
+                                <span aria-hidden="true">&raquo;</span>
+                            </a>
+                        </li>
+                    </c:if>
+                </ul>
+            </nav>
+        </c:if>
+
+
 
         <!-- Bootstrap JS -->
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
         <!-- JavaScript for delete confirmation -->
         <script type="text/javascript">
-            function confirmDelete(sliderId) {
-                if (confirm("Are you sure you want to delete this slider?")) {
-                    window.location.href = "slider-management?action=delete&sliderId=" + sliderId;
-                }
-            }
+                                       function confirmDelete(sliderId) {
+                                           if (confirm("Are you sure you want to delete this slider?")) {
+                                               window.location.href = "slider-management?action=delete&sliderId=" + sliderId;
+                                           }
+                                       }
         </script>
     </body>
 

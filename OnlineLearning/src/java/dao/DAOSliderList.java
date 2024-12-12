@@ -21,7 +21,7 @@ import model.Users;
  */
 public class DAOSliderList extends DBContext {
 
-    public List<Slider> getFilteredSliders(String search, String status) {
+    public List<Slider> getFilteredSliders1(String search, String status) {
         List<Slider> sliders = new ArrayList<>();
         String sql = "SELECT * FROM Slider WHERE 1=1";
 
@@ -60,6 +60,106 @@ public class DAOSliderList extends DBContext {
         }
 
         return sliders;
+    }
+
+    public List<Slider> getFilteredSliders(String search, String status, int page, int pageSize) {
+        List<Slider> sliders = new ArrayList<>();
+
+        // Tính toán OFFSET dựa trên trang và kích thước trang
+        int offset = (page - 1) * pageSize;
+
+        // Câu lệnh SQL với phân trang
+        String sql = "SELECT * FROM Slider WHERE 1=1";
+
+        // Điều kiện tìm kiếm theo tiêu đề
+        if (search != null && !search.trim().isEmpty()) {
+            sql += " AND Title LIKE ?";
+        }
+
+        // Điều kiện tìm kiếm theo trạng thái
+        if (status != null && !status.trim().isEmpty()) {
+            sql += " AND Status = ?";
+        }
+
+        // Sắp xếp và phân trang
+        sql += " ORDER BY Sliderid OFFSET ? ROWS FETCH NEXT ? ROWS ONLY";
+
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+            int index = 1;
+
+            // Đặt tham số tìm kiếm (nếu có)
+            if (search != null && !search.trim().isEmpty()) {
+                ps.setString(index++, "%" + search + "%");
+            }
+
+            // Đặt tham số trạng thái (nếu có)
+            if (status != null && !status.trim().isEmpty()) {
+                ps.setInt(index++, Integer.parseInt(status));
+            }
+
+            // Đặt tham số cho OFFSET và FETCH NEXT
+            ps.setInt(index++, offset);  // OFFSET: Bỏ qua số bản ghi theo trang
+            ps.setInt(index++, pageSize);  // FETCH NEXT: Số bản ghi lấy trong trang
+
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    // Tạo đối tượng Slider từ kết quả truy vấn
+                    Slider slider = new Slider(
+                            rs.getInt("Sliderid"),
+                            rs.getInt("Status"),
+                            rs.getString("Img"),
+                            rs.getString("Title"),
+                            rs.getString("Description"),
+                            rs.getTimestamp("Createdtime"),
+                            rs.getInt("slidercategoryid")
+                    );
+                    sliders.add(slider);
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();  // In ra lỗi nếu có
+        }
+
+        // Trả về danh sách Slider, hoặc null nếu không có kết quả
+        return sliders.isEmpty() ? null : sliders;
+    }
+
+    public int getTotalSliderCount(String search, String status) {
+        int totalCount = 0;
+        String sql = "SELECT COUNT(*) FROM Slider WHERE 1=1";
+
+        // Thêm điều kiện tìm kiếm nếu có
+        if (search != null && !search.trim().isEmpty()) {
+            sql += " AND Title LIKE ?";
+        }
+
+        // Thêm điều kiện trạng thái nếu có
+        if (status != null && !status.trim().isEmpty()) {
+            sql += " AND Status = ?";
+        }
+
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+            int index = 1;
+
+            // Thêm tham số cho tìm kiếm nếu có
+            if (search != null && !search.trim().isEmpty()) {
+                ps.setString(index++, "%" + search + "%");
+            }
+
+            // Thêm tham số cho trạng thái nếu có
+            if (status != null && !status.trim().isEmpty()) {
+                ps.setInt(index++, Integer.parseInt(status));
+            }
+
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                totalCount = rs.getInt(1);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return totalCount;
     }
 
     public boolean updateSliderImage(Slider slider) {
@@ -154,7 +254,7 @@ public class DAOSliderList extends DBContext {
             return false;
         }
     }
-    
+
     public void deleteSlider(int sliderId) {
         String sql = "DELETE FROM Slider WHERE Sliderid = ?";
 
@@ -166,6 +266,5 @@ public class DAOSliderList extends DBContext {
             e.printStackTrace();
         }
     }
-    
 
 }
