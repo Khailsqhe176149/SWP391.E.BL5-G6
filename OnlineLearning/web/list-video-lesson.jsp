@@ -99,7 +99,9 @@
                             <tr>
                                 <td>${video.videoTitle}</td>
                                 <td>${video.description}</td>
-                                <td><a href="${video.videoURL}" target="_blank">Watch</a></td>
+                                <td><iframe width="300" height="120"
+                                            src="${video.videoURL}">
+                                    </iframe></td>
                                 <td>
                                     <a href="EditLessonVideo?videoId=${video.videoId}&lessonId=${lessonId}" class="btn btn-primary btn-sm">Edit</a>
                                     <a href="DeleteLessonVideo?videoId=${video.videoId}&lessonId=${lessonId}" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure you want to delete this video?');">Delete</a>
@@ -108,10 +110,10 @@
                         </c:forEach>
                     </tbody>
                 </table>
-                 <a href="AddLessonVideo?videoId=${video.videoId}&lessonId=${lessonId}" class="btn btn-primary mt-3">Add Video</a>
-                 <a href="ListLesson" class="btn btn-secondary mt-3">Back to List</a>
+                <a href="AddLessonVideo?videoId=${video.videoId}&lessonId=${lessonId}" class="btn btn-primary mt-3">Add Video</a>
+                <a href="ListLesson" class="btn btn-secondary mt-3">Back to List</a>
             </div>
-           
+
         </div>
 
 
