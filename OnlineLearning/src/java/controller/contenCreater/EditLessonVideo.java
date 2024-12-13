@@ -35,7 +35,7 @@ public class EditLessonVideo extends HttpServlet {
         if (lessonVideo != null) {
             request.setAttribute("lessonId", lessonId);
             request.setAttribute("lessonVideo", lessonVideo); // Chuyển video vào request
-            request.getRequestDispatcher("/test.jsp").forward(request, response); // Forward tới trang edit
+            request.getRequestDispatcher("/edit-lesson-videos.jsp").forward(request, response); // Forward tới trang edit
         } else {
             request.setAttribute("errorMessage", "Video not found");
             request.getRequestDispatcher("/error.jsp").forward(request, response);
