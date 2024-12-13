@@ -72,33 +72,33 @@
 
                                     <form action="profile" method="POST" enctype="multipart/form-data">
                                         <div class="mb-3">
-                                            <label for="name" class="form-label">Tên:</label>
+                                            <label for="name" class="form-label">Name:</label>
                                             <input type="text" id="name" name="name" class="form-control" value="<%= user.getName() %>" required />
                                         </div>
                                         <div class="mb-3">
-                                            <label for="gender" class="form-label">Giới tính:</label>
+                                            <label for="gender" class="form-label">Gender:</label>
                                             <select id="gender" name="gender" class="form-control">
-                                                <option value="1" <%= user.getGender() == 1 ? "selected" : "" %>>Nam</option>
-                                                <option value="0" <%= user.getGender() == 0 ? "selected" : "" %>>Nữ</option>
+                                                <option value="1" <%= user.getGender() == 1 ? "selected" : "" %>>Male</option>
+                                                <option value="0" <%= user.getGender() == 0 ? "selected" : "" %>>Female</option>
                                             </select>
                                         </div>
                                         <div class="mb-3">
-                                            <label for="dob" class="form-label">Ngày sinh:</label>
+                                            <label for="dob" class="form-label">Date of birth:</label>
                                             <input type="date" id="dob" name="dob" class="form-control" value="<%= user.getDob() %>" required />
                                         </div>
                                         <div class="mb-3">
-                                            <label for="phone" class="form-label">Số điện thoại:</label>
+                                            <label for="phone" class="form-label">Phone:</label>
                                             <input type="text" id="phone" name="phone" class="form-control" value="<%= user.getPhone() %>" required />
                                         </div>
                                         <div class="mb-3">
-                                            <label for="address" class="form-label">Địa chỉ:</label>
+                                            <label for="address" class="form-label">Address:</label>
                                             <input type="text" id="address" name="address" class="form-control" value="<%= user.getAddress() %>" required />
                                         </div>
 
                                         <!-- Form thay đổi ảnh đại diện -->
-                                        <h4>Thay đổi ảnh đại diện</h4>
+                                        <h4>Choose avatar</h4>
                                         <div class="mb-3">
-                                            <label for="image" class="form-label">Chọn ảnh:</label>
+                                            <label for="image" class="form-label">Choose imagine:</label>
                                             <input type="file" id="image" name="image" accept="image/*" class="form-control" />
                                         </div>
                                         <button type="submit" class="btn btn-primary">Update Information</button>

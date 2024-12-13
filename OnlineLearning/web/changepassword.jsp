@@ -44,29 +44,29 @@
             <div class="col-lg-6 mb-4 mb-sm-5">
                 <div class="card card-style1 border-0">
                     <div class="card-body p-4">
-                        <h3 class="h2">Thay đổi mật khẩu</h3>
+                        <h3 class="h2">Change Password</h3>
 
                         <!-- Form thay đổi mật khẩu -->
                         <form action="changepassword" method="POST">
                             <div class="mb-3">
-                                <label for="oldpassword" class="form-label">Mật khẩu cũ</label>
+                                <label for="oldpassword" class="form-label">Old Password</label>
                                 <input type="password" id="oldpassword" name="oldpassword" class="form-control" value="${param.oldpassword}" required />
                                 <c:if test="${not empty errorOldPassword}">
                                     <small class="text-danger">${errorOldPassword}</small>
                                 </c:if>
                             </div>
                             <div class="mb-3">
-                                <label for="newpassword" class="form-label">Mật khẩu mới</label>
+                                <label for="newpassword" class="form-label">New Password</label>
                                 <input type="password" id="newpassword" name="newpassword" class="form-control" value="${param.newpassword}" required />
                             </div>
                             <div class="mb-3">
-                                <label for="confirmpassword" class="form-label">Xác nhận mật khẩu mới</label>
+                                <label for="confirmpassword" class="form-label">Confirm Password</label>
                                 <input type="password" id="confirmpassword" name="confirmpassword" class="form-control" value="${param.confirmpassword}" required />
                                 <c:if test="${not empty errorConfirmPassword}">
                                     <small class="text-danger">${errorConfirmPassword}</small>
                                 </c:if>
                             </div>
-                            <button type="submit" class="btn btn-primary">Cập nhật mật khẩu</button>
+                            <button type="submit" class="btn btn-primary">Change Password</button>
                         </form>
                     </div>
                 </div>

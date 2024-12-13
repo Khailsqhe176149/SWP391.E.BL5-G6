@@ -59,11 +59,11 @@ public class ChangePasswordServlet extends HttpServlet {
                     if (isUpdated) {
                         response.sendRedirect("profile");
                     } else {
-                        request.setAttribute("error", "Không thể cập nhật mật khẩu.");
+                        request.setAttribute("error", "Cann't change password.");
                         request.getRequestDispatcher("/changepassword.jsp").forward(request, response);
                     }
                 } else {
-                    request.setAttribute("errorConfirmPassword", "Mật khẩu mới và xác nhận mật khẩu không khớp.");
+                    request.setAttribute("errorConfirmPassword", "New password and confirm password does not match.");
                     // Giữ lại giá trị đã nhập
                     request.setAttribute("oldpassword", oldPassword);
                     request.setAttribute("newpassword", newPassword);
@@ -71,7 +71,7 @@ public class ChangePasswordServlet extends HttpServlet {
                     request.getRequestDispatcher("/changepassword.jsp").forward(request, response);
                 }
             } else {
-                request.setAttribute("errorOldPassword", "Mật khẩu cũ không chính xác.");
+                request.setAttribute("errorOldPassword", "Old password wrong.");
                 request.setAttribute("oldpassword", oldPassword);
                 request.setAttribute("newpassword", newPassword);
                 request.setAttribute("confirmpassword", confirmPassword);

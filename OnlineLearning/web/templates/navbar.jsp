@@ -25,9 +25,9 @@
                     <!-- Chỉ hiển thị "Subject Management" nếu user là admin -->
                     <c:if test="${acc.getRole_id() == 1}">
 
-                          <a href="TransactionHistory" class="dropdown-item">Transaction History</a>
+                        <a href="TransactionHistory" class="dropdown-item">Transaction History</a>
                         <a href="ListMyCourses" class="dropdown-item">My Courses</a>
-                        <a href="Logout" class="dropdown-item">Logout</a>
+                       
                         <a href="admin/subject-management" class="dropdown-item">Subject Management</a>
                         <a href="ManagerCourses" class="dropdown-item">Manager Courses</a>
                         <a href="accountList" class="dropdown-item">Account List</a>
