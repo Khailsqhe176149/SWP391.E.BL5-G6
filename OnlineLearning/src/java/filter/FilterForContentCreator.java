@@ -23,9 +23,9 @@ import model.Account;
  *
  * @author Admin
  */
-@WebFilter(filterName = "FilterForStaff",
-        urlPatterns = {"/post-management", "/add-post", "/slider-management", "/add-slider",})
-public class FilterForStaff implements Filter {
+@WebFilter(filterName = "FilterForContentCreator",
+        urlPatterns = {"/ManagerCourses",  })
+public class FilterForContentCreator implements Filter {
 
     private static final boolean debug = true;
 
@@ -34,13 +34,13 @@ public class FilterForStaff implements Filter {
     // configured. 
     private FilterConfig filterConfig = null;
 
-    public FilterForStaff() {
+    public FilterForContentCreator() {
     }
 
     private void doBeforeProcessing(ServletRequest request, ServletResponse response)
             throws IOException, ServletException {
         if (debug) {
-            log("FilterForStaff:DoBeforeProcessing");
+            log("FilterForContentCreator:DoBeforeProcessing");
         }
 
     }
@@ -48,7 +48,7 @@ public class FilterForStaff implements Filter {
     private void doAfterProcessing(ServletRequest request, ServletResponse response)
             throws IOException, ServletException {
         if (debug) {
-            log("FilterForStaff:DoAfterProcessing");
+            log("FilterForContentCreator:DoAfterProcessing");
         }
 
     }
@@ -58,7 +58,7 @@ public class FilterForStaff implements Filter {
             throws IOException, ServletException {
 
         if (debug) {
-            log("FilterForStaff:doFilter()");
+            log("FilterForContentCreator:doFilter()");
         }
 
         doBeforeProcessing(request, response);
@@ -68,10 +68,10 @@ public class FilterForStaff implements Filter {
         if (c == null) {
          
 
-            session.setAttribute("notificationErr", "Please login to staff user to use this service !");
+            session.setAttribute("notificationErr", "Please login to Content Creator user to use this service !");
             // response.sendRedirect("login.jsp");
             req.getRequestDispatcher("login.jsp").forward(request, response);
-        } else if (c.getRole_id() != 3) {
+        } else if (c.getRole_id() != 4) {
           
             session.setAttribute("notificationErr", "You cannot access this function !");
             req.getRequestDispatcher("login.jsp").forward(request, response);
@@ -113,7 +113,7 @@ public class FilterForStaff implements Filter {
         this.filterConfig = filterConfig;
         if (filterConfig != null) {
             if (debug) {
-                log("FilterForStaff:Initializing filter");
+                log("FilterForContentCreator:Initializing filter");
             }
         }
     }
@@ -124,9 +124,9 @@ public class FilterForStaff implements Filter {
     @Override
     public String toString() {
         if (filterConfig == null) {
-            return ("FilterForStaff()");
+            return ("FilterForContentCreator()");
         }
-        StringBuffer sb = new StringBuffer("FilterForStaff(");
+        StringBuffer sb = new StringBuffer("FilterForContentCreator(");
         sb.append(filterConfig);
         sb.append(")");
         return (sb.toString());
@@ -140,7 +140,7 @@ public class FilterForStaff implements Filter {
                 response.setContentType("text/html");
                 PrintStream ps = new PrintStream(response.getOutputStream());
                 PrintWriter pw = new PrintWriter(ps);
-                pw.print("<html>\n<head>\n<title>Error</title>\n</head>\n<body>\n"); //NOI18N
+                pw.print("<html>\n<head>\n<title>Error</title>\n</head>\n<body>\n"); //
 
                 // PENDING! Localize this for next official release
                 pw.print("<h1>The resource did not process correctly</h1>\n<pre>\n");

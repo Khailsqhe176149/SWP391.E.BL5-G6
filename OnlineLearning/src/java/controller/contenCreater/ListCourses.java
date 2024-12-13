@@ -35,6 +35,7 @@ public class ListCourses extends HttpServlet {
         
         Integer creatorId = userId;// Nếu không có userId trong session, chuyển hướng người dùng tới trang login
         if (userId == null) {
+            session.setAttribute("notificationErr", "Access Denined!!");
             response.sendRedirect("login.jsp");
             return;
         }

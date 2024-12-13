@@ -46,6 +46,11 @@
                         <a href="post-management" class="dropdown-item">Post Management</a>
                         <a href="Logout" class="dropdown-item">Logout</a>
                     </c:if>
+                    <c:if test="${acc.getRole_id() == 4}">
+                        <a href="ManagerCourses" class="dropdown-item">Manager Courses</a>
+                        
+                        <a href="Logout" class="dropdown-item">Logout</a>
+                    </c:if>
                 </div>
             </div>
 

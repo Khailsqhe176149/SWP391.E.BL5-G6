@@ -65,6 +65,7 @@
                     <option value="1" ${param.role == "1" ? "selected" : ""}>Customer</option>
                     <option value="2" ${param.role == "2" ? "selected" : ""}>Admin</option>
                     <option value="3" ${param.role == "3" ? "selected" : ""}>Staff</option>
+                    <option value="4" ${param.role == "4" ? "selected" : ""}>Content Creator</option>
                   </select>
                 </div>
                 <div class="form-group">

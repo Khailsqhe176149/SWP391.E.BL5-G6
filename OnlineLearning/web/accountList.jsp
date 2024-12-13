@@ -138,6 +138,7 @@
                                             <option value="1" ${account.role_id == 1 ? 'selected' : ''}>Admin</option>
                                             <option value="2" ${account.role_id == 2 ? 'selected' : ''}>Customer</option>
                                             <option value="3" ${account.role_id == 3 ? 'selected' : ''}>Staff</option>
+                                            <option value="4" ${account.role_id == 4 ? 'selected' : ''}>Content Creator</option>
                                         </select>
                                         <button type="submit" name="action" value="updaterole" class="btn btn-warning btn-sm" style="margin-top: 10px;"> <i class="fas fa-edit"></i> </button>
                                         
