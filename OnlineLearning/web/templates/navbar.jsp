@@ -17,15 +17,35 @@
             <div class="nav-item dropdown">
                 <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Pages</a>
                 <div class="dropdown-menu fade-down m-0">
-                    <a href="team.html" class="dropdown-item">Our Team</a>
+<!--                    <a href="team.html" class="dropdown-item">Our Team</a>
                     <a href="testimonial.html" class="dropdown-item">Testimonial</a>
                     <a href="post" class="dropdown-item">Post</a>
-                    <a href="404.html" class="dropdown-item">404 Page</a>
+                    <a href="404.html" class="dropdown-item">404 Page</a>-->
 
                     <!-- Chỉ hiển thị "Subject Management" nếu user là admin -->
                     <c:if test="${acc.getRole_id() == 1}">
-                        <a href="admin/subject-management" class="dropdown-item">Subject Management</a>
+
+                          <a href="TransactionHistory" class="dropdown-item">Transaction History</a>
                         <a href="ListMyCourses" class="dropdown-item">My Courses</a>
+                        <a href="Logout" class="dropdown-item">Logout</a>
+                        <a href="admin/subject-management" class="dropdown-item">Subject Management</a>
+                        <a href="admin/quiz-management" class="dropdown-item">Quiz Management</a>
+                        <a href="ManagerCourses" class="dropdown-item">Manager Courses</a>
+                        <a href="accountList" class="dropdown-item">Account List</a>
+                        <a href="Logout" class="dropdown-item">Logout</a>
+                    </c:if>
+                    <!-- Customer -->    
+                     <c:if test="${acc.getRole_id() == 2}">
+                        <a href="profile" class="dropdown-item">My profile</a>
+                        <a href="changepassword" class="dropdown-item">Change Password</a>
+                        <a href="ListMyCourses" class="dropdown-item">My Courses</a>
+                        <a href="Logout" class="dropdown-item">Logout</a>
+                    </c:if>
+                    <!-- Staff -->    
+                    <c:if test="${acc.getRole_id() == 3}">
+                        <a href="slider-management" class="dropdown-item">Slider Management</a>
+                        <a href="post-management" class="dropdown-item">Post Management</a>
+                        <a href="Logout" class="dropdown-item">Logout</a>
                     </c:if>
                 </div>
             </div>
