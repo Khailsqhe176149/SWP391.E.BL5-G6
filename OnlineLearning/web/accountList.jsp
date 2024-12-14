@@ -113,8 +113,8 @@
                                 <td><fmt:formatDate value="${account.getCreatedtime()}" pattern="yyyy-MM-dd HH:mm:ss" /></td>
                                 <td>
                                     <c:choose>
-                                        <c:when test="${account.role_id == 1}">Customer</c:when>
-                                        <c:when test="${account.role_id == 2}">Admin</c:when>
+                                        <c:when test="${account.role_id == 1}">Admin</c:when>
+                                        <c:when test="${account.role_id == 2}">Customer</c:when>
                                         <c:when test="${account.role_id == 3}">Staff</c:when>
                                         <c:when test="${account.role_id == 4}">Content Creator</c:when>
                                     </c:choose>
