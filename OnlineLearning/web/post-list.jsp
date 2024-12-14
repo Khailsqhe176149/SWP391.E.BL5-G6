@@ -40,6 +40,12 @@
         <div class="mb-4">
             <a href="add-post.jsp" class="btn btn-success">Add New Post</a>
         </div>
+        <!-- Display Message if Exists -->
+            <c:if test="${not empty message}">
+                <div class="alert alert-warning" role="alert">
+                    ${message}
+                </div>
+            </c:if>
 
         <!-- Search Form -->
         <form action="post-management" method="get" class="mb-4">

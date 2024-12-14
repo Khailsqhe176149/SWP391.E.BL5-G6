@@ -79,6 +79,7 @@
                         <th>Description</th>
                         <th>Image</th>
                         <th>Status</th>
+                        <th>Slider Code</th>
                         <th>Slider Category</th>
                         <th>Actions</th>
                     </tr>
@@ -92,6 +93,7 @@
                                 <img src="${slider.getImg()}" alt="Slider Image" class="img-fluid" width="50" height="50" />
                             </td>
                             <td>${slider.getStatus() == 1 ? 'Active' : 'Inactive'}</td>
+                            <td>${slider.getSliderid()}</td>
                             <td>
                                 <c:choose>
                                     <c:when test="${slider.getSlidercategoryid() == 1}">Introduction</c:when>

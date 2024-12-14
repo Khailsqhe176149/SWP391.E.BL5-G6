@@ -124,9 +124,13 @@ public class PostListServlet extends HttpServlet {
             // Thêm bài viết vào database
             boolean success = dao.addPost(newPost);
             if (success) {
+                
+                session.setAttribute("message", "Add post successfully.");
                 response.sendRedirect("post-management");
             } else {
-                response.getWriter().write("Failed to add post");
+                
+                session.setAttribute("message", "Fail to add post.");
+                response.sendRedirect("post-management");
             }
         }
     
@@ -172,7 +176,8 @@ public class PostListServlet extends HttpServlet {
 
             // Cập nhật bài viết
             dao.updatePost(post);
-
+            HttpSession session = request.getSession();
+            session.setAttribute("message", "Update post successfully.");
             // Chuyển hướng về trang danh sách bài viết
             response.sendRedirect("post-management");
         }

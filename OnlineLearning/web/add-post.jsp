@@ -45,7 +45,7 @@
                 </select>
             </div>
             <div class="mb-3">
-                <label for="sliderid" class="form-label">Slider ID</label>
+                <label for="sliderid" class="form-label">Slider Code</label>
                 <input type="text" class="form-control" id="sliderid" name="sliderid" required>
             </div>
             <button type="submit" class="btn btn-primary">Add Post</button>
