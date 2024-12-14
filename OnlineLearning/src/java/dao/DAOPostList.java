@@ -256,7 +256,17 @@ public class DAOPostList extends DBContext  {
     return false;
 }
 
+ public void deletePost(int postId) {
+        String sql = "DELETE FROM Post WHERE Postid = ?";
 
+        try (
+                PreparedStatement ps = connection.prepareStatement(sql)) {
+            ps.setInt(1, postId);
+            ps.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
     
     
 }

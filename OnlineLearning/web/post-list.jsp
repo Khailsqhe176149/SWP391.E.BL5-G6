@@ -91,6 +91,10 @@
                         <td>${post.getSliderid()}</td>
                         <td>
                             <a href="post-management?action=edit&postId=${post.getPostid()}" class="btn btn-warning btn-sm"> <i class="fas fa-edit"></i> </a>
+                            <a href="javascript:void(0);" class="btn btn-danger btn-sm"
+                                   onclick="confirmDelete('${post.getPostid()}')" style="margin-top: 10px;">
+                                    <i class="fas fa-trash-alt"></i>
+                                </a>
                         </td>
                     </tr>
                 </c:forEach>
@@ -147,9 +151,18 @@
             </nav>
         </c:if>
 
-
+ <!-- Footer Start -->
+            <jsp:include page="templates/footer.jsp" />
+        <!-- Footer End -->
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script type="text/javascript">
+                                       function confirmDelete(postId) {
+                                           if (confirm("Are you sure you want to delete this slider?")) {
+                                               window.location.href = "post-management?action=delete&postId=" + postId;
+                                           }
+                                       }
+        </script>
 </body>
 
 </html>

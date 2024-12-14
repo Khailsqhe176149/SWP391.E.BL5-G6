@@ -47,6 +47,13 @@ public class PostListServlet extends HttpServlet {
            
             RequestDispatcher dispatcher = request.getRequestDispatcher("/add-post.jsp");
             dispatcher.forward(request, response);
+        }else if ("delete".equals(action)) {
+            int postId = Integer.parseInt(request.getParameter("postId"));
+            dao.deletePost(postId);
+            HttpSession session = request.getSession();
+            session.setAttribute("message", "Delete post successfully.");
+            response.sendRedirect("post-management");
+
         }
         else {
             // Search and display posts

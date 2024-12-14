@@ -95,5 +95,8 @@
 
         <a href="accountList" class="btn btn-secondary mt-3">Back to account list</a>
     </div>
+     <!-- Footer Start -->
+            <jsp:include page="templates/footer.jsp" />
+        <!-- Footer End -->
 </body>
 </html>
