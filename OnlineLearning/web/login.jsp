@@ -90,5 +90,17 @@
         <script src="js/popper.js"></script>
         <script src="js/bootstrap.min.js"></script>
         <script src="js/main1.js"></script>
+        <script>
+            $(".toggle-password").click(function() {
+        var input = $($(this).attr("toggle"));
+        if (input.attr("type") === "password") {
+          input.attr("type", "text");
+          $(this).toggleClass("fa-eye fa-eye-slash");
+        } else {
+          input.attr("type", "password");
+          $(this).toggleClass("fa-eye-slash fa-eye");
+        }
+      });
+        </script>
     </body>
 </html>
