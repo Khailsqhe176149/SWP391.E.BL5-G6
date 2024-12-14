@@ -77,12 +77,13 @@
             <div class="col-md-9 ps-4">
                 <h1 class="my-4">Lesson Readings</h1>
 
-              
+
 
                 <!-- Table displaying Lesson Readings -->
                 <table class="table table-striped table-bordered" id="lessonReadingsTable">
                     <thead class="thead-dark">
                         <tr>
+                            <th>#</th>
                             <th>Title</th>
                             <th>Description</th>
                             <th>Reading URL</th>
@@ -90,8 +91,9 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <c:forEach var="reading" items="${readings}">
+                        <c:forEach var="reading" items="${readings}" varStatus="status">
                             <tr>
+                                <td>${status.index + 1}</td>
                                 <td>${reading.title}</td>
                                 <td>${reading.description}</td>
                                 <td><a href="${reading.readingURL}" target="_blank" class="btn btn-primary btn-sm">View</a></td>
@@ -103,12 +105,12 @@
                         </c:forEach>
                     </tbody>
                 </table>
-                  <!-- Button to add new Lesson Reading -->
-               
+                <!-- Button to add new Lesson Reading -->
+
                 <!-- Back to Lessons List -->
                 <a href="ListLesson" class="btn btn-secondary mt-3">Back to List</a>
                 <br>  <br>
-                 <a href="AddLessonReading?lessonId=${lessonId}" class="btn btn-primary mb-3">Add New Reading</a>
+                <a href="AddLessonReading?lessonId=${lessonId}" class="btn btn-primary mb-3">Add New Reading</a>
             </div>
         </div>
 
@@ -128,9 +130,8 @@
                     lengthChange: true,
                     info: true,
                     language: {
-                        search: "Search Course:",
-                        lengthMenu: "Show _MENU_ courses per page",
-                        info: "Showing _START_ to _END_ of _TOTAL_ courses",
+                        
+                      
                         paginate: {
                             previous: "Previous",
                             next: "Next"

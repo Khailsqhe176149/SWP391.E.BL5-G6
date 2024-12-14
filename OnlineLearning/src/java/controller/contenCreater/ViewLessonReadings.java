@@ -39,7 +39,7 @@ public class ViewLessonReadings extends HttpServlet {
         request.setAttribute("lessonId", lessonId);  // Để dùng trong các form khác (sửa, thêm)
 
         // Forward tới trang JSP để hiển thị
-        request.getRequestDispatcher("/ViewLessonReadings.jsp").forward(request, response);
+        request.getRequestDispatcher("/list-lesson-reading.jsp").forward(request, response);
     }
 
 }

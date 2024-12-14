@@ -87,6 +87,7 @@
                 <table class="table table-striped" id="coursesTable">
                     <thead>
                         <tr>
+                            <th>#</th>
                             <th>Course ID</th>
                             <th>Course Name</th>
                             <th>Subject</th>
@@ -95,9 +96,12 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <c:forEach var="course" items="${courses}">
+                        <c:forEach var="course" items="${courses}" varStatus="status">
                             <tr>
-                                <td>${course.courseId}</td>
+                               
+                                <td>${status.index + 1}</td> 
+
+                                <td> ${course.courseId}</td> 
                                 <td>${course.name}</td>
                                 <td>${course.subjectName}</td>
                                 <td>
@@ -109,16 +113,14 @@
                                     <a href="addLesson?courseId=${course.courseId}" class="btn btn-primary">Add Lesson</a>
                                     <button class="btn btn-info" data-bs-toggle="modal" data-bs-target="#lessonModal${course.courseId}">View Lessons</button>
                                 </td>
-
-
-
                             </tr>
                         </c:forEach>
                     </tbody>
+
                 </table>
 
+                <!-- Modal -->
                 <c:forEach var="course" items="${courses}">
-                    <!-- Modal -->
                     <div class="modal fade" id="lessonModal${course.courseId}" tabindex="-1" aria-labelledby="lessonModalLabel${course.courseId}" aria-hidden="true">
                         <div class="modal-dialog modal-lg">
                             <div class="modal-content">
@@ -127,20 +129,27 @@
                                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                 </div>
                                 <div class="modal-body">
-                                    <table class="table table-bordered">
+                                    <table class="table table-bordered" >
                                         <thead>
                                             <tr>
+                                                  <th>#</th>
                                                 <th>Lesson ID</th>
                                                 <th>Lesson Name</th>
                                                 <th>Description</th>
+                                                <th>Action</th>
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <c:forEach var="lesson" items="${course.lessons}">
+                                            <c:forEach var="lesson" items="${course.lessons}" varStatus="status">
                                                 <tr>
+                                                    <td>${status.index + 1}</td> 
                                                     <td>${lesson.lessonid}</td>
                                                     <td>${lesson.name}</td>
                                                     <td>${lesson.description}</td>
+                                                    <td>
+
+                                                        <a href="deleteLessonFromCourse?courseId=${course.courseId}&lessonId=${lesson.lessonid}" class="btn btn-danger">Delete</a>
+                                                    </td>
                                                 </tr>
                                             </c:forEach>
                                         </tbody>
@@ -151,6 +160,7 @@
                     </div>
                 </c:forEach>
 
+
             </div>
         </div>
 
@@ -160,7 +170,7 @@
         <!-- Footer End -->
         <!-- jQuery script to handle button actions -->
 
-     
+
         <script>
             $(document).ready(function () {
 
@@ -171,7 +181,7 @@
                     lengthChange: true,
                     info: true,
                     language: {
-                        search: "Search Course:",
+
                         lengthMenu: "Show _MENU_ courses per page",
                         info: "Showing _START_ to _END_ of _TOTAL_ courses",
                         paginate: {

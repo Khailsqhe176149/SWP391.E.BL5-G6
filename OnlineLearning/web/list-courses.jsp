@@ -75,12 +75,12 @@
         <!-- Sidebar and Main Content Start -->
         <div class="container-fluid" style="display: flex; min-height: 100vh;">
             <!-- Sidebar -->
-           
-                <jsp:include page="templates/sidebar.jsp" />
+
+            <jsp:include page="templates/sidebar.jsp" />
 
 
 
-                
+
             <!-- Main Content -->
             <div class="col-md-9 ps-4">
                 <h2 class="text-center mb-4">Manage Courses</h2>
@@ -90,6 +90,7 @@
                         <thead class="thead-dark">
                             <tr>
                                 <th>#</th>
+                                <th>ID</th>
                                 <th>Image</th>
                                 <th>Course Name</th>
                                 <th>Price</th>
@@ -99,8 +100,10 @@
                             </tr>
                         </thead>
                         <tbody id="courseTable">
-                            <c:forEach var="course" items="${courses}">
+                            <c:forEach var="course" items="${courses}" varStatus="status">
                                 <tr>
+                                    
+                                    <td>${status.index + 1}</td> 
                                     <td>${course.courseId}</td>
                                     <td>
                                         <!-- Image with click handler to open modal -->
@@ -167,41 +170,41 @@
         <jsp:include page="templates/footer.jsp" />
         <!-- Footer End -->
         <!-- jQuery script to handle button actions -->
-    
- <script>
-    // Khi modal mở, điền thông tin vào form
-    $('#updateImageModal').on('show.bs.modal', function (event) {
-        var button = $(event.relatedTarget);  // Element đã click
-        var courseId = button.data('course-id'); // Lấy courseId từ data
-        // Điền courseId vào hidden input trong form
-        var modal = $(this);
-        modal.find('#courseId').val(courseId);
-    });
 
-    // Submit form khi bấm nút "Upload Image"
-    $('#imageUploadForm').on('submit', function (e) {
-        e.preventDefault(); // Ngăn không cho form submit mặc định
+        <script>
+            // Khi modal mở, điền thông tin vào form
+            $('#updateImageModal').on('show.bs.modal', function (event) {
+                var button = $(event.relatedTarget);  // Element đã click
+                var courseId = button.data('course-id'); // Lấy courseId từ data
+                // Điền courseId vào hidden input trong form
+                var modal = $(this);
+                modal.find('#courseId').val(courseId);
+            });
 
-        var formData = new FormData(this);
+            // Submit form khi bấm nút "Upload Image"
+            $('#imageUploadForm').on('submit', function (e) {
+                e.preventDefault(); // Ngăn không cho form submit mặc định
 
-        $.ajax({
-            url: $(this).attr('action'),
-            type: 'POST',
-            data: formData,
-            contentType: false,
-            processData: false,
-            success: function(response) {
-                $('#updateImageModal').modal('hide'); // Đóng modal khi thành công
-                location.reload();  // Reload lại trang sau khi upload
-            },
-            error: function(xhr, status, error) {
-                // Không hiển thị thông báo lỗi nữa
-                $('#updateImageModal').modal('hide'); // Đóng modal nếu có lỗi
-                location.reload();  // Reload lại trang dù có lỗi
-            }
-        });
-    });
-</script>
+                var formData = new FormData(this);
+
+                $.ajax({
+                    url: $(this).attr('action'),
+                    type: 'POST',
+                    data: formData,
+                    contentType: false,
+                    processData: false,
+                    success: function (response) {
+                        $('#updateImageModal').modal('hide'); // Đóng modal khi thành công
+                        location.reload();  // Reload lại trang sau khi upload
+                    },
+                    error: function (xhr, status, error) {
+                        // Không hiển thị thông báo lỗi nữa
+                        $('#updateImageModal').modal('hide'); // Đóng modal nếu có lỗi
+                        location.reload();  // Reload lại trang dù có lỗi
+                    }
+                });
+            });
+        </script>
 
 
 

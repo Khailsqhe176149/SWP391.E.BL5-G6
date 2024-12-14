@@ -45,10 +45,10 @@ public class AddLessonToCourses extends HttpServlet {
 
         List<Course> courses = dao.getAllCoursesForCreator(creatorId); // Thay creatorId bằng ID giáo viên
 
-        // Gắn danh sách bài học vào từng khóa học
+    
         for (Course course : courses) {
             List<Lesson> lessons = dao.getLessonsByCourseId(course.getCourseId());
-            course.setLessons(lessons); // Đảm bảo lớp Course có thuộc tính "lessons"
+            course.setLessons(lessons); 
         }
         request.setAttribute("user", user);
         request.setAttribute("courses", courses);
@@ -64,7 +64,17 @@ public class AddLessonToCourses extends HttpServlet {
 
         if (lessonIds != null) {
             for (String lessonId : lessonIds) {
-                dao.addLessonToCourse(courseId, Integer.parseInt(lessonId), date);
+                int lessonIdInt = Integer.parseInt(lessonId);
+
+                // Kiểm tra bài học đã được thêm vào khóa học chưa
+                if (dao.isLessonAlreadyAdded(courseId, lessonIdInt)) {
+                    req.setAttribute("errorMessage", "Lesson with ID " + lessonIdInt + " is already added to this course.");
+                    req.getRequestDispatcher("add-lesson-to-course.jsp").forward(req, resp);
+                    return;
+                }
+
+                // Nếu chưa có, thêm bài học vào khóa học
+                dao.addLessonToCourse(courseId, lessonIdInt, date);
             }
         }
 
