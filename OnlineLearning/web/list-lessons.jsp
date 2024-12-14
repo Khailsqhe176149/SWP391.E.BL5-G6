@@ -89,9 +89,9 @@
                 <table class="table table-striped">
                     <thead>
                         <tr>
+                            <th>#</th>
                             <th>Lesson ID</th>
                             <th>Name</th>
-
                             <th>Description</th>
                             <th>Date</th>
                             <th>Detail</th>
@@ -100,8 +100,9 @@
                     </thead>
                     <tbody>
                         <!-- Iterating through lessons list -->
-                        <c:forEach var="lesson" items="${lessons}">
+                        <c:forEach var="lesson" items="${lessons}" varStatus="status">
                             <tr>
+                                <td>${status.index + 1}</td> 
                                 <td>${lesson.lessonid}</td>
                                 <td>${lesson.name}</td>
 
@@ -140,12 +141,29 @@
    <!-- DataTables JS -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.datatables.net/1.13.5/js/jquery.dataTables.min.js"></script>
+     <script>
+            $(document).ready(function () {
 
-    <script>
-        $(document).ready(function () {
-            $('#videoTable').DataTable();  // Initialize DataTable for sorting and paging
-        });
-    </script>
+                $('.table').DataTable({
+                    paging: false,
+                    searching: true,
+                    ordering: true,
+                    lengthChange: true,
+                    info: true,
+                    language: {
+                        
+                        lengthMenu: "Show _MENU_ lesson per page",
+                        info: "Showing _START_ to _END_ of _TOTAL_ lessons",
+                        paginate: {
+                            previous: "Previous",
+                            next: "Next"
+                        }
+                    }
+                });
+            });
+        </script>
+
+  
 
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>

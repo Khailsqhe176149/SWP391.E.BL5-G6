@@ -88,6 +88,7 @@
                 <table id="videoTable" class="table table-bordered table-striped">
                     <thead>
                         <tr>
+                            <th>#</th>
                             <th>Video Title</th>
                             <th>Description</th>
                             <th>Video URL</th>
@@ -95,8 +96,9 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <c:forEach var="video" items="${videos}">
+                        <c:forEach var="video" items="${videos}" varStatus="status">
                             <tr>
+                                <td>${status.index + 1}</td>
                                 <td>${video.videoTitle}</td>
                                 <td>${video.description}</td>
                                 <td><iframe width="300" height="120"
@@ -129,15 +131,13 @@
             $(document).ready(function () {
 
                 $('.table').DataTable({
-                    paging: true,
+                    paging: false,
                     searching: true,
                     ordering: true,
                     lengthChange: true,
                     info: true,
                     language: {
-                        search: "Search Course:",
-                        lengthMenu: "Show _MENU_ courses per page",
-                        info: "Showing _START_ to _END_ of _TOTAL_ courses",
+                     
                         paginate: {
                             previous: "Previous",
                             next: "Next"

@@ -13,6 +13,7 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import java.util.ArrayList;
 import java.util.List;
 import model.Lesson;
 
@@ -24,12 +25,35 @@ import model.Lesson;
 public class AddLesson extends HttpServlet {
    private DAOLesson dao = new DAOLesson();
    @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        
-        List<Lesson> lessons = dao.getAllLessons();
-        req.setAttribute("lessons", lessons);
-        req.setAttribute("courseId", req.getParameter("courseId"));
-        req.getRequestDispatcher("addLesson.jsp").forward(req, resp);
+protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    
+    int courseId = Integer.parseInt(req.getParameter("courseId"));
+
+    
+    List<Lesson> allLessons = dao.getAllLessons();
+    List<Lesson> existingLessons = dao.getLessonsByCourseId(courseId);
+    List<Lesson> lessonsAvailableForAdding = new ArrayList<>();
+    
+    
+    
+    for (Lesson lesson : allLessons) {
+        boolean isAlreadyAdded = false;
+        for (Lesson existingLesson : existingLessons) {
+            if (lesson.getLessonid()== existingLesson.getLessonid()) {
+                isAlreadyAdded = true;
+                break;
+            }
+        }
+        if (!isAlreadyAdded) {
+            lessonsAvailableForAdding.add(lesson);
+        }
     }
+
+    // Gửi danh sách các bài học chưa có trong khóa học đến JSP
+    req.setAttribute("lessons", lessonsAvailableForAdding);
+    req.setAttribute("courseId", courseId);
+    req.getRequestDispatcher("addLesson.jsp").forward(req, resp);
+}
+
       
 }

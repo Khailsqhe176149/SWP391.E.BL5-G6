@@ -256,6 +256,40 @@ public class DAOLesson extends DBContext {
         return lessons;
     }
 
- 
+ public boolean isLessonAlreadyAdded(int courseId, int lessonId) {
+    String query = "SELECT COUNT(*) FROM course_lessons WHERE course_id = ? AND lesson_id = ?";
+    try (PreparedStatement ps = connection.prepareStatement(query)) {
+        ps.setInt(1, courseId);
+        ps.setInt(2, lessonId);
+        ResultSet rs = ps.executeQuery();
+        
+        if (rs.next()) {
+            return rs.getInt(1) > 0;  // Nếu số lượng lớn hơn 0, nghĩa là bài học đã tồn tại
+        }
+    } catch (SQLException e) {
+        e.printStackTrace();
+    }
+    return false;
+}
+public boolean removeLessonFromCourse(int courseId, int lessonId) {
+    boolean result = false;
+    String query = "DELETE FROM CourseLesson WHERE Courseid = ? AND  Lessonid = ?";
+    
+    try (PreparedStatement ps = connection.prepareStatement(query)) {
+        
+        ps.setInt(1, courseId);
+        ps.setInt(2, lessonId);
+        
+        int rowsAffected = ps.executeUpdate();
+        if (rowsAffected > 0) {
+            result = true;
+        }
+    } catch (SQLException e) {
+        e.printStackTrace();
+    }
+    
+    return result;
+}
+
 
 }

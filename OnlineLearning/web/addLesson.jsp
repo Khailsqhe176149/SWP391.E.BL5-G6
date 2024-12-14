@@ -77,6 +77,13 @@
             <!-- Sidebar -->
 
             <jsp:include page="templates/sidebar.jsp" />
+            <%-- Hiển thị thông báo lỗi nếu có --%>
+            <c:if test="${not empty errorMessage}">
+                <div class="alert alert-danger">
+                    ${errorMessage}
+                </div>
+            </c:if>
+
 
 
 
