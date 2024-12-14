@@ -104,9 +104,9 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <c:forEach var="account" items="${accountList}">
+                        <c:forEach var="account" items="${accountList}" varStatus="status">
                             <tr>
-                                <td>${account.acc_id}</td>
+                                <td>${status.index + 1}</td>
                                 <td>${account.email}</td>
                                 <td>${account.getName()}</td>
                                 <td>${account.getPhone()}</td>
