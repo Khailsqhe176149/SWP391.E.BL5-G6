@@ -52,8 +52,32 @@ public class PostListServlet extends HttpServlet {
             // Search and display posts
             String search = request.getParameter("search");
             String status = request.getParameter("status");
-            List<Post> posts = dao.getFilteredPosts(search, status);
+            
+            int page = 1; // Trang mặc định
+            int pageSize = 4; // Số bản ghi mỗi trang
+            if (request.getParameter("page") != null) {
+                page = Integer.parseInt(request.getParameter("page"));
+            }
+            
+            //List<Post> posts = dao.getFilteredPosts(search, status);
+            List<Post> posts = dao.getFilteredPosts(search, status, page, pageSize);
+            
+             if (posts == null || posts.isEmpty()) {
+                // Nếu danh sách trống, có thể hiển thị thông báo hoặc xử lý khác.
+                request.setAttribute("message", "No posts found.");
+            }
+            // Lấy tổng số bản ghi để tính số trang
+            int totalPosts = dao.getTotalPostCount(search, status);
+            int totalPages = (int) Math.ceil((double) totalPosts / pageSize);
+            
             request.setAttribute("posts", posts);
+            
+            // Truyền dữ liệu vào request
+            request.setAttribute("totalPages", totalPages);
+            request.setAttribute("currentPage", page);
+            request.setAttribute("search", search);
+            request.setAttribute("status", status);
+            
             RequestDispatcher dispatcher = request.getRequestDispatcher("/post-list.jsp");
             dispatcher.forward(request, response);
         }

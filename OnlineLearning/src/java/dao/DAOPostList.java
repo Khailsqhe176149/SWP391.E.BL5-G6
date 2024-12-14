@@ -20,8 +20,10 @@ import model.Users;
  * @author Khải
  */
 public class DAOPostList extends DBContext  {
-     public List<Post> getFilteredPosts(String search, String status) {
+     public List<Post> getFilteredPosts(String search, String status, int page, int pageSize) {
         List<Post> posts = new ArrayList<>();
+        // Tính toán OFFSET dựa trên trang và kích thước trang
+        int offset = (page - 1) * pageSize;
         String sql = "SELECT * FROM Post WHERE 1=1";
 
         if (search != null && !search.trim().isEmpty()) {
@@ -31,7 +33,8 @@ public class DAOPostList extends DBContext  {
         if (status != null && !status.trim().isEmpty()) {
             sql += " AND Status = ?";
         }
-
+        // Sắp xếp và phân trang
+        sql += " ORDER BY Postid OFFSET ? ROWS FETCH NEXT ? ROWS ONLY";
         try (PreparedStatement ps = connection.prepareStatement(sql)) {
             int index = 1;
             if (search != null && !search.trim().isEmpty()) {
@@ -40,7 +43,9 @@ public class DAOPostList extends DBContext  {
             if (status != null && !status.trim().isEmpty()) {
                 ps.setInt(index, Integer.parseInt(status));
             }
-
+             ps.setInt(index++, offset);  // OFFSET: Bỏ qua số bản ghi theo trang
+            ps.setInt(index++, pageSize);  // FETCH NEXT: Số bản ghi lấy trong trang
+            
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
                 Post post = new Post(
@@ -61,6 +66,46 @@ public class DAOPostList extends DBContext  {
 
         return posts;
     }
+     public int getTotalPostCount(String search, String status) {
+        int totalCount = 0;
+        String sql = "SELECT COUNT(*) FROM Post WHERE 1=1";
+
+        // Thêm điều kiện tìm kiếm nếu có
+        if (search != null && !search.trim().isEmpty()) {
+            sql += " AND Title LIKE ?";
+        }
+
+        // Thêm điều kiện trạng thái nếu có
+        if (status != null && !status.trim().isEmpty()) {
+            sql += " AND Status = ?";
+        }
+
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+            int index = 1;
+
+            // Thêm tham số cho tìm kiếm nếu có
+            if (search != null && !search.trim().isEmpty()) {
+                ps.setString(index++, "%" + search + "%");
+            }
+
+            // Thêm tham số cho trạng thái nếu có
+            if (status != null && !status.trim().isEmpty()) {
+                ps.setInt(index++, Integer.parseInt(status));
+            }
+
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                totalCount = rs.getInt(1);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return totalCount;
+    }
+     
+     
+     
      public boolean updatePostImage(Post post) {
         String sql = "UPDATE Post SET img = ? WHERE Postid = ?";
 
