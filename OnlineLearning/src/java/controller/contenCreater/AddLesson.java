@@ -49,7 +49,7 @@ protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws Se
         }
     }
 
-    // Gửi danh sách các bài học chưa có trong khóa học đến JSP
+   
     req.setAttribute("lessons", lessonsAvailableForAdding);
     req.setAttribute("courseId", courseId);
     req.getRequestDispatcher("addLesson.jsp").forward(req, resp);

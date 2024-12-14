@@ -4,7 +4,7 @@
     <div class="owl-carousel header-carousel position-relative">
         <c:forEach var="slider" items="${sliders}">
             <div class="owl-carousel-item position-relative">
-                <img class="slider-img" src="img/${slider.img}" alt="${slider.title}">
+                <img class="slider-img" src="${slider.img}" alt="${slider.title}">
                 <div class="position-absolute top-0 start-0 w-100 h-100 d-flex align-items-center" style="background: rgba(24, 29, 56, .7);">
                     <div class="container">
                         <div class="row justify-content-start">
@@ -18,7 +18,7 @@
                         </div>
                     </div>
                 </div>
-            </div>s
+            </div>
         </c:forEach>
     </div>
 </div>

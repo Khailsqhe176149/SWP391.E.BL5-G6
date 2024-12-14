@@ -27,12 +27,11 @@ public class DAOListCourses extends DBContext {
 
         int offset = (pageIndex - 1) * 6;
 
-        String sql = "SELECT * FROM Course "
+        String sql = "SELECT * FROM Course WHERE Status = 1 "
                 + "ORDER BY Name ASC "
                 + "OFFSET ? ROWS FETCH NEXT 6 ROWS ONLY";
 
         try (PreparedStatement ps = connection.prepareStatement(sql)) {
-
             ps.setInt(1, offset);
 
             try (ResultSet rs = ps.executeQuery()) {
@@ -46,14 +45,13 @@ public class DAOListCourses extends DBContext {
         }
 
         return courses;
-
     }
 
     public List<Course> getCoursesByCreatedTimeAsc(int pageIndex) {
         List<Course> courses = new ArrayList<>();
 
         int offset = (pageIndex - 1) * 6;
-        String sql = "SELECT * FROM Course "
+        String sql = "SELECT * FROM Course WHERE Status = 1 "
                 + "ORDER BY Createdtime ASC "
                 + "OFFSET ? ROWS FETCH NEXT 6 ROWS ONLY";
 
@@ -76,7 +74,7 @@ public class DAOListCourses extends DBContext {
         List<Course> courses = new ArrayList<>();
 
         int offset = (pageIndex - 1) * 6;
-        String sql = "SELECT * FROM Course "
+        String sql = "SELECT * FROM Course WHERE Status = 1 "
                 + "ORDER BY Createdtime DESC "
                 + "OFFSET ? ROWS FETCH NEXT 6 ROWS ONLY";
 
@@ -107,11 +105,11 @@ public class DAOListCourses extends DBContext {
                 + "    FROM CourseRegistrater r "
                 + "    GROUP BY r.CourseID "
                 + ") AS enrollment_counts ON c.Courseid = enrollment_counts.CourseID "
-                + "ORDER BY EnrollmentCount DESC " // Sắp xếp theo số lượng học viên đăng ký
+                + "WHERE c.Status = 1 "
+                + "ORDER BY EnrollmentCount DESC "
                 + "OFFSET ? ROWS FETCH NEXT 6 ROWS ONLY";  // OFFSET với số lượng bản ghi cần bỏ qua
 
         try (PreparedStatement ps = connection.prepareStatement(sql)) {
-
             ps.setInt(1, offset);
 
             try (ResultSet rs = ps.executeQuery()) {
@@ -132,6 +130,7 @@ public class DAOListCourses extends DBContext {
         int offset = (pageIndex - 1) * 6;
         String sql = "SELECT c.* FROM Course c "
                 + "LEFT JOIN Lesson l ON c.Courseid = l.Courseid "
+                + "WHERE c.Status = 1 "
                 + "GROUP BY c.Courseid "
                 + "ORDER BY COUNT(l.Lessonid) DESC "
                 + "OFFSET ? ROWS FETCH NEXT 6 ROWS ONLY";
@@ -186,7 +185,7 @@ public class DAOListCourses extends DBContext {
         int offset = (pageIndex - 1) * pageSize;
 
         String query = "SELECT Courseid, Name, Subjectid, Price, Authorid, Description, Img, Createdtime, Status, Tag "
-                + "FROM Course "
+                + "FROM Course WHERE Status = 1 "
                 + "ORDER BY Createdtime DESC "
                 + "OFFSET ? ROWS FETCH NEXT ? ROWS ONLY";
 
@@ -209,17 +208,15 @@ public class DAOListCourses extends DBContext {
 
     public int getTotalCourses() {
         int totalCourses = 0;
-        String query = "SELECT COUNT(*) FROM Course";
+        String query = "SELECT COUNT(*) FROM Course WHERE Status = 1";  // Không cần ORDER BY
 
         try (PreparedStatement ps = connection.prepareStatement(query); ResultSet rs = ps.executeQuery()) {
-
             if (rs.next()) {
                 totalCourses = rs.getInt(1);
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
-
         return totalCourses;
     }
 
@@ -244,6 +241,7 @@ public class DAOListCourses extends DBContext {
         int offset = (pageIndex - 1) * pageSize;
         String query = "SELECT Courseid, Name, Subjectid, Price, Authorid, Description, Img, Createdtime, Status, Tag "
                 + "FROM Course WHERE Subjectid IN (SELECT Subjectid FROM Subjects WHERE Name = ?) "
+                + "AND Status = 1 "
                 + "ORDER BY Createdtime DESC "
                 + "OFFSET ? ROWS FETCH NEXT ? ROWS ONLY";
 
@@ -268,7 +266,7 @@ public class DAOListCourses extends DBContext {
     public int getTotalCoursesBySubject(String subjectName) {
         int totalCourses = 0;
 
-        String query = "SELECT COUNT(*) FROM Course WHERE Subjectid IN (SELECT Subjectid FROM Subjects WHERE Name = ?)";
+        String query = "SELECT COUNT(*) FROM Course WHERE Subjectid IN (SELECT Subjectid FROM Subjects WHERE Name = ?) AND Status = 1";
 
         try (PreparedStatement ps = connection.prepareStatement(query)) {
             ps.setString(1, subjectName);
@@ -290,7 +288,7 @@ public class DAOListCourses extends DBContext {
         int offset = (pageIndex - 1) * pageSize;
 
         String query = "SELECT Courseid, Name, Subjectid, Price, Authorid, Description, Img, Createdtime, Status, Tag "
-                + "FROM Course WHERE Price BETWEEN ? AND ? "
+                + "FROM Course WHERE Price BETWEEN ? AND ? AND Status = 1 "
                 + "ORDER BY Createdtime DESC "
                 + "OFFSET ? ROWS FETCH NEXT ? ROWS ONLY";
 
@@ -315,7 +313,7 @@ public class DAOListCourses extends DBContext {
 
     public int getTotalCoursesByPriceRange(double minPrice, double maxPrice) {
         int total = 0;
-        String query = "SELECT COUNT(*) FROM Course WHERE Price BETWEEN ? AND ?";
+        String query = "SELECT COUNT(*) FROM Course WHERE Price BETWEEN ? AND ? AND Status = 1";
 
         try (PreparedStatement ps = connection.prepareStatement(query)) {
             ps.setDouble(1, minPrice);
@@ -339,7 +337,7 @@ public class DAOListCourses extends DBContext {
 
         String query = "SELECT Courseid, Name, Subjectid, Price, Authorid, Description, Img, Createdtime, Status, Tag "
                 + "FROM Course "
-                + "WHERE Name LIKE ? "
+                + "WHERE Name LIKE ? AND Status = 1 "
                 + "ORDER BY Createdtime DESC "
                 + "OFFSET ? ROWS FETCH NEXT ? ROWS ONLY";
 
@@ -364,7 +362,7 @@ public class DAOListCourses extends DBContext {
     public int getTotalCoursesBySearch(String searchQuery) {
         int totalCourses = 0;
 
-        String query = "SELECT COUNT(*) FROM Course WHERE Name LIKE ?";
+        String query = "SELECT COUNT(*) FROM Course WHERE Name LIKE ? AND Status = 1";
 
         try (PreparedStatement ps = connection.prepareStatement(query)) {
             ps.setString(1, "%" + searchQuery + "%");
