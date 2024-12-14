@@ -68,6 +68,7 @@
                             <option value="1">Customer</option>
                             <option value="2">Admin</option>
                             <option value="3">Staff</option>
+                            <option value="4">Content Creator</option>
                         </select>
                     </div>
                     <div class="col-md-3">
@@ -115,6 +116,7 @@
                                         <c:when test="${account.role_id == 1}">Customer</c:when>
                                         <c:when test="${account.role_id == 2}">Admin</c:when>
                                         <c:when test="${account.role_id == 3}">Staff</c:when>
+                                        <c:when test="${account.role_id == 4}">Content Creator</c:when>
                                     </c:choose>
                                 </td>
                                 <td>
