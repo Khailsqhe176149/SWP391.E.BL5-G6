@@ -42,7 +42,7 @@
         </div>
         <!-- Display Message if Exists -->
             <c:if test="${not empty message}">
-                <div class="alert alert-warning" role="alert">
+                <div class="alert alert-warning" role="alert" id="alert-message">
                     ${message}
                 </div>
             </c:if>
@@ -162,6 +162,18 @@
                                                window.location.href = "post-management?action=delete&postId=" + postId;
                                            }
                                        }
+        </script>
+        <script>
+                                        // Kiểm tra nếu có thông báo
+                                        window.onload = function () {
+                                            var alertMessage = document.getElementById("alert-message");
+                                            if (alertMessage) {
+                                                // Ẩn thông báo sau 2 giây
+                                                setTimeout(function () {
+                                                    alertMessage.style.display = 'none';
+                                                }, 2000);  // Thời gian là 2000ms (2 giây)
+                                            }
+                                        };
         </script>
 </body>
 

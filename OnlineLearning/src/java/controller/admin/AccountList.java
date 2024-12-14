@@ -7,6 +7,7 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import model.Account;
 import java.io.IOException;
 import java.util.List;
@@ -49,8 +50,12 @@ public class AccountList extends HttpServlet {
         // Dựa trên action, xử lý các trường hợp khác nhau
         if ("updaterole".equals(action)) {
             updateRole(request, response);
+            HttpSession session = request.getSession();
+            session.setAttribute("message", "Update role successfully.");
         } else if ("updatestatus".equals(action)) {
             updateStatus(request, response);
+            HttpSession session = request.getSession();
+            session.setAttribute("message", "Update status successfully.");
         } else if ("accountdetails".equals(action)) {
            // accountDetails(request, response);
            int accountId = Integer.parseInt(request.getParameter("accountId"));
@@ -62,6 +67,8 @@ public class AccountList extends HttpServlet {
            
         }  else if ("deleteaccount".equals(action)) {
             deleteAccount(request, response);
+            HttpSession session = request.getSession();
+            session.setAttribute("message", "Delete account successfully.");
         } 
     }
 

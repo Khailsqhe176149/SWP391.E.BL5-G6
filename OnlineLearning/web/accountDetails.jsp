@@ -36,11 +36,7 @@
     <div class="container my-5">
         <h1 class="h3 mb-4">Chi tiết tài khoản</h1>
 
-        <!-- Display message if there's an error -->
-        <c:if test="${not empty message}">
-            <div class="alert alert-danger">${message}</div>
-        </c:if>
-
+      
         <c:if test="${not empty account}">
             <form action="accountDetails" method="post">
                 <input type="hidden" name="accountId" value="${account.acc_id}">

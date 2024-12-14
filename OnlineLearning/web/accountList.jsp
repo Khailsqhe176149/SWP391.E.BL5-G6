@@ -44,9 +44,13 @@
             <h1 class="h3 mb-4">Danh sách tài khoản</h1>
 
             <!-- Display message if there's no account or any other message -->
+            <!-- Display Message if Exists -->
             <c:if test="${not empty message}">
-                <div class="alert alert-danger">${message}</div>
+                <div class="alert alert-warning" role="alert" id="alert-message">
+                    ${message}
+                </div>
             </c:if>
+
 
             <!-- Add Account Button -->
             <div class="mb-3">
@@ -129,7 +133,7 @@
                                     <form action="accountList" method="post">
                                         <input type="hidden" name="action" value="accountdetails">
                                         <input type="hidden" name="accountId" value="${account.acc_id}">
-                                            <button type="submit" class="btn btn-info btn-sm"> <i class="fas fa-eye"></i> </button>
+                                        <button type="submit" class="btn btn-info btn-sm"> <i class="fas fa-eye"></i> </button>
                                     </form>
                                 </td>
                                 <td>
@@ -143,7 +147,7 @@
                                             <option value="4" ${account.role_id == 4 ? 'selected' : ''}>Content Creator</option>
                                         </select>
                                         <button type="submit" name="action" value="updaterole" class="btn btn-warning btn-sm" style="margin-top: 10px;"> <i class="fas fa-edit"></i> </button>
-                                        
+
                                     </form>
                                 </td>
                                 <td>
@@ -175,11 +179,23 @@
                 </table>
             </c:if>
         </div>
-         <!-- Footer Start -->
-            <jsp:include page="templates/footer.jsp" />
+        <!-- Footer Start -->
+        <jsp:include page="templates/footer.jsp" />
         <!-- Footer End -->
         <!-- Bootstrap JS -->
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+        <script>
+                                        // Kiểm tra nếu có thông báo
+                                        window.onload = function () {
+                                            var alertMessage = document.getElementById("alert-message");
+                                            if (alertMessage) {
+                                                // Ẩn thông báo sau 2 giây
+                                                setTimeout(function () {
+                                                    alertMessage.style.display = 'none';
+                                                }, 2000);  // Thời gian là 2000ms (2 giây)
+                                            }
+                                        };
+        </script>
     </body>
 
 </html>
