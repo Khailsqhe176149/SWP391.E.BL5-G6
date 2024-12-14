@@ -65,8 +65,8 @@
                         <label for="role" class="form-label">Choose role:</label>
                         <select name="role" id="role" class="form-select">
                             <option value="">All</option>
-                            <option value="1">Customer</option>
-                            <option value="2">Admin</option>
+                            <option value="1">Admin</option>
+                            <option value="2">Customer</option>
                             <option value="3">Staff</option>
                             <option value="4">Content Creator</option>
                         </select>
