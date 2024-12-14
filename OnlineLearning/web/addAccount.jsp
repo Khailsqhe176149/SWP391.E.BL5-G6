@@ -30,8 +30,8 @@
                 <div class="form-group">
                   <label>Gender</label>
                   <select class="form-control" name="gender" required>
-                    <option value="0" ${param.gender == "0" ? "selected" : ""}>Male</option>
-                    <option value="1" ${param.gender == "1" ? "selected" : ""}>Female</option>
+                    <option value="0" ${param.gender == "0" ? "selected" : ""} style=" color: black;">Male</option>
+                    <option value="1" ${param.gender == "1" ? "selected" : ""} style=" color: black;">Female</option>
                   </select>
                 </div>
                 <div class="form-group">
@@ -62,17 +62,17 @@
                 <div class="form-group">
                   <label for="role">Role</label>
                   <select class="form-control" name="role" required>
-                    <option value="1" ${param.role == "1" ? "selected" : ""}>Customer</option>
-                    <option value="2" ${param.role == "2" ? "selected" : ""}>Admin</option>
-                    <option value="3" ${param.role == "3" ? "selected" : ""}>Staff</option>
-                    <option value="4" ${param.role == "4" ? "selected" : ""}>Content Creator</option>
+                    <option value="1" ${param.role == "1" ? "selected" : ""} style=" color: black;">Customer</option>
+                    <option value="2" ${param.role == "2" ? "selected" : ""} style=" color: black;">Admin</option>
+                    <option value="3" ${param.role == "3" ? "selected" : ""} style=" color: black;">Staff</option>
+                    <option value="4" ${param.role == "4" ? "selected" : ""} style=" color: black;">Content Creator</option>
                   </select>
                 </div>
                 <div class="form-group">
                   <label for="status">Status</label>
                   <select class="form-control" name="status" required>
-                    <option value="1" ${param.status == "1" ? "selected" : ""}>Active</option>
-                    <option value="0" ${param.status == "0" ? "selected" : ""}>Inactive</option>
+                    <option value="1" ${param.status == "1" ? "selected" : ""} style=" color: black;">Active</option>
+                    <option value="0" ${param.status == "0" ? "selected" : ""} style=" color: black;">Inactive</option>
                   </select>
                 </div>
                 <div class="form-group">

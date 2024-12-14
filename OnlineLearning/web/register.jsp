@@ -36,8 +36,8 @@
                 <div class="form-group">
                   <label>Gender</label>
                   <select class="form-control" name="gender" required>
-                    <option value="0" ${param.gender == "0" ? "selected" : ""}>Male</option>
-                    <option value="1" ${param.gender == "1" ? "selected" : ""}>Female</option>
+                    <option value="0" ${param.gender == "0" ? "selected" : ""} style=" color: black;" >Male</option>
+                    <option value="1" ${param.gender == "1" ? "selected" : ""} style=" color: black;" >Female</option>
                   </select>
                 </div>
                 <div class="form-group">
