@@ -211,7 +211,7 @@ public class DAOListAccount extends DBContext {
         // Bắt đầu xây dựng câu truy vấn SQL với điều kiện động
         StringBuilder sql = new StringBuilder("SELECT accId, Email, Pass, Status, Createdtime, Roleid, u.userID, u.Name, u.Phone "
                 + "FROM Account a "
-                + "JOIN Users u ON a.userID = u.userID WHERE 1=1");
+                + "JOIN Users u ON a.userID = u.userID WHERE 1=1 AND Roleid != 1");
 
         // Thêm điều kiện tìm kiếm theo email nếu từ khóa có
         if (keyword != null && !keyword.isEmpty()) {
