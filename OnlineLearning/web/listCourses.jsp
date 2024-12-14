@@ -166,12 +166,7 @@
                                     </label>
                                 </div>
 
-                                <div class="form-check">
-                                    <input class="form-check-input" type="radio" name="sort" id="mostLessons" value="mostLessons" onclick="this.form.submit();" />
-                                    <label class="form-check-label" for="mostLessons">
-                                        Highest lessons
-                                    </label>
-                                </div>
+                                
                             </form>
                         </div>
                     </div>

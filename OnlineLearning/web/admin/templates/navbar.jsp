@@ -11,13 +11,7 @@
         <div class="navbar-nav ms-auto p-4 p-lg-0">
             <a href="../home" class="nav-item nav-link ">Home</a>
             <a href="subject-management" class="nav-item nav-link ">Subject Management</a>
-            <div class="nav-item dropdown">
-                <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Post Management</a>
-                <div class="dropdown-menu fade-down m-0">
-                    <a href="post-management" class="dropdown-item">Post</a>
-                    <a href="post-category-management" class="dropdown-item">Post Category</a>
-                </div>
-            </div>
+            
         </div>
 
 

@@ -32,7 +32,7 @@ public class SubjectManagement extends HttpServlet {
         HttpSession session = request.getSession();
         Account account = (Account) session.getAttribute("acc");
         if (account != null) {
-            if (account.getRole_id() == 1) {
+            if (account.getRole_id() == 4) {
                 String pageParam = request.getParameter("page");
                 String searchParam = request.getParameter("search");
                 String statusParam = request.getParameter("status");
@@ -71,7 +71,7 @@ public class SubjectManagement extends HttpServlet {
         HttpSession session = request.getSession();
         Account account = (Account) session.getAttribute("acc");
         if (account != null) {
-            if (account.getRole_id() == 1) {
+            if (account.getRole_id() == 4) {
                 String action = request.getParameter("action");
                 if ("add".equals(action)) {
                     String name = request.getParameter("name").trim();

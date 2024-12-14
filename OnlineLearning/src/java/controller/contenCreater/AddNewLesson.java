@@ -27,23 +27,22 @@ import model.Lesson;
 @WebServlet(name = "AddNewLesson", urlPatterns = {"/AddNewLesson"})
 public class AddNewLesson extends HttpServlet {
 
-    private DAOLesson dao = new DAOLesson(); // DAO để tương tác với cơ sở dữ liệu
+    private DAOLesson dao = new DAOLesson();
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        // Forward request đến trang JSP để hiển thị form thêm bài học
+
         request.getRequestDispatcher("/test.jsp").forward(request, response);
     }
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        // Lấy dữ liệu từ form gửi lên
+
         String name = request.getParameter("name");
         String content = request.getParameter("content");
         String description = request.getParameter("description");
         String dateStr = request.getParameter("date");
 
-        // Chuyển đổi ngày tháng từ chuỗi
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         Date date = null;
         try {
@@ -52,17 +51,14 @@ public class AddNewLesson extends HttpServlet {
             e.printStackTrace();
         }
 
-        // Tạo đối tượng Lesson
         Lesson lesson = new Lesson();
         lesson.setName(name);
         lesson.setContent(content);
         lesson.setDescription(description);
         lesson.setDate(date);
 
-        // Thêm bài học vào cơ sở dữ liệu
         boolean success = dao.addLesson(lesson);
 
-        // Chuyển hướng đến trang danh sách bài học nếu thành công
         if (success) {
             response.sendRedirect("ListLesson");
         } else {

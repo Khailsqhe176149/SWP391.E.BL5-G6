@@ -37,6 +37,7 @@ public class LoginServlet extends HttpServlet {
 
         Account account = dao.checkLogin(email, password);
         String username = dao.getNameByEmail(email);
+         String userImg = dao.getImgByEmail(email);
         if (account != null) {
             if (account.getStatus() == 0) {
                 HttpSession session = request.getSession();
@@ -46,6 +47,7 @@ public class LoginServlet extends HttpServlet {
             HttpSession session = request.getSession();
             session.setAttribute("userID", account.getUserID());
             session.setAttribute("username", username);
+             session.setAttribute("userImg", userImg);
             session.setAttribute("accID", account.getAcc_id());
             session.setAttribute("acc", account);
             System.out.println(account.getRole_id());

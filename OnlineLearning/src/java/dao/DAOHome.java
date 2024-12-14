@@ -42,7 +42,7 @@ public class DAOHome extends DBContext {
                + "  GROUP BY c.Courseid, c.Name, c.Price, c.Img "
                + ") "
                + "SELECT Courseid, CourseName, NumberOfRegistrations, Price, Img "
-               + "FROM CourseWithRegistrations "
+               + "FROM CourseWithRegistrations WHERE Courseid IN (SELECT Courseid FROM Course WHERE Status = 1)  "
                + "ORDER BY NumberOfRegistrations DESC "
                + "OFFSET ? ROWS FETCH NEXT 4 ROWS ONLY";
 
@@ -98,15 +98,15 @@ public List<LatestPost> getLatestPosts(int limit) {
     String sql = "SELECT TOP (?) p.Postid, p.Title, p.Content, p.Createdtime, u.Name AS AuthorName, p.Img, p.Status, p.Sliderid " +
                  "FROM Post p " +
                  "JOIN Users u ON p.authorid = u.userID " +
-                 "ORDER BY p.Createdtime DESC";  // Lấy TOP 'limit' bài mới nhất và kết hợp với tên tác giả
+                 "ORDER BY p.Createdtime DESC"; 
 
     try (PreparedStatement stmt = connection.prepareStatement(sql)) {
-        stmt.setInt(1, limit); // Set giá trị limit (số lượng bài viết cần lấy)
+        stmt.setInt(1, limit);
 
         try (ResultSet rs = stmt.executeQuery()) {
-            // Lặp qua các bài viết trả về từ cơ sở dữ liệu
+           
             while (rs.next()) {
-                // Chuyển đổi ResultSet thành đối tượng Post và lấy tên tác giả
+              
                 LatestPost post = new LatestPost(
                     rs.getInt("Postid"),
                     rs.getString("Title"),

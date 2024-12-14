@@ -60,5 +60,22 @@ public class DAOLogin extends DBContext {
         return null;
     }
     
+    public String getImgByEmail(String email) {
+        String sql = "SELECT u.Img FROM Users u " +
+                     "JOIN Account a ON u.userID = a.userID " +
+                     "WHERE a.Email = ?";
+        try {
+            PreparedStatement ps = connection.prepareStatement(sql);
+            ps.setString(1, email);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                return rs.getString("Img");
+            }
+        } catch (SQLException e) {
+            System.out.println("Error at getNameByEmail: " + e.getMessage());
+        }
+        return null;
+    }
+    
     
 }

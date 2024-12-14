@@ -112,7 +112,7 @@
                             <div class="accordion-body">
                                 <!-- List of videos -->
                                 <ul class="list-unstyled">
-                                    <c:forEach var="video" items="${videos}">
+                                    <c:forEach var="video" items="${videos}" >
                                         <li class="video-item">
                                             <!-- Form to submit videoId and lessonId -->
                                             <form action="ListLessonVideo" method="post">

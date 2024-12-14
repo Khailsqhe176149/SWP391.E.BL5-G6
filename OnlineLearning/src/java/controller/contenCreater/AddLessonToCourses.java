@@ -32,23 +32,22 @@ public class AddLessonToCourses extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        // Lấy thông tin người dùng từ session
+
         HttpSession session = request.getSession();
         Integer userId = (Integer) session.getAttribute("userID");
 
-        Integer creatorId = userId;// Nếu không có userId trong session, chuyển hướng người dùng tới trang login
+        Integer creatorId = userId;
         if (userId == null) {
             response.sendRedirect("login.jsp");
             return;
         }
         Users user = dao.getUserByID(userId);
 
-        List<Course> courses = dao.getAllCoursesForCreator(creatorId); // Thay creatorId bằng ID giáo viên
+        List<Course> courses = dao.getAllCoursesForCreator(creatorId);
 
-    
         for (Course course : courses) {
             List<Lesson> lessons = dao.getLessonsByCourseId(course.getCourseId());
-            course.setLessons(lessons); 
+            course.setLessons(lessons);
         }
         request.setAttribute("user", user);
         request.setAttribute("courses", courses);
@@ -66,19 +65,17 @@ public class AddLessonToCourses extends HttpServlet {
             for (String lessonId : lessonIds) {
                 int lessonIdInt = Integer.parseInt(lessonId);
 
-                // Kiểm tra bài học đã được thêm vào khóa học chưa
                 if (dao.isLessonAlreadyAdded(courseId, lessonIdInt)) {
                     req.setAttribute("errorMessage", "Lesson with ID " + lessonIdInt + " is already added to this course.");
                     req.getRequestDispatcher("add-lesson-to-course.jsp").forward(req, resp);
                     return;
                 }
 
-                // Nếu chưa có, thêm bài học vào khóa học
                 dao.addLessonToCourse(courseId, lessonIdInt, date);
             }
         }
 
-        resp.sendRedirect("AddLessonToCourses"); // Quay lại danh sách khóa học
+        resp.sendRedirect("AddLessonToCourses");
     }
 
 }

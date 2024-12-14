@@ -30,7 +30,7 @@ public class SubjectDetailController extends HttpServlet {
         HttpSession session = request.getSession();
         Account account = (Account) session.getAttribute("acc");
         if (account != null) {
-            if (account.getRole_id() == 1) {
+            if (account.getRole_id() == 4) {
                 int id = Integer.parseInt(request.getParameter("id"));
                 Subjects subject = subjectDAO.getSubjectByID(id);
 

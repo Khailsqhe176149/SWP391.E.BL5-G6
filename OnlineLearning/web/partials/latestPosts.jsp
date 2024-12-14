@@ -13,7 +13,7 @@
             <c:forEach var="post" items="${latestPosts}">
                 <div class="testimonial-item text-center">
                     <!-- Post Image -->
-                    <img class="border rounded-circle p-2 mx-auto mb-3" src="img/${post.img}" style="width: 80px; height: 80px;">
+                    <img class="border rounded-circle p-2 mx-auto mb-3" src="${post.img}" style="width: 80px; height: 80px;">
                     <!-- Post Title -->
                     <h5 class="mb-0">${post.title}</h5>
                     <!-- Post Author -->
