@@ -73,7 +73,7 @@
                                     <form action="profile" method="POST" enctype="multipart/form-data">
                                         <div class="mb-3">
                                             <label for="name" class="form-label">Name:</label>
-                                            <input type="text" id="name" name="name" class="form-control" value="<%= user.getName() %>" required />
+                                            <input type="text" id="name" name="name" class="form-control" value="<%= user.getName() %>" required pattern=".*\S.*"/>
                                         </div>
                                         <div class="mb-3">
                                             <label for="gender" class="form-label">Gender:</label>
@@ -88,11 +88,11 @@
                                         </div>
                                         <div class="mb-3">
                                             <label for="phone" class="form-label">Phone:</label>
-                                            <input type="text" id="phone" name="phone" class="form-control" value="<%= user.getPhone() %>" required />
+                                            <input type="text" id="phone" name="phone" class="form-control" value="<%= user.getPhone() %>" required  required pattern="^0\d{9}$" title="Phone must start with 0 and have 10 digits"/>
                                         </div>
                                         <div class="mb-3">
                                             <label for="address" class="form-label">Address:</label>
-                                            <input type="text" id="address" name="address" class="form-control" value="<%= user.getAddress() %>" required />
+                                            <input type="text" id="address" name="address" class="form-control" value="<%= user.getAddress() %>" required pattern=".*\S.*" />
                                         </div>
 
                                         <!-- Form thay đổi ảnh đại diện -->
