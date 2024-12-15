@@ -45,6 +45,7 @@
                 <div class="alert alert-warning" role="alert" id="alert-message">
                     ${message}
                 </div>
+                 <c:remove var="message" />
             </c:if>
 
         <!-- Search Form -->
@@ -75,7 +76,7 @@
                     <th>Content</th>
                     <th>Image</th>
                     <th>Status</th>
-                    <th>Slider Code</th>
+                    
                     <th>Actions</th>
                 </tr>
             </thead>
@@ -88,7 +89,7 @@
                             <img src="${post.getImg()}" alt="Post Image" class="img-fluid" width="50" height="50" />
                         </td>
                         <td>${post.getStatus() == 1 ? 'Active' : 'Inactive'}</td>
-                        <td>${post.getSliderid()}</td>
+                        
                         <td>
                             <a href="post-management?action=edit&postId=${post.getPostid()}" class="btn btn-warning btn-sm"> <i class="fas fa-edit"></i> </a>
                             <a href="javascript:void(0);" class="btn btn-danger btn-sm"
