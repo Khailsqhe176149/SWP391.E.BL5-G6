@@ -27,15 +27,15 @@
             <input type="hidden" name="action" value="addSlider">
             <div class="mb-3">
                 <label for="title" class="form-label">Title</label>
-                <input type="text" class="form-control" id="title" name="title" required>
+                <input type="text" class="form-control" id="title" name="title" required pattern=".*\S.*">
             </div>
             <div class="mb-3">
                 <label for="description" class="form-label">Description</label>
-                <textarea class="form-control" id="description" name="description" rows="4" required></textarea>
+                <textarea class="form-control" id="description" name="description" rows="4" required pattern=".*\S.*"></textarea>
             </div>
             <div class="mb-3">
                 <label for="img" class="form-label">Image</label>
-                <input type="file" class="form-control" id="img" name="img">
+                <input type="file" class="form-control" id="img" name="img" accept="image/*">
             </div>
             <div class="mb-3">
                 <label for="status" class="form-label">Status</label>

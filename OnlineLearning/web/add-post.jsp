@@ -27,15 +27,15 @@
             <input type="hidden" name="action" value="addPost">
             <div class="mb-3">
                 <label for="title" class="form-label">Title</label>
-                <input type="text" class="form-control" id="title" name="title" required>
+                <input type="text" class="form-control" id="title" name="title" required pattern=".*\S.*">
             </div>
             <div class="mb-3">
                 <label for="content" class="form-label">Content</label>
-                <textarea class="form-control" id="content" name="content" rows="4" required></textarea>
+                <textarea class="form-control" id="content" name="content" rows="4" required pattern=".*\S.*"></textarea>
             </div>
             <div class="mb-3">
                 <label for="img" class="form-label">Image</label>
-                <input type="file" class="form-control" id="img" name="img">
+                <input type="file" class="form-control" id="img" name="img" accept="image/*" >
             </div>
             <div class="mb-3">
                 <label for="status" class="form-label">Status</label>
@@ -46,7 +46,7 @@
             </div>
             <div class="mb-3">
                 <label for="sliderid" class="form-label">Slider Code</label>
-                <input type="text" class="form-control" id="sliderid" name="sliderid" required>
+                <input type="number" class="form-control" id="sliderid" name="sliderid" required>
             </div>
             <button type="submit" class="btn btn-primary">Add Post</button>
         </form>

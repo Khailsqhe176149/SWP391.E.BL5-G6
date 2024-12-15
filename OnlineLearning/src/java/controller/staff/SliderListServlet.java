@@ -55,6 +55,7 @@ public class SliderListServlet extends HttpServlet {
             response.sendRedirect("slider-management");
 
         } else {
+            
 
             String search = request.getParameter("search");
             String status = request.getParameter("status");

@@ -42,12 +42,12 @@
 
             <div class="mb-3">
                 <label for="title" class="form-label">Title:</label>
-                <input type="text" name="title" value="${post.getTitle()}" class="form-control" required />
+                <input type="text" name="title" value="${post.getTitle()}" class="form-control" required pattern=".*\S.*" />
             </div>
 
             <div class="mb-3">
                 <label for="content" class="form-label">Content:</label>
-                <textarea name="content" rows="5" class="form-control" required>${post.getContent()}</textarea>
+                <textarea name="content" rows="5" class="form-control" required pattern=".*\S.*">${post.getContent()}</textarea>
             </div>
 
             <div class="mb-3">

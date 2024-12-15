@@ -47,6 +47,7 @@
                 <div class="alert alert-warning" role="alert" id="alert-message">
                     ${message}
                 </div>
+                 <c:remove var="message" />
             </c:if>
 
 
